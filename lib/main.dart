@@ -40,11 +40,15 @@ class Piece extends StatelessWidget {
   final int x;
   final int y;
   final bool selected;
+  final String text;
+  final int player;
   const Piece(
       {super.key,
       required this.gridSize,
       required this.x,
       required this.y,
+      required this.text,
+      required this.player,
       this.selected = false});
 
   @override
@@ -62,9 +66,11 @@ class Piece extends StatelessWidget {
                   PieceCustomPainter(gridSize: gridSize, selected: selected),
             ),
             Center(
-              child: Text("帅",
-                  style:
-                      TextStyle(fontSize: gridSize / 1.5, fontFamily: "Lishu")),
+              child: Text(text,
+                  style: TextStyle(
+                      fontSize: gridSize / 1.5,
+                      fontFamily: "Lishu",
+                      color: player == 1 ? Colors.black : Colors.red)),
             )
           ],
         ),
@@ -183,14 +189,56 @@ class MyHomePage extends StatefulWidget {
 }
 
 class PieceInfo {
-  late int x;
-  late int y;
+  int x;
+  int y;
   bool selected;
-  PieceInfo({required this.x, required this.y, this.selected = false});
+  String text;
+  int player;
+
+  PieceInfo(
+      {required this.x,
+      required this.y,
+      required this.text,
+      required this.player,
+      this.selected = false});
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<PieceInfo> pieceList = [];
+  List<PieceInfo> pieceList = [
+    PieceInfo(x: 0, y: 0, text: "车", player: 1),
+    PieceInfo(x: 1, y: 0, text: "马", player: 1),
+    PieceInfo(x: 2, y: 0, text: "相", player: 1),
+    PieceInfo(x: 3, y: 0, text: "仕", player: 1),
+    PieceInfo(x: 4, y: 0, text: "帅", player: 1),
+    PieceInfo(x: 5, y: 0, text: "仕", player: 1),
+    PieceInfo(x: 6, y: 0, text: "相", player: 1),
+    PieceInfo(x: 7, y: 0, text: "马", player: 1),
+    PieceInfo(x: 8, y: 0, text: "车", player: 1),
+    PieceInfo(x: 1, y: 2, text: "炮", player: 1),
+    PieceInfo(x: 7, y: 2, text: "炮", player: 1),
+    PieceInfo(x: 0, y: 3, text: "兵", player: 1),
+    PieceInfo(x: 2, y: 3, text: "兵", player: 1),
+    PieceInfo(x: 4, y: 3, text: "兵", player: 1),
+    PieceInfo(x: 6, y: 3, text: "兵", player: 1),
+    PieceInfo(x: 8, y: 3, text: "兵", player: 1),
+    //
+    PieceInfo(x: 0, y: 9, text: "车", player: 2),
+    PieceInfo(x: 1, y: 9, text: "马", player: 2),
+    PieceInfo(x: 2, y: 9, text: "相", player: 2),
+    PieceInfo(x: 3, y: 9, text: "仕", player: 2),
+    PieceInfo(x: 4, y: 9, text: "帅", player: 2),
+    PieceInfo(x: 5, y: 9, text: "仕", player: 2),
+    PieceInfo(x: 6, y: 9, text: "相", player: 2),
+    PieceInfo(x: 7, y: 9, text: "马", player: 2),
+    PieceInfo(x: 8, y: 9, text: "车", player: 2),
+    PieceInfo(x: 1, y: 7, text: "炮", player: 2),
+    PieceInfo(x: 7, y: 7, text: "炮", player: 2),
+    PieceInfo(x: 0, y: 6, text: "兵", player: 2),
+    PieceInfo(x: 2, y: 6, text: "兵", player: 2),
+    PieceInfo(x: 4, y: 6, text: "兵", player: 2),
+    PieceInfo(x: 6, y: 6, text: "兵", player: 2),
+    PieceInfo(x: 8, y: 6, text: "兵", player: 2),
+  ];
 
   PieceInfo? selected = null;
 
@@ -198,10 +246,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      pieceList.add(PieceInfo(
-        x: pos,
-        y: pos,
-      ));
       pos++;
     });
   }
@@ -216,8 +260,10 @@ class _MyHomePageState extends State<MyHomePage> {
         .map((e) => Piece(
               key: UniqueKey(),
               gridSize: grid,
+              text: e.text,
               x: e.x,
               y: e.y,
+              player: e.player,
               selected: e.selected,
             ))
         .toList();
@@ -229,15 +275,25 @@ class _MyHomePageState extends State<MyHomePage> {
           if (selected != null) {
             var target = pieceList.firstWhere(
                 (element) => element.x == x && element.y == y,
-                orElse: () => PieceInfo(x: -1, y: -1));
+                orElse: () => PieceInfo(x: -1, y: -1, text: "", player: -1));
             if (target.x >= 0) {
-              pieceList.remove(target);
+              if (target.player != selected?.player) {
+                pieceList.remove(target);
+                selected?.x = x;
+                selected?.y = y;
+                selected?.selected = false;
+                selected = null;
+              } else {
+                selected?.selected = false;
+                target.selected = true;
+                selected = target;
+              }
+            } else {
+              selected?.x = x;
+              selected?.y = y;
+              selected?.selected = false;
+              selected = null;
             }
-
-            selected?.x = x;
-            selected?.y = y;
-            selected?.selected = false;
-            selected = null;
           } else {
             for (var element in pieceList) {
               if (element.x == x && element.y == y) {

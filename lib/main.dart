@@ -39,8 +39,13 @@ class Piece extends StatelessWidget {
   final double gridSize;
   final int x;
   final int y;
+  final bool selected;
   const Piece(
-      {super.key, required this.gridSize, required this.x, required this.y});
+      {super.key,
+      required this.gridSize,
+      required this.x,
+      required this.y,
+      this.selected = false});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +58,8 @@ class Piece extends StatelessWidget {
           children: [
             CustomPaint(
               size: Size(gridSize, gridSize),
-              painter: PieceCustomPainter(gridSize: gridSize),
+              painter:
+                  PieceCustomPainter(gridSize: gridSize, selected: selected),
             ),
             Center(
               child: Text("帅",
@@ -69,8 +75,9 @@ class Piece extends StatelessWidget {
 
 class PieceCustomPainter extends CustomPainter {
   final double gridSize;
+  final bool selected;
 
-  PieceCustomPainter({required this.gridSize});
+  PieceCustomPainter({required this.gridSize, this.selected = false});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -82,6 +89,15 @@ class PieceCustomPainter extends CustomPainter {
 
     canvas.drawCircle(calOffset(0, 0), gridSize / 2.2, paint0);
     canvas.drawCircle(calOffset(0, 0), gridSize / 2.2, paint1);
+    if (selected) {
+      Rect rect = Rect.fromLTRB(0, 0, gridSize, gridSize);
+      canvas.drawRect(
+          rect,
+          Paint()
+            ..color = Colors.green
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2);
+    }
   }
 
   Offset calOffset(int x, int y) {
@@ -169,17 +185,23 @@ class MyHomePage extends StatefulWidget {
 class PieceInfo {
   late int x;
   late int y;
-  PieceInfo({required this.x, required this.y});
+  bool selected;
+  PieceInfo({required this.x, required this.y, this.selected = false});
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   List<PieceInfo> pieceList = [];
 
+  PieceInfo? selected = null;
+
   int pos = 0;
 
   void _incrementCounter() {
     setState(() {
-      pieceList.add(PieceInfo(x: pos, y: pos));
+      pieceList.add(PieceInfo(
+        x: pos,
+        y: pos,
+      ));
       pos++;
     });
   }
@@ -190,11 +212,48 @@ class _MyHomePageState extends State<MyHomePage> {
     var width = MediaQuery.of(context).size.width;
 
     var grid = min(height / heightGridCount, width / widthGridCount);
+    var pieceWidgets = pieceList
+        .map((e) => Piece(
+              key: UniqueKey(),
+              gridSize: grid,
+              x: e.x,
+              y: e.y,
+              selected: e.selected,
+            ))
+        .toList();
     return Scaffold(
-      body: Stack(children: [
-        PlayGroundWidget(gridSize: grid),
-        ...pieceList.map((e) => Piece(gridSize: grid, x: e.x, y: e.y))
-      ]),
+      body: GestureDetector(
+        onTapDown: (e) {
+          var x = e.globalPosition.dx ~/ grid;
+          var y = e.globalPosition.dy ~/ grid;
+          if (selected != null) {
+            var target = pieceList.firstWhere(
+                (element) => element.x == x && element.y == y,
+                orElse: () => PieceInfo(x: -1, y: -1));
+            if (target.x >= 0) {
+              pieceList.remove(target);
+            }
+
+            selected?.x = x;
+            selected?.y = y;
+            selected?.selected = false;
+            selected = null;
+          } else {
+            for (var element in pieceList) {
+              if (element.x == x && element.y == y) {
+                element.selected = true;
+                selected = element;
+              } else {
+                element.selected = false;
+              }
+            }
+          }
+
+          setState(() {});
+        },
+        child: Stack(
+            children: [PlayGroundWidget(gridSize: grid), ...pieceWidgets]),
+      ),
       floatingActionButton: TextButton(
         onPressed: _incrementCounter,
         child: const Text(

@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
 
 const heightGridCount = 10;
 const widthGridCount = 9;
+const deadPadding = 2;
 
 class Piece extends StatelessWidget {
   final double gridSize;

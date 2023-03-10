@@ -137,7 +137,7 @@ class PlayGroundCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var rect = Offset.zero & size;
-    canvas.drawRect(rect, Paint()..color = const Color(0xFF0099FF));
+    canvas.drawRect(rect, Paint()..color = Colors.yellow);
 
     Paint paint = Paint()
       ..color = Colors.black

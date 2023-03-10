@@ -190,15 +190,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class DeadGroundMng {
-  static int index = 0;
+  static int getX(int index) => index % widthGridCount;
 
-  static void next() {
-    index = index + 1;
-  }
-
-  static int getX() => index % widthGridCount;
-
-  static int getY() => index ~/ widthGridCount + heightGridCount;
+  static int getY(int index) => index ~/ widthGridCount + heightGridCount;
 }
 
 class PieceInfo {
@@ -300,10 +294,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _dead(PieceInfo target) {
-    var x = DeadGroundMng.getX();
-    var y = DeadGroundMng.getY();
+    var index = pieceList.indexOf(target);
+    var x = DeadGroundMng.getX(index);
+    var y = DeadGroundMng.getY(index);
     target.move(x, y);
-    DeadGroundMng.next();
   }
 
   void _kill(PieceInfo target) {

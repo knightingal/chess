@@ -201,6 +201,23 @@ class PieceInfo {
       required this.text,
       required this.player,
       this.selected = false});
+
+  bool valid() {
+    return x >= 0;
+  }
+
+  void select() {
+    selected = true;
+  }
+
+  void diselect() {
+    selected = false;
+  }
+
+  void move(int x, y) {
+    this.x = x;
+    this.y = y;
+  }
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -240,7 +257,7 @@ class _MyHomePageState extends State<MyHomePage> {
     PieceInfo(x: 8, y: 6, text: "兵", player: 2),
   ];
 
-  PieceInfo? selected = null;
+  PieceInfo? selected;
 
   int pos = 0;
 
@@ -250,12 +267,48 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  PieceInfo _findTarget(int x, y) {
+    var target = pieceList.firstWhere(
+        (element) => element.x == x && element.y == y,
+        orElse: () => PieceInfo(x: -1, y: -1, text: "", player: -1));
+    return target;
+  }
+
+  void _select(PieceInfo pieceInfo) {
+    pieceInfo.select();
+    selected = pieceInfo;
+  }
+
+  void _diselect() {
+    if (selected != null) {
+      selected?.diselect();
+    }
+    selected = null;
+  }
+
+  void _kill(PieceInfo target) {
+    _move(target.x, target.y);
+    pieceList.remove(target);
+    _diselect();
+  }
+
+  void _move(int x, y) {
+    selected?.move(x, y);
+    _diselect();
+  }
+
+  void _changeSelect(PieceInfo target) {
+    _diselect();
+    _select(target);
+  }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
-    var grid = min(height / heightGridCount, width / widthGridCount);
+    var grid = min(
+        height / (heightGridCount + 2 * deadPadding), width / widthGridCount);
     var pieceWidgets = pieceList
         .map((e) => Piece(
               key: UniqueKey(),
@@ -273,37 +326,26 @@ class _MyHomePageState extends State<MyHomePage> {
           var x = e.globalPosition.dx ~/ grid;
           var y = e.globalPosition.dy ~/ grid;
           if (selected != null) {
-            var target = pieceList.firstWhere(
-                (element) => element.x == x && element.y == y,
-                orElse: () => PieceInfo(x: -1, y: -1, text: "", player: -1));
-            if (target.x >= 0) {
+            var target = _findTarget(x, y);
+            if (target.valid()) {
               if (target.player != selected?.player) {
-                pieceList.remove(target);
-                selected?.x = x;
-                selected?.y = y;
-                selected?.selected = false;
-                selected = null;
+                _kill(target);
               } else if (target == selected) {
-                selected?.selected = false;
-                selected = null;
+                _diselect();
               } else {
-                selected?.selected = false;
-                target.selected = true;
-                selected = target;
+                _changeSelect(target);
               }
             } else {
-              selected?.x = x;
-              selected?.y = y;
-              selected?.selected = false;
-              selected = null;
+              _move(x, y);
             }
           } else {
             for (var element in pieceList) {
               if (element.x == x && element.y == y) {
-                element.selected = true;
-                selected = element;
+                _select(element);
+                // element.selected = true;
+                // selected = element;
               } else {
-                element.selected = false;
+                element.diselect();
               }
             }
           }

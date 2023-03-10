@@ -189,6 +189,18 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+class DeadGroundMng {
+  static int index = 0;
+
+  static void next() {
+    index = index + 1;
+  }
+
+  static int getX() => index % widthGridCount;
+
+  static int getY() => index ~/ widthGridCount + heightGridCount;
+}
+
 class PieceInfo {
   int x;
   int y;
@@ -287,9 +299,16 @@ class _MyHomePageState extends State<MyHomePage> {
     selected = null;
   }
 
+  void _dead(PieceInfo target) {
+    var x = DeadGroundMng.getX();
+    var y = DeadGroundMng.getY();
+    target.move(x, y);
+    DeadGroundMng.next();
+  }
+
   void _kill(PieceInfo target) {
     _move(target.x, target.y);
-    pieceList.remove(target);
+    _dead(target);
     _diselect();
   }
 
@@ -343,8 +362,6 @@ class _MyHomePageState extends State<MyHomePage> {
             for (var element in pieceList) {
               if (element.x == x && element.y == y) {
                 _select(element);
-                // element.selected = true;
-                // selected = element;
               } else {
                 element.diselect();
               }

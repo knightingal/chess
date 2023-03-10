@@ -283,6 +283,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 selected?.y = y;
                 selected?.selected = false;
                 selected = null;
+              } else if (target == selected) {
+                selected?.selected = false;
+                selected = null;
               } else {
                 selected?.selected = false;
                 target.selected = true;

@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'playground.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ChessApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ChessApp extends StatelessWidget {
+  const ChessApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -177,58 +177,6 @@ class ChessMain extends StatefulWidget {
 }
 
 class _ChessMainState extends State<ChessMain> {
-  PieceInfo? selected;
-
-  int pos = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      pos++;
-    });
-  }
-
-  PieceInfo _findTarget(int x, y) {
-    var target = pieceList.firstWhere(
-        (element) => element.x == x && element.y == y,
-        orElse: () => PieceInfo(x: -1, y: -1, text: "", player: -1));
-    return target;
-  }
-
-  void _select(PieceInfo pieceInfo) {
-    pieceInfo.select();
-    selected = pieceInfo;
-  }
-
-  void _diselect() {
-    if (selected != null) {
-      selected?.diselect();
-    }
-    selected = null;
-  }
-
-  void _dead(PieceInfo target) {
-    var index = pieceList.indexOf(target);
-    var x = DeadGroundMng.getX(index);
-    var y = DeadGroundMng.getY(index);
-    target.move(x, y);
-  }
-
-  void _kill(PieceInfo target) {
-    _move(target.x, target.y);
-    _dead(target);
-    _diselect();
-  }
-
-  void _move(int x, y) {
-    selected?.move(x, y);
-    _diselect();
-  }
-
-  void _changeSelect(PieceInfo target) {
-    _diselect();
-    _select(target);
-  }
-
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -236,7 +184,8 @@ class _ChessMainState extends State<ChessMain> {
 
     var grid = min(
         height / (heightGridCount + 2 * deadPadding), width / widthGridCount);
-    var pieceWidgets = pieceList
+    var pieceWidgets = chessPlayGround
+        .getPieceList()
         .map((e) => Piece(
               key: UniqueKey(),
               gridSize: grid,
@@ -252,36 +201,14 @@ class _ChessMainState extends State<ChessMain> {
         onTapDown: (e) {
           var x = e.globalPosition.dx ~/ grid;
           var y = e.globalPosition.dy ~/ grid;
-          if (selected != null) {
-            var target = _findTarget(x, y);
-            if (target.valid()) {
-              if (target.player != selected?.player) {
-                _kill(target);
-              } else if (target == selected) {
-                _diselect();
-              } else {
-                _changeSelect(target);
-              }
-            } else {
-              _move(x, y);
-            }
-          } else {
-            for (var element in pieceList) {
-              if (element.x == x && element.y == y) {
-                _select(element);
-              } else {
-                element.diselect();
-              }
-            }
-          }
-
+          chessPlayGround.processEvent(x, y);
           setState(() {});
         },
         child: Stack(
             children: [PlayGroundWidget(gridSize: grid), ...pieceWidgets]),
       ),
       floatingActionButton: TextButton(
-        onPressed: _incrementCounter,
+        onPressed: () => {},
         child: const Text(
           "确定",
           textAlign: TextAlign.center,

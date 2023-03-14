@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 const heightGridCount = 10;
 const widthGridCount = 9;
 const deadPadding = 2;
@@ -14,6 +16,9 @@ class PieceInfo {
   bool selected;
   String text;
   int player;
+
+  late Animation<double> animation;
+  late AnimationController controller;
 
   PieceInfo(
       {required this.x,

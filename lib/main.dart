@@ -23,26 +23,33 @@ class ChessApp extends StatelessWidget {
   }
 }
 
-class Piece extends StatelessWidget {
+class Piece extends AnimatedWidget {
   final double gridSize;
   final int x;
   final int y;
   final bool selected;
   final String text;
   final int player;
-  const Piece(
+  Piece(
       {super.key,
       required this.gridSize,
       required this.x,
       required this.y,
       required this.text,
       required this.player,
-      this.selected = false});
+      this.selected = false,
+      required super.listenable}) {
+    _sizeTween = Tween<double>(begin: 0, end: gridSize);
+  }
+
+  late final Tween<double> _sizeTween;
 
   @override
   Widget build(BuildContext context) {
+    final animation = listenable as Animation<double>;
     return Container(
-      padding: EdgeInsets.fromLTRB(gridSize * x, gridSize * y, 0, 0),
+      padding: EdgeInsets.fromLTRB(
+          gridSize * x + _sizeTween.evaluate(animation), gridSize * y, 0, 0),
       child: SizedBox(
         width: gridSize,
         height: gridSize,
@@ -176,7 +183,25 @@ class ChessMain extends StatefulWidget {
   State<ChessMain> createState() => _ChessMainState();
 }
 
-class _ChessMainState extends State<ChessMain> {
+class _ChessMainState extends State<ChessMain> with TickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+    chessPlayGround.getPieceList().forEach((element) {
+      element.controller = AnimationController(
+          duration: const Duration(milliseconds: 500), vsync: this);
+      element.animation =
+          CurvedAnimation(parent: element.controller, curve: Curves.easeIn)
+            ..addStatusListener((status) {
+              if (status == AnimationStatus.completed) {
+                element.x += 1;
+                setState(() {});
+                element.controller.reset();
+              }
+            });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -194,6 +219,7 @@ class _ChessMainState extends State<ChessMain> {
               y: e.y,
               player: e.player,
               selected: e.selected,
+              listenable: e.animation,
             ))
         .toList();
     return Scaffold(
@@ -208,7 +234,8 @@ class _ChessMainState extends State<ChessMain> {
             children: [PlayGroundWidget(gridSize: grid), ...pieceWidgets]),
       ),
       floatingActionButton: TextButton(
-        onPressed: () => {},
+        onPressed: () =>
+            {chessPlayGround.getPieceList()[9].controller.forward()},
         child: const Text(
           "确定",
           textAlign: TextAlign.center,

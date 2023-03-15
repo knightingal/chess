@@ -27,6 +27,8 @@ class Piece extends AnimatedWidget {
   final double gridSize;
   final int x;
   final int y;
+  final int diffX;
+  final int diffY;
   final bool selected;
   final String text;
   final int player;
@@ -35,6 +37,8 @@ class Piece extends AnimatedWidget {
       required this.gridSize,
       required this.x,
       required this.y,
+      required this.diffX,
+      required this.diffY,
       required this.text,
       required this.player,
       this.selected = false,
@@ -49,7 +53,10 @@ class Piece extends AnimatedWidget {
     final animation = listenable as Animation<double>;
     return Container(
       padding: EdgeInsets.fromLTRB(
-          gridSize * x + _sizeTween.evaluate(animation), gridSize * y, 0, 0),
+          gridSize * x + _sizeTween.evaluate(animation) * diffX,
+          gridSize * y + _sizeTween.evaluate(animation) * diffY,
+          0,
+          0),
       child: SizedBox(
         width: gridSize,
         height: gridSize,
@@ -191,12 +198,10 @@ class _ChessMainState extends State<ChessMain> with TickerProviderStateMixin {
       element.controller = AnimationController(
           duration: const Duration(milliseconds: 500), vsync: this);
       element.animation =
-          CurvedAnimation(parent: element.controller, curve: Curves.easeIn)
+          CurvedAnimation(parent: element.controller, curve: Curves.linear)
             ..addStatusListener((status) {
               if (status == AnimationStatus.completed) {
-                element.x += 1;
                 setState(() {});
-                element.controller.reset();
               }
             });
     });
@@ -217,6 +222,8 @@ class _ChessMainState extends State<ChessMain> with TickerProviderStateMixin {
               text: e.text,
               x: e.x,
               y: e.y,
+              diffX: e.diffX,
+              diffY: e.diffY,
               player: e.player,
               selected: e.selected,
               listenable: e.animation,

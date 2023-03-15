@@ -13,6 +13,9 @@ class DeadGroundMng {
 class PieceInfo {
   int x;
   int y;
+  int diffX;
+  int diffY;
+
   bool selected;
   String text;
   int player;
@@ -23,6 +26,8 @@ class PieceInfo {
   PieceInfo(
       {required this.x,
       required this.y,
+      this.diffX = 0,
+      this.diffY = 0,
       required this.text,
       required this.player,
       this.selected = false});
@@ -39,9 +44,25 @@ class PieceInfo {
     selected = false;
   }
 
-  void move(int x, y) {
+  void dead(int x, y) {
     this.x = x;
     this.y = y;
+  }
+
+  void move(int x, y) {
+    diffX = x - this.x;
+    diffY = y - this.y;
+    listener(status) {
+      if (status == AnimationStatus.completed) {
+        this.x = x;
+        this.y = y;
+        controller.reset();
+        controller.removeStatusListener(listener);
+      }
+    }
+
+    controller.addStatusListener(listener);
+    controller.forward();
   }
 }
 
@@ -107,7 +128,7 @@ class ChessPlayGround {
     var index = _pieceList.indexOf(target);
     var x = DeadGroundMng.getX(index);
     var y = DeadGroundMng.getY(index);
-    target.move(x, y);
+    target.dead(x, y);
   }
 
   void _kill(PieceInfo target) {

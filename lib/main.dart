@@ -2,6 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+const pieceBackground = Colors.brown;
+const pieceBord = Colors.yellow;
+const playgroundBackground = Colors.yellow;
+
+const player1Color = Colors.black;
+const player0Color = Colors.red;
+
 void main() {
   runApp(const MyApp());
 }
@@ -71,7 +78,7 @@ class Piece extends StatelessWidget {
                   style: TextStyle(
                       fontSize: gridSize / 1.5,
                       fontFamily: "Lishu",
-                      color: player == 1 ? Colors.black : Colors.red)),
+                      color: player == 1 ? player1Color : player0Color)),
             )
           ],
         ),
@@ -89,10 +96,10 @@ class PieceCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint0 = Paint()
-      ..color = Colors.yellow
+      ..color = pieceBord
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
-    Paint paint1 = Paint()..color = Colors.brown;
+    Paint paint1 = Paint()..color = pieceBackground;
 
     canvas.drawCircle(calOffset(0, 0), gridSize / 2.2, paint0);
     canvas.drawCircle(calOffset(0, 0), gridSize / 2.2, paint1);
@@ -138,7 +145,7 @@ class PlayGroundCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var rect = Offset.zero & size;
-    canvas.drawRect(rect, Paint()..color = Colors.yellow);
+    canvas.drawRect(rect, Paint()..color = playgroundBackground);
 
     Paint paint = Paint()
       ..color = Colors.black

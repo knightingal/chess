@@ -11,6 +11,8 @@ const playgroundBackground = Colors.yellow;
 const player1Color = Colors.black;
 const player0Color = Colors.red;
 
+const selectBordColor = Colors.green;
+
 void main() {
   runApp(const ChessApp());
 }
@@ -109,7 +111,7 @@ class PieceCustomPainter extends CustomPainter {
       canvas.drawRect(
           rect,
           Paint()
-            ..color = Colors.green
+            ..color = selectBordColor
             ..style = PaintingStyle.stroke
             ..strokeWidth = 2);
     }

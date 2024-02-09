@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'playground.dart';
+import 'target_cursor.dart';
 
 const pieceBackground = Colors.brown;
 const pieceBord = Colors.yellow;
@@ -12,6 +13,7 @@ const player1Color = Colors.black;
 const player0Color = Colors.red;
 
 const selectBordColor = Colors.green;
+const targetBordColor = Colors.white;
 
 void main() {
   runApp(const ChessApp());
@@ -223,6 +225,11 @@ class _ChessMainState extends State<ChessMain> with TickerProviderStateMixin {
 
     var grid = min(
         height / (heightGridCount + 2 * deadPadding), width / widthGridCount);
+    var targetWidgets = [
+      TargetCursor(gridSize: grid, x: 0, y: 0),
+      TargetCursor(gridSize: grid, x: 1, y: 0),
+      TargetCursor(gridSize: grid, x: 0, y: 1),
+    ];
     var pieceWidgets = chessPlayGround
         .getPieceList()
         .map((e) => Piece(
@@ -246,8 +253,11 @@ class _ChessMainState extends State<ChessMain> with TickerProviderStateMixin {
           chessPlayGround.processEvent(x, y);
           setState(() {});
         },
-        child: Stack(
-            children: [PlayGroundWidget(gridSize: grid), ...pieceWidgets]),
+        child: Stack(children: [
+          PlayGroundWidget(gridSize: grid),
+          ...pieceWidgets,
+          ...targetWidgets
+        ]),
       ),
       floatingActionButton: TextButton(
         onPressed: () =>

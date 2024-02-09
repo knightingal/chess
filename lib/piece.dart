@@ -11,17 +11,18 @@ class Piece extends AnimatedWidget {
   final bool selected;
   final String text;
   final int player;
-  Piece(
-      {super.key,
-      required this.gridSize,
-      required this.x,
-      required this.y,
-      required this.diffX,
-      required this.diffY,
-      required this.text,
-      required this.player,
-      this.selected = false,
-      required super.listenable}) {
+  Piece({
+    super.key,
+    required this.gridSize,
+    required this.x,
+    required this.y,
+    required this.diffX,
+    required this.diffY,
+    required this.text,
+    required this.player,
+    this.selected = false,
+    required super.listenable,
+  }) {
     _sizeTween = Tween<double>(begin: 0, end: gridSize);
   }
 

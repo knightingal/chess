@@ -126,6 +126,9 @@ class _ChessMainState extends State<ChessMain> with TickerProviderStateMixin {
       TargetCursor(gridSize: grid, x: 1, y: 0),
       TargetCursor(gridSize: grid, x: 0, y: 1),
     ];
+    var parseTargetWidgets = chessPlayGround
+        .getParseTargetList()
+        .map((e) => TargetCursor(gridSize: grid, x: e.x, y: e.y));
     var pieceWidgets = chessPlayGround
         .getPieceList()
         .map((e) => Piece(
@@ -152,7 +155,8 @@ class _ChessMainState extends State<ChessMain> with TickerProviderStateMixin {
         child: Stack(children: [
           PlayGroundWidget(gridSize: grid),
           ...pieceWidgets,
-          ...targetWidgets
+          ...targetWidgets,
+          ...parseTargetWidgets
         ]),
       ),
       floatingActionButton: TextButton(

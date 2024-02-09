@@ -20,6 +20,18 @@ class DeadGroundMng {
   static int getY(int index) => index ~/ widthGridCount + heightGridCount;
 }
 
+class PosInfo {
+  final int x;
+  final int y;
+
+  PosInfo(this.x, this.y);
+}
+
+List<PosInfo> defaultTarget(
+    PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
+  return List.empty();
+}
+
 class PieceInfo {
   int x;
   int y;
@@ -29,6 +41,8 @@ class PieceInfo {
   bool selected;
   String text;
   int player;
+  List<PosInfo> Function(PieceInfo pieceInfo, ChessPlayGround chessPlayGround)
+      parseTarget;
 
   late Animation<double> animation;
   late AnimationController controller;
@@ -40,7 +54,8 @@ class PieceInfo {
       this.diffY = 0,
       required this.text,
       required this.player,
-      this.selected = false});
+      this.selected = false,
+      this.parseTarget = defaultTarget});
 
   bool valid() {
     return x >= 0;
@@ -78,6 +93,9 @@ class PieceInfo {
 
 class ChessPlayGround {
   List<PieceInfo> getPieceList() => _pieceList;
+  List<PosInfo> getParseTargetList() => _parseTargetList;
+
+  List<PosInfo> _parseTargetList = [];
 
   final List<PieceInfo> _pieceList = [
     PieceInfo(x: 0, y: 0, text: "车", player: 1),
@@ -101,7 +119,15 @@ class ChessPlayGround {
     PieceInfo(x: 1, y: 9, text: "马", player: 2),
     PieceInfo(x: 2, y: 9, text: "相", player: 2),
     PieceInfo(x: 3, y: 9, text: "仕", player: 2),
-    PieceInfo(x: 4, y: 9, text: "帅", player: 2),
+    PieceInfo(
+      x: 4,
+      y: 9,
+      text: "帅",
+      player: 2,
+      parseTarget: (pieceInfo, chessPlayGround) {
+        return [PosInfo(pieceInfo.x - 1, pieceInfo.y)];
+      },
+    ),
     PieceInfo(x: 5, y: 9, text: "仕", player: 2),
     PieceInfo(x: 6, y: 9, text: "相", player: 2),
     PieceInfo(x: 7, y: 9, text: "马", player: 2),
@@ -123,6 +149,9 @@ class ChessPlayGround {
   }
 
   void _select(PieceInfo pieceInfo) {
+    var parseTargetList = pieceInfo.parseTarget(pieceInfo, this);
+    _parseTargetList = parseTargetList;
+
     pieceInfo.select();
     selected = pieceInfo;
   }
@@ -131,6 +160,7 @@ class ChessPlayGround {
     if (selected != null) {
       selected?.diselect();
     }
+    _parseTargetList = [];
     selected = null;
   }
 

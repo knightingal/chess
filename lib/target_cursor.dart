@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'main.dart';
+import 'playground.dart';
 
 class TargetCursor extends StatelessWidget {
   const TargetCursor({

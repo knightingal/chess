@@ -5,16 +5,6 @@ import 'package:flutter/material.dart';
 import 'playground.dart';
 import 'target_cursor.dart';
 
-const pieceBackground = Colors.brown;
-const pieceBord = Colors.yellow;
-const playgroundBackground = Colors.yellow;
-
-const player1Color = Colors.black;
-const player0Color = Colors.red;
-
-const selectBordColor = Colors.green;
-const targetBordColor = Colors.white;
-
 void main() {
   runApp(const ChessApp());
 }

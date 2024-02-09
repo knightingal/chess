@@ -1,4 +1,14 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+
+const pieceBackground = Colors.brown;
+const pieceBord = Colors.yellow;
+const playgroundBackground = Colors.yellow;
+
+const player1Color = Colors.black;
+const player0Color = Colors.red;
+
+const selectBordColor = Colors.green;
+const targetBordColor = Colors.white;
 
 const heightGridCount = 10;
 const widthGridCount = 9;

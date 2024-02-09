@@ -92,6 +92,18 @@ class PieceInfo {
 }
 
 List<PosInfo> parseShuai(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
+  int maxX, maxY, minX, minY;
+  if (pieceInfo.player == 1) {
+    minX = 3;
+    minY = 0;
+    maxX = 5;
+    maxY = 3;
+  } else {
+    minX = 3;
+    minY = 7;
+    maxX = 5;
+    maxY = 9;
+  }
   return [];
 }
 

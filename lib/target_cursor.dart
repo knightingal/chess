@@ -41,20 +41,27 @@ class TargetCursorPainter extends CustomPainter {
       ..color = targetBordColor
       ..strokeWidth = 2;
     var lineLen = gridSize / 4;
+    var bonderLen = gridSize / 8;
 
-    canvas.drawLine(Offset(0, 0), Offset(lineLen, 0), paint);
-    canvas.drawLine(Offset(0, 0), Offset(0, lineLen), paint);
+    canvas.drawLine(Offset(0 + bonderLen, 0 + bonderLen),
+        Offset(lineLen, 0 + bonderLen), paint);
+    canvas.drawLine(Offset(0 + bonderLen, 0 + bonderLen),
+        Offset(0 + bonderLen, lineLen), paint);
 
-    canvas.drawLine(Offset(gridSize, 0), Offset(gridSize - lineLen, 0), paint);
-    canvas.drawLine(Offset(gridSize, 0), Offset(gridSize, lineLen), paint);
+    canvas.drawLine(Offset(gridSize - bonderLen, 0 + bonderLen),
+        Offset(gridSize - lineLen, 0 + bonderLen), paint);
+    canvas.drawLine(Offset(gridSize - bonderLen, 0 + bonderLen),
+        Offset(gridSize - bonderLen, lineLen), paint);
 
-    canvas.drawLine(Offset(0, gridSize), Offset(0, gridSize - lineLen), paint);
-    canvas.drawLine(Offset(0, gridSize), Offset(lineLen, gridSize), paint);
+    canvas.drawLine(Offset(0 + bonderLen, gridSize - bonderLen),
+        Offset(0 + bonderLen, gridSize - lineLen), paint);
+    canvas.drawLine(Offset(0 + bonderLen, gridSize - bonderLen),
+        Offset(lineLen, gridSize - bonderLen), paint);
 
-    canvas.drawLine(Offset(gridSize, gridSize),
-        Offset(gridSize - lineLen, gridSize), paint);
-    canvas.drawLine(Offset(gridSize, gridSize),
-        Offset(gridSize, gridSize - lineLen), paint);
+    canvas.drawLine(Offset(gridSize - bonderLen, gridSize - bonderLen),
+        Offset(gridSize - lineLen, gridSize - bonderLen), paint);
+    canvas.drawLine(Offset(gridSize - bonderLen, gridSize - bonderLen),
+        Offset(gridSize - bonderLen, gridSize - lineLen), paint);
   }
 
   @override

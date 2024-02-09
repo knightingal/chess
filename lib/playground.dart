@@ -91,6 +91,10 @@ class PieceInfo {
   }
 }
 
+List<PosInfo> parseShuai(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
+  return [];
+}
+
 class ChessPlayGround {
   List<PieceInfo> getPieceList() => _pieceList;
   List<PosInfo> getParseTargetList() => _parseTargetList;
@@ -124,9 +128,7 @@ class ChessPlayGround {
       y: 9,
       text: "帅",
       player: 2,
-      parseTarget: (pieceInfo, chessPlayGround) {
-        return [PosInfo(pieceInfo.x - 1, pieceInfo.y)];
-      },
+      parseTarget: parseShuai,
     ),
     PieceInfo(x: 5, y: 9, text: "仕", player: 2),
     PieceInfo(x: 6, y: 9, text: "相", player: 2),

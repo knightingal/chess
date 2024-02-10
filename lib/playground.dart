@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'piece_regular.dart';
+
 const pieceBackground = Colors.brown;
 const pieceBord = Colors.yellow;
 const playgroundBackground = Colors.yellow;
@@ -91,44 +93,6 @@ class PieceInfo {
   }
 }
 
-List<PosInfo> parseShuai(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
-  int maxX, maxY, minX, minY;
-  if (pieceInfo.player == 1) {
-    minX = 3;
-    minY = 0;
-    maxX = 5;
-    maxY = 2;
-  } else {
-    minX = 3;
-    minY = 7;
-    maxX = 5;
-    maxY = 9;
-  }
-  List<PosInfo> posList = [
-    PosInfo(pieceInfo.x + 1, pieceInfo.y),
-    PosInfo(pieceInfo.x - 1, pieceInfo.y),
-    PosInfo(pieceInfo.x, pieceInfo.y + 1),
-    PosInfo(pieceInfo.x, pieceInfo.y - 1),
-  ];
-
-  posList.removeWhere((e) {
-    if (e.x < minX || e.x > maxX) {
-      return true;
-    }
-    if (e.y < minY || e.y > maxY) {
-      return true;
-    }
-    var target = chessPlayGround._findTarget(e.x, e.y);
-    if (target.player == pieceInfo.player) {
-      return true;
-    }
-
-    return false;
-  });
-
-  return posList;
-}
-
 class ChessPlayGround {
   List<PieceInfo> getPieceList() => _pieceList;
   List<PosInfo> getParseTargetList() => _parseTargetList;
@@ -183,7 +147,7 @@ class ChessPlayGround {
     PieceInfo(x: 8, y: 6, text: "兵", player: 2),
   ];
 
-  PieceInfo _findTarget(int x, y) {
+  PieceInfo findTarget(int x, y) {
     var target = _pieceList.firstWhere(
         (element) => element.x == x && element.y == y,
         orElse: () => PieceInfo(x: -1, y: -1, text: "", player: -1));
@@ -233,7 +197,7 @@ class ChessPlayGround {
 
   void processEvent(int x, y) {
     if (selected != null) {
-      var target = _findTarget(x, y);
+      var target = findTarget(x, y);
       if (target.valid()) {
         if (target.player != selected?.player) {
           _kill(target);

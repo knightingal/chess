@@ -191,40 +191,51 @@ List<PosInfo> parseJu(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
   maxX = 8;
   maxY = 9;
   List<PosInfo> posList = [];
-  for (var x = minX; x <= maxX; x++) {
-    if (x != pieceInfo.x) {
-      posList.add(PosInfo(x, pieceInfo.y));
-    }
-  }
-
-  for (var y = minY; y <= maxY; y++) {
-    if (y != pieceInfo.y) {
-      posList.add(PosInfo(pieceInfo.x, y));
-    }
-  }
-
-  posList.removeWhere((e) {
-    if (e.x < minX || e.x > maxX) {
-      return true;
-    }
-    if (e.y < minY || e.y > maxY) {
-      return true;
-    }
-    var target = chessPlayGround.findTarget(e.x, e.y);
+  for (var x = pieceInfo.x + 1; x <= maxX; x++) {
+    var target = chessPlayGround.findTarget(x, pieceInfo.y);
     if (target.player == pieceInfo.player) {
-      return true;
+      break;
     }
 
-    // var pathPos = calPathPos(PosInfo(pieceInfo.x, pieceInfo.y), e);
-    // if (pathPos.any((e) {
-    //   var target = chessPlayGround.findTarget(e.x, e.y);
-    //   return target.valid();
-    // })) {
-    //   return true;
-    // }
+    posList.add(PosInfo(x, pieceInfo.y));
+    if (target.valid() && target.player != pieceInfo.player) {
+      break;
+    }
+  }
+  for (var x = pieceInfo.x - 1; x >= minX; x--) {
+    var target = chessPlayGround.findTarget(x, pieceInfo.y);
+    if (target.player == pieceInfo.player) {
+      break;
+    }
 
-    return false;
-  });
+    posList.add(PosInfo(x, pieceInfo.y));
+    if (target.valid() && target.player != pieceInfo.player) {
+      break;
+    }
+  }
+  for (var y = pieceInfo.y + 1; y <= maxY; y++) {
+    var target = chessPlayGround.findTarget(pieceInfo.x, y);
+    if (target.player == pieceInfo.player) {
+      break;
+    }
+
+    posList.add(PosInfo(pieceInfo.x, y));
+    if (target.valid() && target.player != pieceInfo.player) {
+      break;
+    }
+  }
+
+  for (var y = pieceInfo.y - 1; y >= minY; y--) {
+    var target = chessPlayGround.findTarget(pieceInfo.x, y);
+    if (target.player == pieceInfo.player) {
+      break;
+    }
+
+    posList.add(PosInfo(pieceInfo.x, y));
+    if (target.valid() && target.player != pieceInfo.player) {
+      break;
+    }
+  }
 
   return posList;
 }

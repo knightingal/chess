@@ -78,6 +78,10 @@ List<PosInfo> parseShuai(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
 }
 
 List<PosInfo> parseXiang(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
+  List<PosInfo> calPathPos(PosInfo start, PosInfo end) {
+    return [PosInfo((start.x + end.x) ~/ 2, (start.y + end.y) ~/ 2)];
+  }
+
   int maxX, maxY, minX, minY;
   if (pieceInfo.player == 1) {
     minX = 0;
@@ -106,6 +110,14 @@ List<PosInfo> parseXiang(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
     }
     var target = chessPlayGround.findTarget(e.x, e.y);
     if (target.player == pieceInfo.player) {
+      return true;
+    }
+
+    var pathPos = calPathPos(PosInfo(pieceInfo.x, pieceInfo.y), e);
+    if (pathPos.any((e) {
+      var target = chessPlayGround.findTarget(e.x, e.y);
+      return target.valid();
+    })) {
       return true;
     }
 

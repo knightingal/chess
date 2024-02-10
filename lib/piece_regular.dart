@@ -243,34 +243,75 @@ List<PosInfo> parsePao(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
   maxX = 8;
   maxY = 9;
   List<PosInfo> posList = [];
-  for (var x = pieceInfo.x + 1; x <= maxX; x++) {
+  bool attack;
+  for (var x = pieceInfo.x + 1, attack = false; x <= maxX; x++) {
     var target = chessPlayGround.findTarget(x, pieceInfo.y);
     if (target.valid()) {
-      break;
+      if (!attack) {
+        attack = true;
+        continue;
+      } else {
+        if (target.player != pieceInfo.player) {
+          posList.add(PosInfo(x, pieceInfo.y));
+          break;
+        }
+      }
     }
-    posList.add(PosInfo(x, pieceInfo.y));
+    if (!attack) {
+      posList.add(PosInfo(x, pieceInfo.y));
+    }
   }
-  for (var x = pieceInfo.x - 1; x >= minX; x--) {
+  for (var x = pieceInfo.x - 1, attack = false; x >= minX; x--) {
     var target = chessPlayGround.findTarget(x, pieceInfo.y);
     if (target.valid()) {
-      break;
+      if (!attack) {
+        attack = true;
+        continue;
+      } else {
+        if (target.player != pieceInfo.player) {
+          posList.add(PosInfo(x, pieceInfo.y));
+          break;
+        }
+      }
     }
-    posList.add(PosInfo(x, pieceInfo.y));
+    if (!attack) {
+      posList.add(PosInfo(x, pieceInfo.y));
+    }
   }
-  for (var y = pieceInfo.y + 1; y <= maxY; y++) {
+  for (var y = pieceInfo.y + 1, attack = false; y <= maxY; y++) {
     var target = chessPlayGround.findTarget(pieceInfo.x, y);
     if (target.valid()) {
-      break;
+      if (!attack) {
+        attack = true;
+        continue;
+      } else {
+        if (target.player != pieceInfo.player) {
+          posList.add(PosInfo(pieceInfo.x, y));
+          break;
+        }
+      }
     }
-    posList.add(PosInfo(pieceInfo.x, y));
+    if (!attack) {
+      posList.add(PosInfo(pieceInfo.x, y));
+    }
   }
 
-  for (var y = pieceInfo.y - 1; y >= minY; y--) {
+  for (var y = pieceInfo.y - 1, attack = false; y >= minY; y--) {
     var target = chessPlayGround.findTarget(pieceInfo.x, y);
     if (target.valid()) {
-      break;
+      if (!attack) {
+        attack = true;
+        continue;
+      } else {
+        if (target.player != pieceInfo.player) {
+          posList.add(PosInfo(pieceInfo.x, y));
+          break;
+        }
+      }
     }
-    posList.add(PosInfo(pieceInfo.x, y));
+    if (!attack) {
+      posList.add(PosInfo(pieceInfo.x, y));
+    }
   }
 
   return posList;

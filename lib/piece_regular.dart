@@ -235,3 +235,43 @@ List<PosInfo> parseJu(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
 
   return posList;
 }
+
+List<PosInfo> parsePao(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
+  int maxX, maxY, minX, minY;
+  minX = 0;
+  minY = 0;
+  maxX = 8;
+  maxY = 9;
+  List<PosInfo> posList = [];
+  for (var x = pieceInfo.x + 1; x <= maxX; x++) {
+    var target = chessPlayGround.findTarget(x, pieceInfo.y);
+    if (target.valid()) {
+      break;
+    }
+    posList.add(PosInfo(x, pieceInfo.y));
+  }
+  for (var x = pieceInfo.x - 1; x >= minX; x--) {
+    var target = chessPlayGround.findTarget(x, pieceInfo.y);
+    if (target.valid()) {
+      break;
+    }
+    posList.add(PosInfo(x, pieceInfo.y));
+  }
+  for (var y = pieceInfo.y + 1; y <= maxY; y++) {
+    var target = chessPlayGround.findTarget(pieceInfo.x, y);
+    if (target.valid()) {
+      break;
+    }
+    posList.add(PosInfo(pieceInfo.x, y));
+  }
+
+  for (var y = pieceInfo.y - 1; y >= minY; y--) {
+    var target = chessPlayGround.findTarget(pieceInfo.x, y);
+    if (target.valid()) {
+      break;
+    }
+    posList.add(PosInfo(pieceInfo.x, y));
+  }
+
+  return posList;
+}

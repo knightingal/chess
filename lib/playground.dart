@@ -111,11 +111,11 @@ class ChessPlayGround {
     PieceInfo(x: 8, y: 0, text: "车", player: 1, parseTarget: parseJu),
     PieceInfo(x: 1, y: 2, text: "炮", player: 1, parseTarget: parsePao),
     PieceInfo(x: 7, y: 2, text: "炮", player: 1, parseTarget: parsePao),
-    PieceInfo(x: 0, y: 3, text: "兵", player: 1),
-    PieceInfo(x: 2, y: 3, text: "兵", player: 1),
-    PieceInfo(x: 4, y: 3, text: "兵", player: 1),
-    PieceInfo(x: 6, y: 3, text: "兵", player: 1),
-    PieceInfo(x: 8, y: 3, text: "兵", player: 1),
+    PieceInfo(x: 0, y: 3, text: "兵", player: 1, parseTarget: parseZu),
+    PieceInfo(x: 2, y: 3, text: "兵", player: 1, parseTarget: parseZu),
+    PieceInfo(x: 4, y: 3, text: "兵", player: 1, parseTarget: parseZu),
+    PieceInfo(x: 6, y: 3, text: "兵", player: 1, parseTarget: parseZu),
+    PieceInfo(x: 8, y: 3, text: "兵", player: 1, parseTarget: parseZu),
     //
     PieceInfo(x: 0, y: 9, text: "车", player: 2, parseTarget: parseJu),
     PieceInfo(x: 1, y: 9, text: "马", player: 2, parseTarget: parseMa),
@@ -128,11 +128,11 @@ class ChessPlayGround {
     PieceInfo(x: 8, y: 9, text: "车", player: 2, parseTarget: parseJu),
     PieceInfo(x: 1, y: 7, text: "炮", player: 2, parseTarget: parsePao),
     PieceInfo(x: 7, y: 7, text: "炮", player: 2, parseTarget: parsePao),
-    PieceInfo(x: 0, y: 6, text: "兵", player: 2),
-    PieceInfo(x: 2, y: 6, text: "兵", player: 2),
-    PieceInfo(x: 4, y: 6, text: "兵", player: 2),
-    PieceInfo(x: 6, y: 6, text: "兵", player: 2),
-    PieceInfo(x: 8, y: 6, text: "兵", player: 2),
+    PieceInfo(x: 0, y: 6, text: "兵", player: 2, parseTarget: parseZu),
+    PieceInfo(x: 2, y: 6, text: "兵", player: 2, parseTarget: parseZu),
+    PieceInfo(x: 4, y: 6, text: "兵", player: 2, parseTarget: parseZu),
+    PieceInfo(x: 6, y: 6, text: "兵", player: 2, parseTarget: parseZu),
+    PieceInfo(x: 8, y: 6, text: "兵", player: 2, parseTarget: parseZu),
   ];
 
   PieceInfo findTarget(int x, y) {

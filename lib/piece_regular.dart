@@ -315,3 +315,31 @@ List<PosInfo> parsePao(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
 
   return posList;
 }
+
+List<PosInfo> parseZu(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
+  int maxX, maxY, minX, minY;
+  minX = 0;
+  minY = 0;
+  maxX = 8;
+  maxY = 9;
+  List<PosInfo> posList = [
+    PosInfo(pieceInfo.x, pieceInfo.y + ((pieceInfo.player == 1) ? (1) : (-1))),
+  ];
+
+  posList.removeWhere((e) {
+    if (e.x < minX || e.x > maxX) {
+      return true;
+    }
+    if (e.y < minY || e.y > maxY) {
+      return true;
+    }
+    var target = chessPlayGround.findTarget(e.x, e.y);
+    if (target.player == pieceInfo.player) {
+      return true;
+    }
+
+    return false;
+  });
+
+  return posList;
+}

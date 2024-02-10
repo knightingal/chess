@@ -100,7 +100,7 @@ class ChessPlayGround {
   List<PosInfo> _parseTargetList = [];
 
   final List<PieceInfo> _pieceList = [
-    PieceInfo(x: 0, y: 0, text: "车", player: 1),
+    PieceInfo(x: 0, y: 0, text: "车", player: 1, parseTarget: parseJu),
     PieceInfo(x: 1, y: 0, text: "马", player: 1, parseTarget: parseMa),
     PieceInfo(x: 2, y: 0, text: "相", player: 1, parseTarget: parseXiang),
     PieceInfo(x: 3, y: 0, text: "仕", player: 1, parseTarget: parseShi),
@@ -108,7 +108,7 @@ class ChessPlayGround {
     PieceInfo(x: 5, y: 0, text: "仕", player: 1, parseTarget: parseShi),
     PieceInfo(x: 6, y: 0, text: "相", player: 1, parseTarget: parseXiang),
     PieceInfo(x: 7, y: 0, text: "马", player: 1, parseTarget: parseMa),
-    PieceInfo(x: 8, y: 0, text: "车", player: 1),
+    PieceInfo(x: 8, y: 0, text: "车", player: 1, parseTarget: parseJu),
     PieceInfo(x: 1, y: 2, text: "炮", player: 1),
     PieceInfo(x: 7, y: 2, text: "炮", player: 1),
     PieceInfo(x: 0, y: 3, text: "兵", player: 1),
@@ -117,7 +117,7 @@ class ChessPlayGround {
     PieceInfo(x: 6, y: 3, text: "兵", player: 1),
     PieceInfo(x: 8, y: 3, text: "兵", player: 1),
     //
-    PieceInfo(x: 0, y: 9, text: "车", player: 2),
+    PieceInfo(x: 0, y: 9, text: "车", player: 2, parseTarget: parseJu),
     PieceInfo(x: 1, y: 9, text: "马", player: 2, parseTarget: parseMa),
     PieceInfo(x: 2, y: 9, text: "相", player: 2, parseTarget: parseXiang),
     PieceInfo(x: 3, y: 9, text: "仕", player: 2, parseTarget: parseShi),
@@ -125,7 +125,7 @@ class ChessPlayGround {
     PieceInfo(x: 5, y: 9, text: "仕", player: 2, parseTarget: parseShi),
     PieceInfo(x: 6, y: 9, text: "相", player: 2, parseTarget: parseXiang),
     PieceInfo(x: 7, y: 9, text: "马", player: 2, parseTarget: parseMa),
-    PieceInfo(x: 8, y: 9, text: "车", player: 2),
+    PieceInfo(x: 8, y: 9, text: "车", player: 2, parseTarget: parseJu),
     PieceInfo(x: 1, y: 7, text: "炮", player: 2),
     PieceInfo(x: 7, y: 7, text: "炮", player: 2),
     PieceInfo(x: 0, y: 6, text: "兵", player: 2),

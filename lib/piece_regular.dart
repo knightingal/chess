@@ -179,3 +179,52 @@ List<PosInfo> parseMa(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
 
   return posList;
 }
+
+List<PosInfo> parseJu(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
+  // List<PosInfo> calPathPos(PosInfo start, PosInfo end) {
+  //   return [PosInfo((start.x + end.x) ~/ 2, (start.y + end.y) ~/ 2)];
+  // }
+
+  int maxX, maxY, minX, minY;
+  minX = 0;
+  minY = 0;
+  maxX = 8;
+  maxY = 9;
+  List<PosInfo> posList = [];
+  for (var x = minX; x <= maxX; x++) {
+    if (x != pieceInfo.x) {
+      posList.add(PosInfo(x, pieceInfo.y));
+    }
+  }
+
+  for (var y = minY; y <= maxY; y++) {
+    if (y != pieceInfo.y) {
+      posList.add(PosInfo(pieceInfo.x, y));
+    }
+  }
+
+  posList.removeWhere((e) {
+    if (e.x < minX || e.x > maxX) {
+      return true;
+    }
+    if (e.y < minY || e.y > maxY) {
+      return true;
+    }
+    var target = chessPlayGround.findTarget(e.x, e.y);
+    if (target.player == pieceInfo.player) {
+      return true;
+    }
+
+    // var pathPos = calPathPos(PosInfo(pieceInfo.x, pieceInfo.y), e);
+    // if (pathPos.any((e) {
+    //   var target = chessPlayGround.findTarget(e.x, e.y);
+    //   return target.valid();
+    // })) {
+    //   return true;
+    // }
+
+    return false;
+  });
+
+  return posList;
+}

@@ -181,10 +181,6 @@ List<PosInfo> parseMa(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
 }
 
 List<PosInfo> parseJu(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
-  // List<PosInfo> calPathPos(PosInfo start, PosInfo end) {
-  //   return [PosInfo((start.x + end.x) ~/ 2, (start.y + end.y) ~/ 2)];
-  // }
-
   int maxX, maxY, minX, minY;
   minX = 0;
   minY = 0;

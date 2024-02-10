@@ -243,7 +243,6 @@ List<PosInfo> parsePao(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
   maxX = 8;
   maxY = 9;
   List<PosInfo> posList = [];
-  bool attack;
   for (var x = pieceInfo.x + 1, attack = false; x <= maxX; x++) {
     var target = chessPlayGround.findTarget(x, pieceInfo.y);
     if (target.valid()) {

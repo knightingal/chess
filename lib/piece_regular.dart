@@ -317,6 +317,22 @@ List<PosInfo> parsePao(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
 }
 
 List<PosInfo> parseZu(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
+  bool checkPassRiver(PieceInfo pieceInfo) {
+    if (pieceInfo.player == 1) {
+      if (pieceInfo.y >= 5) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (pieceInfo.y <= 4) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
   int maxX, maxY, minX, minY;
   minX = 0;
   minY = 0;
@@ -325,6 +341,11 @@ List<PosInfo> parseZu(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
   List<PosInfo> posList = [
     PosInfo(pieceInfo.x, pieceInfo.y + ((pieceInfo.player == 1) ? (1) : (-1))),
   ];
+
+  if (checkPassRiver(pieceInfo)) {
+    posList.add(PosInfo(pieceInfo.x - 1, pieceInfo.y));
+    posList.add(PosInfo(pieceInfo.x + 1, pieceInfo.y));
+  }
 
   posList.removeWhere((e) {
     if (e.x < minX || e.x > maxX) {

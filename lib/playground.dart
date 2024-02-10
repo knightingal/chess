@@ -97,14 +97,36 @@ List<PosInfo> parseShuai(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
     minX = 3;
     minY = 0;
     maxX = 5;
-    maxY = 3;
+    maxY = 2;
   } else {
     minX = 3;
     minY = 7;
     maxX = 5;
     maxY = 9;
   }
-  return [];
+  List<PosInfo> posList = [
+    PosInfo(pieceInfo.x + 1, pieceInfo.y),
+    PosInfo(pieceInfo.x - 1, pieceInfo.y),
+    PosInfo(pieceInfo.x, pieceInfo.y + 1),
+    PosInfo(pieceInfo.x, pieceInfo.y - 1),
+  ];
+
+  posList.removeWhere((e) {
+    if (e.x < minX || e.x > maxX) {
+      return true;
+    }
+    if (e.y < minY || e.y > maxY) {
+      return true;
+    }
+    var target = chessPlayGround._findTarget(e.x, e.y);
+    if (target.player == pieceInfo.player) {
+      return true;
+    }
+
+    return false;
+  });
+
+  return posList;
 }
 
 class ChessPlayGround {
@@ -118,7 +140,13 @@ class ChessPlayGround {
     PieceInfo(x: 1, y: 0, text: "马", player: 1),
     PieceInfo(x: 2, y: 0, text: "相", player: 1),
     PieceInfo(x: 3, y: 0, text: "仕", player: 1),
-    PieceInfo(x: 4, y: 0, text: "帅", player: 1),
+    PieceInfo(
+      x: 4,
+      y: 0,
+      text: "帅",
+      player: 1,
+      parseTarget: parseShuai,
+    ),
     PieceInfo(x: 5, y: 0, text: "仕", player: 1),
     PieceInfo(x: 6, y: 0, text: "相", player: 1),
     PieceInfo(x: 7, y: 0, text: "马", player: 1),

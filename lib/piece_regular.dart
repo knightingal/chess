@@ -1,6 +1,6 @@
 import 'playground.dart';
 
-List<PosInfo> parseShi(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
+List<PosInfo> parseShuai(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
   int maxX, maxY, minX, minY;
   if (pieceInfo.player == 1) {
     minX = 3;
@@ -13,12 +13,11 @@ List<PosInfo> parseShi(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
     maxX = 5;
     maxY = 9;
   }
-
   List<PosInfo> posList = [
-    PosInfo(pieceInfo.x + 1, pieceInfo.y + 1),
-    PosInfo(pieceInfo.x - 1, pieceInfo.y - 1),
-    PosInfo(pieceInfo.x + 1, pieceInfo.y - 1),
-    PosInfo(pieceInfo.x - 1, pieceInfo.y + 1),
+    PosInfo(pieceInfo.x + 1, pieceInfo.y),
+    PosInfo(pieceInfo.x - 1, pieceInfo.y),
+    PosInfo(pieceInfo.x, pieceInfo.y + 1),
+    PosInfo(pieceInfo.x, pieceInfo.y - 1),
   ];
 
   posList.removeWhere((e) {
@@ -39,7 +38,7 @@ List<PosInfo> parseShi(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
   return posList;
 }
 
-List<PosInfo> parseShuai(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
+List<PosInfo> parseShi(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
   int maxX, maxY, minX, minY;
   if (pieceInfo.player == 1) {
     minX = 3;
@@ -52,11 +51,12 @@ List<PosInfo> parseShuai(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
     maxX = 5;
     maxY = 9;
   }
+
   List<PosInfo> posList = [
-    PosInfo(pieceInfo.x + 1, pieceInfo.y),
-    PosInfo(pieceInfo.x - 1, pieceInfo.y),
-    PosInfo(pieceInfo.x, pieceInfo.y + 1),
-    PosInfo(pieceInfo.x, pieceInfo.y - 1),
+    PosInfo(pieceInfo.x + 1, pieceInfo.y + 1),
+    PosInfo(pieceInfo.x - 1, pieceInfo.y - 1),
+    PosInfo(pieceInfo.x + 1, pieceInfo.y - 1),
+    PosInfo(pieceInfo.x - 1, pieceInfo.y + 1),
   ];
 
   posList.removeWhere((e) {

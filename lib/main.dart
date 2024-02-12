@@ -121,11 +121,6 @@ class _ChessMainState extends State<ChessMain> with TickerProviderStateMixin {
 
     var grid = min(
         height / (heightGridCount + 2 * deadPadding), width / widthGridCount);
-    var targetWidgets = [
-      TargetCursor(gridSize: grid, x: 0, y: 0),
-      TargetCursor(gridSize: grid, x: 1, y: 0),
-      TargetCursor(gridSize: grid, x: 0, y: 1),
-    ];
     var parseTargetWidgets = chessPlayGround
         .getParseTargetList()
         .map((e) => TargetCursor(gridSize: grid, x: e.x, y: e.y));
@@ -155,7 +150,6 @@ class _ChessMainState extends State<ChessMain> with TickerProviderStateMixin {
         child: Stack(children: [
           PlayGroundWidget(gridSize: grid),
           ...pieceWidgets,
-          ...targetWidgets,
           ...parseTargetWidgets
         ]),
       ),

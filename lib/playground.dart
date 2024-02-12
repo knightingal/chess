@@ -199,9 +199,10 @@ class ChessPlayGround {
       } else {
         _move(x, y);
       }
+      playerTurn = 3 - playerTurn;
     } else {
       for (var element in chessPlayGround.getPieceList()) {
-        if (element.x == x && element.y == y) {
+        if (element.x == x && element.y == y && playerTurn == element.player) {
           _select(element);
         } else {
           element.diselect();

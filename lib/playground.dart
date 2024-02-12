@@ -191,15 +191,18 @@ class ChessPlayGround {
       if (target.valid()) {
         if (target.player != selected?.player) {
           _kill(target);
+          playerTurn = 3 - playerTurn;
         } else if (target == selected) {
           _diselect();
         } else {
           _changeSelect(target);
         }
       } else {
-        _move(x, y);
+        if (_parseTargetList.any((e) => e.x == x && e.y == y)) {
+          _move(x, y);
+          playerTurn = 3 - playerTurn;
+        }
       }
-      playerTurn = 3 - playerTurn;
     } else {
       for (var element in chessPlayGround.getPieceList()) {
         if (element.x == x && element.y == y && playerTurn == element.player) {

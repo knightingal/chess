@@ -99,6 +99,8 @@ class ChessPlayGround {
 
   List<PosInfo> _parseTargetList = [];
 
+  int playerTurn = 1;
+
   final List<PieceInfo> _pieceList = [
     PieceInfo(x: 0, y: 0, text: "车", player: 1, parseTarget: parseJu),
     PieceInfo(x: 1, y: 0, text: "马", player: 1, parseTarget: parseMa),

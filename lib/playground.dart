@@ -99,6 +99,8 @@ class ChessPlayGround {
 
   List<PosInfo> _parseTargetList = [];
 
+  int playerTurn = 1;
+
   final List<PieceInfo> _pieceList = [
     PieceInfo(x: 0, y: 0, text: "车", player: 1, parseTarget: parseJu),
     PieceInfo(x: 1, y: 0, text: "马", player: 1, parseTarget: parseMa),
@@ -183,23 +185,31 @@ class ChessPlayGround {
 
   PieceInfo? selected;
 
+  bool _checkInParseTargetTist(int x, int y) =>
+      _parseTargetList.any((e) => e.x == x && e.y == y);
+
   void processEvent(int x, y) {
     if (selected != null) {
       var target = findTarget(x, y);
       if (target.valid()) {
-        if (target.player != selected?.player) {
+        if (target.player != selected?.player &&
+            _checkInParseTargetTist(x, y)) {
           _kill(target);
+          playerTurn = 3 - playerTurn;
         } else if (target == selected) {
           _diselect();
         } else {
           _changeSelect(target);
         }
       } else {
-        _move(x, y);
+        if (_checkInParseTargetTist(x, y)) {
+          _move(x, y);
+          playerTurn = 3 - playerTurn;
+        }
       }
     } else {
       for (var element in chessPlayGround.getPieceList()) {
-        if (element.x == x && element.y == y) {
+        if (element.x == x && element.y == y && playerTurn == element.player) {
           _select(element);
         } else {
           element.diselect();

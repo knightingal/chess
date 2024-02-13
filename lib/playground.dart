@@ -161,10 +161,11 @@ class ChessPlayGround {
   }
 
   void _dead(PieceInfo target) {
-    var index = _pieceList.indexOf(target);
-    var x = DeadGroundMng.getX(index);
-    var y = DeadGroundMng.getY(index);
-    target.dead(x, y);
+    _pieceList.remove(target);
+    // var index = _pieceList.indexOf(target);
+    // var x = DeadGroundMng.getX(index);
+    // var y = DeadGroundMng.getY(index);
+    // target.dead(x, y);
   }
 
   void _kill(PieceInfo target) {

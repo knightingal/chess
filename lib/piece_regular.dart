@@ -252,8 +252,8 @@ List<PosInfo> parsePao(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
       } else {
         if (target.player != pieceInfo.player) {
           posList.add(PosInfo(x, pieceInfo.y));
-          break;
         }
+        break;
       }
     }
     if (!attack) {
@@ -269,8 +269,8 @@ List<PosInfo> parsePao(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
       } else {
         if (target.player != pieceInfo.player) {
           posList.add(PosInfo(x, pieceInfo.y));
-          break;
         }
+        break;
       }
     }
     if (!attack) {
@@ -286,8 +286,8 @@ List<PosInfo> parsePao(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
       } else {
         if (target.player != pieceInfo.player) {
           posList.add(PosInfo(pieceInfo.x, y));
-          break;
         }
+        break;
       }
     }
     if (!attack) {
@@ -304,8 +304,8 @@ List<PosInfo> parsePao(PieceInfo pieceInfo, ChessPlayGround chessPlayGround) {
       } else {
         if (target.player != pieceInfo.player) {
           posList.add(PosInfo(pieceInfo.x, y));
-          break;
         }
+        break;
       }
     }
     if (!attack) {

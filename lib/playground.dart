@@ -199,7 +199,7 @@ class ChessPlayGround {
           playerTurn = 3 - playerTurn;
         } else if (target == selected) {
           _diselect();
-        } else {
+        } else if (target.player == playerTurn) {
           _changeSelect(target);
         }
       } else {

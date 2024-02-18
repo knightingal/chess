@@ -6,8 +6,8 @@ const pieceBackground = Colors.brown;
 const pieceBord = Colors.yellow;
 const playgroundBackground = Colors.yellow;
 
-const player1Color = Colors.black;
-const player0Color = Colors.red;
+const player1Color = Colors.red;
+const player0Color = Colors.black;
 
 const selectBordColor = Colors.green;
 const targetBordColor = Colors.white;

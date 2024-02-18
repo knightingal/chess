@@ -43,6 +43,9 @@ class PieceInfo {
   bool selected;
   String text;
   int player;
+
+  bool maMove;
+
   List<PosInfo> Function(PieceInfo pieceInfo, ChessPlayGround chessPlayGround)
       parseTarget;
 
@@ -57,7 +60,8 @@ class PieceInfo {
       required this.text,
       required this.player,
       this.selected = false,
-      this.parseTarget = defaultTarget});
+      this.parseTarget = defaultTarget,
+      this.maMove = false});
 
   bool valid() {
     return x >= 0;
@@ -76,7 +80,11 @@ class PieceInfo {
     this.y = y;
   }
 
-  void move(int x, y) {
+  void move(int x, int y) {
+    if (maMove) {
+      _maMove(x, y);
+      return;
+    }
     diffX = x - this.x;
     diffY = y - this.y;
     listener(status) {
@@ -91,6 +99,48 @@ class PieceInfo {
     controller.addStatusListener(listener);
     controller.forward();
   }
+
+  /// support two move stag for MA piece
+  void _maMove(int x, int y) {
+    int tmpDiffX = x - this.x;
+    int tmpDiffY = y - this.y;
+    List<PosInfo> movePath = [];
+    if (tmpDiffX == 2 || tmpDiffX == -2) {
+      movePath.add(PosInfo(tmpDiffX ~/ 2, 0));
+      movePath.add(PosInfo(tmpDiffX ~/ 2, tmpDiffY));
+    } else {
+      movePath.add(PosInfo(0, tmpDiffY ~/ 2));
+      movePath.add(PosInfo(tmpDiffX, tmpDiffY ~/ 2));
+    }
+
+    void listener1(AnimationStatus status) {
+      if (status == AnimationStatus.completed) {
+        this.x = this.x + diffX;
+        this.y = this.y + diffY;
+        controller.reset();
+        controller.removeStatusListener(listener1);
+      }
+    }
+
+    void listener0(AnimationStatus status) {
+      if (status == AnimationStatus.completed) {
+        this.x = this.x + diffX;
+        this.y = this.y + diffY;
+        controller.reset();
+        controller.removeStatusListener(listener0);
+
+        diffX = movePath[1].x;
+        diffY = movePath[1].y;
+        controller.addStatusListener(listener1);
+        controller.forward();
+      }
+    }
+
+    diffX = movePath[0].x;
+    diffY = movePath[0].y;
+    controller.addStatusListener(listener0);
+    controller.forward();
+  }
 }
 
 class ChessPlayGround {
@@ -103,13 +153,15 @@ class ChessPlayGround {
 
   final List<PieceInfo> _pieceList = [
     PieceInfo(x: 0, y: 0, text: "车", player: 1, parseTarget: parseJu),
-    PieceInfo(x: 1, y: 0, text: "马", player: 1, parseTarget: parseMa),
+    PieceInfo(
+        x: 1, y: 0, text: "马", player: 1, parseTarget: parseMa, maMove: true),
     PieceInfo(x: 2, y: 0, text: "相", player: 1, parseTarget: parseXiang),
     PieceInfo(x: 3, y: 0, text: "仕", player: 1, parseTarget: parseShi),
     PieceInfo(x: 4, y: 0, text: "帅", player: 1, parseTarget: parseShuai),
     PieceInfo(x: 5, y: 0, text: "仕", player: 1, parseTarget: parseShi),
     PieceInfo(x: 6, y: 0, text: "相", player: 1, parseTarget: parseXiang),
-    PieceInfo(x: 7, y: 0, text: "马", player: 1, parseTarget: parseMa),
+    PieceInfo(
+        x: 7, y: 0, text: "马", player: 1, parseTarget: parseMa, maMove: true),
     PieceInfo(x: 8, y: 0, text: "车", player: 1, parseTarget: parseJu),
     PieceInfo(x: 1, y: 2, text: "炮", player: 1, parseTarget: parsePao),
     PieceInfo(x: 7, y: 2, text: "炮", player: 1, parseTarget: parsePao),
@@ -120,13 +172,15 @@ class ChessPlayGround {
     PieceInfo(x: 8, y: 3, text: "兵", player: 1, parseTarget: parseZu),
     //
     PieceInfo(x: 0, y: 9, text: "车", player: 2, parseTarget: parseJu),
-    PieceInfo(x: 1, y: 9, text: "马", player: 2, parseTarget: parseMa),
+    PieceInfo(
+        x: 1, y: 9, text: "马", player: 2, parseTarget: parseMa, maMove: true),
     PieceInfo(x: 2, y: 9, text: "相", player: 2, parseTarget: parseXiang),
     PieceInfo(x: 3, y: 9, text: "仕", player: 2, parseTarget: parseShi),
     PieceInfo(x: 4, y: 9, text: "帅", player: 2, parseTarget: parseShuai),
     PieceInfo(x: 5, y: 9, text: "仕", player: 2, parseTarget: parseShi),
     PieceInfo(x: 6, y: 9, text: "相", player: 2, parseTarget: parseXiang),
-    PieceInfo(x: 7, y: 9, text: "马", player: 2, parseTarget: parseMa),
+    PieceInfo(
+        x: 7, y: 9, text: "马", player: 2, parseTarget: parseMa, maMove: true),
     PieceInfo(x: 8, y: 9, text: "车", player: 2, parseTarget: parseJu),
     PieceInfo(x: 1, y: 7, text: "炮", player: 2, parseTarget: parsePao),
     PieceInfo(x: 7, y: 7, text: "炮", player: 2, parseTarget: parsePao),

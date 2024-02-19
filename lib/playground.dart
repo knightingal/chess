@@ -228,7 +228,13 @@ class ChessPlayGround {
     _diselect();
   }
 
+  bool _checkCheckmate(PieceInfo? pieceInfo, int x, int y) {
+    return false;
+  }
+
   void _move(int x, y) {
+    _checkCheckmate(selected, x, y);
+
     selected?.move(x, y);
     _diselect();
   }

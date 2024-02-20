@@ -433,11 +433,56 @@ class ChessPlayGround {
   }
 
   bool _checkCheckmate(PieceInfo? pieceInfo, int x, int y) {
+    if (pieceInfo == null) {
+      return false;
+    }
+    var tmpX = pieceInfo.x;
+    var tmpY = pieceInfo.y;
+
+    pieceInfo.x = x;
+    pieceInfo.y = y;
+
+    for (var element in chessPlayGround._pieceList) {
+      if (element.player != pieceInfo.player) {
+        if (element.role >= PieceInfo.ma) {
+          var targets = element.parseTarget(element, this);
+          for (var target in targets) {
+            var targetPiece = findTarget(target.x, target.y);
+            if (targetPiece.role == PieceInfo.jiang &&
+                targetPiece.player == pieceInfo.player) {
+              pieceInfo.x = tmpX;
+              pieceInfo.y = tmpY;
+              return true;
+            }
+          }
+        }
+      } else if (element.role == PieceInfo.jiang) {
+        var diffY = 3 - element.player * 2;
+        for (int i = 1;
+            element.y + diffY * i <= 9 && element.y + diffY * i >= 0;
+            i++) {
+          var target = findTarget(element.x, element.y + diffY * i);
+          if (target.valid()) {
+            if (target.player != element.player &&
+                target.role == PieceInfo.jiang) {
+              pieceInfo.x = tmpX;
+              pieceInfo.y = tmpY;
+              return true;
+            } else {
+              break;
+            }
+          }
+        }
+      }
+    }
+
     return false;
   }
 
   void _move(int x, y) {
-    _checkCheckmate(selected, x, y);
+    if (_checkCheckmate(selected, x, y)) {
+      return;
+    }
 
     selected?.move(x, y);
     _diselect();

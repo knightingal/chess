@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'piece.dart';
-import 'playground.dart';
-import 'target_cursor.dart';
+import 'chess/piece.dart';
+import 'chess/playground.dart';
+import 'chess/target_cursor.dart';
 
 void main() {
   runApp(const ChessApp());

@@ -74,6 +74,10 @@ class PieceInfo {
       this.parseTarget = defaultTarget,
       this.maMove = false});
 
+  PieceInfo clone() {
+    return PieceInfo(x: x, y: y, role: role, text: text, player: player);
+  }
+
   bool valid() {
     return x >= 0;
   }
@@ -402,6 +406,14 @@ class ChessPlayGround {
     return target;
   }
 
+  PieceInfo findTargetByGivenPieceList(List<PieceInfo> pieceList, int x, y) {
+    var target = pieceList.firstWhere(
+        (element) => element.x == x && element.y == y,
+        orElse: () => PieceInfo(
+            x: -1, y: -1, text: "", player: -1, role: PieceInfo.none));
+    return target;
+  }
+
   void _select(PieceInfo pieceInfo) {
     var parseTargetList = pieceInfo.parseTarget(pieceInfo, this);
     _parseTargetList = parseTargetList;
@@ -432,17 +444,26 @@ class ChessPlayGround {
     _diselect();
   }
 
+  List<PieceInfo> _clonePieceList() {
+    return _pieceList.map((e) => e.clone()).toList();
+  }
+
   bool _checkCheckmate(PieceInfo? pieceInfo, int x, int y) {
     if (pieceInfo == null) {
       return false;
     }
-    var tmpX = pieceInfo.x;
-    var tmpY = pieceInfo.y;
 
-    pieceInfo.x = x;
-    pieceInfo.y = y;
+    var clonePieceList = _clonePieceList();
+    var selfPieceInfo =
+        findTargetByGivenPieceList(clonePieceList, pieceInfo.x, pieceInfo.y);
+    var targetPieceInfo = findTargetByGivenPieceList(clonePieceList, x, y);
+    if (targetPieceInfo.valid()) {
+      clonePieceList.remove(targetPieceInfo);
+    }
+    selfPieceInfo.x = x;
+    selfPieceInfo.y = y;
 
-    for (var element in chessPlayGround._pieceList) {
+    for (var element in clonePieceList) {
       if (element.player != pieceInfo.player) {
         if (element.role >= PieceInfo.ma) {
           var targets = element.parseTarget(element, this);
@@ -450,8 +471,6 @@ class ChessPlayGround {
             var targetPiece = findTarget(target.x, target.y);
             if (targetPiece.role == PieceInfo.jiang &&
                 targetPiece.player == pieceInfo.player) {
-              pieceInfo.x = tmpX;
-              pieceInfo.y = tmpY;
               return true;
             }
           }
@@ -465,8 +484,6 @@ class ChessPlayGround {
           if (target.valid()) {
             if (target.player != element.player &&
                 target.role == PieceInfo.jiang) {
-              pieceInfo.x = tmpX;
-              pieceInfo.y = tmpY;
               return true;
             } else {
               break;

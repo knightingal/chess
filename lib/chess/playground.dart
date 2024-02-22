@@ -355,7 +355,7 @@ class ChessPlayGround {
         parseTarget: parsePao,
         role: PieceInfo.pao),
     PieceInfo(
-        x: 7,
+        x: 4,
         y: 7,
         text: "炮",
         player: 2,
@@ -375,13 +375,13 @@ class ChessPlayGround {
         player: 2,
         parseTarget: parseZu,
         role: PieceInfo.zu),
-    PieceInfo(
-        x: 4,
-        y: 6,
-        text: "兵",
-        player: 2,
-        parseTarget: parseZu,
-        role: PieceInfo.zu),
+    // PieceInfo(
+    //     x: 4,
+    //     y: 6,
+    //     text: "兵",
+    //     player: 2,
+    //     parseTarget: parseZu,
+    //     role: PieceInfo.zu),
     PieceInfo(
         x: 6,
         y: 6,

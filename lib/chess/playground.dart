@@ -222,10 +222,15 @@ class ChessPlayGround {
     // target.dead(x, y);
   }
 
-  void _kill(PieceInfo target) {
+  bool _kill(PieceInfo target) {
+    if (_checkCheckmate(selected, target.x, target.y)) {
+      _diselect();
+      return false;
+    }
     _move(target.x, target.y);
     _dead(target);
     _diselect();
+    return true;
   }
 
   List<PieceInfo> _clonePieceList() {
@@ -282,13 +287,15 @@ class ChessPlayGround {
     return false;
   }
 
-  void _move(int x, y) {
+  bool _move(int x, y) {
     if (_checkCheckmate(selected, x, y)) {
-      return;
+      _diselect();
+      return false;
     }
 
     selected?.move(x, y);
     _diselect();
+    return true;
   }
 
   void _changeSelect(PieceInfo target) {
@@ -307,8 +314,9 @@ class ChessPlayGround {
       if (target.valid()) {
         if (target.player != selected?.player &&
             _checkInParseTargetTist(x, y)) {
-          _kill(target);
-          playerTurn = 3 - playerTurn;
+          if (_kill(target)) {
+            playerTurn = 3 - playerTurn;
+          }
         } else if (target == selected) {
           _diselect();
         } else if (target.player == playerTurn) {
@@ -316,8 +324,9 @@ class ChessPlayGround {
         }
       } else {
         if (_checkInParseTargetTist(x, y)) {
-          _move(x, y);
-          playerTurn = 3 - playerTurn;
+          if (_move(x, y)) {
+            playerTurn = 3 - playerTurn;
+          }
         }
       }
     } else {

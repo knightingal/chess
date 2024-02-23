@@ -75,7 +75,13 @@ class PieceInfo {
       this.maMove = false});
 
   PieceInfo clone() {
-    return PieceInfo(x: x, y: y, role: role, text: text, player: player);
+    return PieceInfo(
+        x: x,
+        y: y,
+        role: role,
+        text: text,
+        player: player,
+        parseTarget: parseTarget);
   }
 
   bool valid() {
@@ -164,9 +170,15 @@ class ChessPlayGround {
 
   List<PosInfo> _parseTargetList = [];
 
+  ChessPlayGround() {}
+
+  ChessPlayGround.clone(ChessPlayGround chessPlayGround) {
+    _pieceList = chessPlayGround._clonePieceList();
+  }
+
   int playerTurn = 1;
 
-  final List<PieceInfo> _pieceList = [
+  List<PieceInfo> _pieceList = [
     PieceInfo(
         x: 0,
         y: 0,
@@ -453,22 +465,23 @@ class ChessPlayGround {
       return false;
     }
 
-    var clonePieceList = _clonePieceList();
+    var cloneChessPlayGround = ChessPlayGround.clone(this);
     var selfPieceInfo =
-        findTargetByGivenPieceList(clonePieceList, pieceInfo.x, pieceInfo.y);
-    var targetPieceInfo = findTargetByGivenPieceList(clonePieceList, x, y);
+        cloneChessPlayGround.findTarget(pieceInfo.x, pieceInfo.y);
+    var targetPieceInfo = cloneChessPlayGround.findTarget(x, y);
     if (targetPieceInfo.valid()) {
-      clonePieceList.remove(targetPieceInfo);
+      cloneChessPlayGround._pieceList.remove(targetPieceInfo);
     }
     selfPieceInfo.x = x;
     selfPieceInfo.y = y;
 
-    for (var element in clonePieceList) {
+    for (var element in cloneChessPlayGround._pieceList) {
       if (element.player != pieceInfo.player) {
         if (element.role >= PieceInfo.ma) {
-          var targets = element.parseTarget(element, this);
+          var targets = element.parseTarget(element, cloneChessPlayGround);
           for (var target in targets) {
-            var targetPiece = findTarget(target.x, target.y);
+            var targetPiece =
+                cloneChessPlayGround.findTarget(target.x, target.y);
             if (targetPiece.role == PieceInfo.jiang &&
                 targetPiece.player == pieceInfo.player) {
               return true;
@@ -480,7 +493,8 @@ class ChessPlayGround {
         for (int i = 1;
             element.y + diffY * i <= 9 && element.y + diffY * i >= 0;
             i++) {
-          var target = findTarget(element.x, element.y + diffY * i);
+          var target =
+              cloneChessPlayGround.findTarget(element.x, element.y + diffY * i);
           if (target.valid()) {
             if (target.player != element.player &&
                 target.role == PieceInfo.jiang) {

@@ -119,8 +119,7 @@ class _ChessMainState extends State<ChessMain> with TickerProviderStateMixin {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
-    var grid = min(
-        height / (heightGridCount + 2 * deadPadding), width / widthGridCount);
+    var grid = min(height / heightGridCount, width / widthGridCount);
     var parseTargetWidgets = chessPlayGround
         .getParseTargetList()
         .map((e) => TargetCursor(gridSize: grid, x: e.x, y: e.y));

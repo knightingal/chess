@@ -35,26 +35,22 @@ List<PosInfo> defaultTarget(
 }
 
 enum PieceRole {
-  none,
-  jiang,
-  shi,
-  xiang,
-  ma,
-  ju,
-  pao,
-  zu,
+  none(parseTarget: defaultTarget),
+  jiang(parseTarget: parseShuai),
+  shi(parseTarget: parseShi),
+  xiang(parseTarget: parseXiang),
+  ma(parseTarget: parseMa),
+  ju(parseTarget: parseJu),
+  pao(parseTarget: parsePao),
+  zu(parseTarget: parseZu);
+
+  const PieceRole({required this.parseTarget});
+
+  final List<PosInfo> Function(
+      PieceInfo pieceInfo, ChessPlayGround chessPlayGround) parseTarget;
 }
 
 class PieceInfo {
-  // static const jiang = 0;
-  // static const shi = 1;
-  // static const xiang = 2;
-  // static const ma = 3;
-  // static const ju = 4;
-  // static const pao = 5;
-  // static const zu = 6;
-  // static const none = -1;
-
   int x;
   int y;
   int diffX;
@@ -67,8 +63,8 @@ class PieceInfo {
 
   bool maMove;
 
-  List<PosInfo> Function(PieceInfo pieceInfo, ChessPlayGround chessPlayGround)
-      parseTarget;
+  // List<PosInfo> Function(PieceInfo pieceInfo, ChessPlayGround chessPlayGround)
+  //     parseTarget;
 
   late Animation<double> animation;
   late AnimationController controller;
@@ -82,17 +78,17 @@ class PieceInfo {
       required this.text,
       required this.player,
       this.selected = false,
-      this.parseTarget = defaultTarget,
+      // this.parseTarget = defaultTarget,
       this.maMove = false});
 
   PieceInfo clone() {
     return PieceInfo(
-        x: x,
-        y: y,
-        role: role,
-        text: text,
-        player: player,
-        parseTarget: parseTarget);
+      x: x,
+      y: y,
+      role: role,
+      text: text,
+      player: player,
+    );
   }
 
   bool valid() {
@@ -210,7 +206,7 @@ class ChessPlayGround {
   }
 
   void _select(PieceInfo pieceInfo) {
-    var parseTargetList = pieceInfo.parseTarget(pieceInfo, this);
+    var parseTargetList = pieceInfo.role.parseTarget(pieceInfo, this);
     _parseTargetList = parseTargetList;
 
     pieceInfo.select();
@@ -266,7 +262,7 @@ class ChessPlayGround {
     for (var element in cloneChessPlayGround._pieceList) {
       if (element.player != pieceInfo.player) {
         if (element.role.index >= PieceRole.ma.index) {
-          var targets = element.parseTarget(element, cloneChessPlayGround);
+          var targets = element.role.parseTarget(element, cloneChessPlayGround);
           for (var target in targets) {
             var targetPiece =
                 cloneChessPlayGround.findTarget(target.x, target.y);
@@ -360,14 +356,14 @@ final classicPieceList = [
       y: 0,
       text: "车",
       player: 1,
-      parseTarget: parseJu,
+      // parseTarget: parseJu,
       role: PieceRole.ju),
   PieceInfo(
       x: 1,
       y: 0,
       text: "马",
       player: 1,
-      parseTarget: parseMa,
+      // parseTarget: parseMa,
       maMove: true,
       role: PieceRole.ma),
   PieceInfo(
@@ -375,42 +371,42 @@ final classicPieceList = [
       y: 0,
       text: "相",
       player: 1,
-      parseTarget: parseXiang,
+      // parseTarget: parseXiang,
       role: PieceRole.xiang),
   PieceInfo(
       x: 3,
       y: 0,
       text: "仕",
       player: 1,
-      parseTarget: parseShi,
+      // parseTarget: parseShi,
       role: PieceRole.shi),
   PieceInfo(
       x: 4,
       y: 0,
       text: "帅",
       player: 1,
-      parseTarget: parseShuai,
+      // parseTarget: parseShuai,
       role: PieceRole.jiang),
   PieceInfo(
       x: 5,
       y: 0,
       text: "仕",
       player: 1,
-      parseTarget: parseShi,
+      // parseTarget: parseShi,
       role: PieceRole.shi),
   PieceInfo(
       x: 6,
       y: 0,
       text: "相",
       player: 1,
-      parseTarget: parseXiang,
+      // parseTarget: parseXiang,
       role: PieceRole.xiang),
   PieceInfo(
       x: 7,
       y: 0,
       text: "马",
       player: 1,
-      parseTarget: parseMa,
+      // parseTarget: parseMa,
       maMove: true,
       role: PieceRole.ma),
   PieceInfo(
@@ -418,56 +414,56 @@ final classicPieceList = [
       y: 0,
       text: "车",
       player: 1,
-      parseTarget: parseJu,
+      // parseTarget: parseJu,
       role: PieceRole.ju),
   PieceInfo(
       x: 1,
       y: 2,
       text: "炮",
       player: 1,
-      parseTarget: parsePao,
+      // parseTarget: parsePao,
       role: PieceRole.pao),
   PieceInfo(
       x: 7,
       y: 2,
       text: "炮",
       player: 1,
-      parseTarget: parsePao,
+      // parseTarget: parsePao,
       role: PieceRole.pao),
   PieceInfo(
       x: 0,
       y: 3,
       text: "兵",
       player: 1,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
   PieceInfo(
       x: 2,
       y: 3,
       text: "兵",
       player: 1,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
   PieceInfo(
       x: 4,
       y: 3,
       text: "兵",
       player: 1,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
   PieceInfo(
       x: 6,
       y: 3,
       text: "兵",
       player: 1,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
   PieceInfo(
       x: 8,
       y: 3,
       text: "兵",
       player: 1,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
   //
   PieceInfo(
@@ -475,14 +471,14 @@ final classicPieceList = [
       y: 9,
       text: "车",
       player: 2,
-      parseTarget: parseJu,
+      // parseTarget: parseJu,
       role: PieceRole.ju),
   PieceInfo(
       x: 1,
       y: 9,
       text: "马",
       player: 2,
-      parseTarget: parseMa,
+      // parseTarget: parseMa,
       maMove: true,
       role: PieceRole.ma),
   PieceInfo(
@@ -490,42 +486,42 @@ final classicPieceList = [
       y: 9,
       text: "相",
       player: 2,
-      parseTarget: parseXiang,
+      // parseTarget: parseXiang,
       role: PieceRole.xiang),
   PieceInfo(
       x: 3,
       y: 9,
       text: "仕",
       player: 2,
-      parseTarget: parseShi,
+      // parseTarget: parseShi,
       role: PieceRole.shi),
   PieceInfo(
       x: 4,
       y: 9,
       text: "帅",
       player: 2,
-      parseTarget: parseShuai,
+      // parseTarget: parseShuai,
       role: PieceRole.jiang),
   PieceInfo(
       x: 5,
       y: 9,
       text: "仕",
       player: 2,
-      parseTarget: parseShi,
+      // parseTarget: parseShi,
       role: PieceRole.shi),
   PieceInfo(
       x: 6,
       y: 9,
       text: "相",
       player: 2,
-      parseTarget: parseXiang,
+      // parseTarget: parseXiang,
       role: PieceRole.xiang),
   PieceInfo(
       x: 7,
       y: 9,
       text: "马",
       player: 2,
-      parseTarget: parseMa,
+      // parseTarget: parseMa,
       maMove: true,
       role: PieceRole.ma),
   PieceInfo(
@@ -533,56 +529,56 @@ final classicPieceList = [
       y: 9,
       text: "车",
       player: 2,
-      parseTarget: parseJu,
+      // parseTarget: parseJu,
       role: PieceRole.ju),
   PieceInfo(
       x: 1,
       y: 7,
       text: "炮",
       player: 2,
-      parseTarget: parsePao,
+      // parseTarget: parsePao,
       role: PieceRole.pao),
   PieceInfo(
       x: 7,
       y: 7,
       text: "炮",
       player: 2,
-      parseTarget: parsePao,
+      // parseTarget: parsePao,
       role: PieceRole.pao),
   PieceInfo(
       x: 0,
       y: 6,
       text: "兵",
       player: 2,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
   PieceInfo(
       x: 2,
       y: 6,
       text: "兵",
       player: 2,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
   PieceInfo(
       x: 4,
       y: 6,
       text: "兵",
       player: 2,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
   PieceInfo(
       x: 6,
       y: 6,
       text: "兵",
       player: 2,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
   PieceInfo(
       x: 8,
       y: 6,
       text: "兵",
       player: 2,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
 ];
 
@@ -592,14 +588,14 @@ final testPieceList = [
       y: 0,
       text: "车",
       player: 1,
-      parseTarget: parseJu,
+      // parseTarget: parseJu,
       role: PieceRole.ju),
   PieceInfo(
       x: 1,
       y: 0,
       text: "马",
       player: 1,
-      parseTarget: parseMa,
+      // parseTarget: parseMa,
       maMove: true,
       role: PieceRole.ma),
   PieceInfo(
@@ -607,42 +603,42 @@ final testPieceList = [
       y: 0,
       text: "相",
       player: 1,
-      parseTarget: parseXiang,
+      // parseTarget: parseXiang,
       role: PieceRole.xiang),
   PieceInfo(
       x: 3,
       y: 0,
       text: "仕",
       player: 1,
-      parseTarget: parseShi,
+      // parseTarget: parseShi,
       role: PieceRole.shi),
   PieceInfo(
       x: 4,
       y: 0,
       text: "帅",
       player: 1,
-      parseTarget: parseShuai,
+      // parseTarget: parseShuai,
       role: PieceRole.jiang),
   PieceInfo(
       x: 5,
       y: 0,
       text: "仕",
       player: 1,
-      parseTarget: parseShi,
+      // parseTarget: parseShi,
       role: PieceRole.shi),
   PieceInfo(
       x: 6,
       y: 0,
       text: "相",
       player: 1,
-      parseTarget: parseXiang,
+      // parseTarget: parseXiang,
       role: PieceRole.xiang),
   PieceInfo(
       x: 7,
       y: 0,
       text: "马",
       player: 1,
-      parseTarget: parseMa,
+      // parseTarget: parseMa,
       maMove: true,
       role: PieceRole.ma),
   PieceInfo(
@@ -650,35 +646,35 @@ final testPieceList = [
       y: 0,
       text: "车",
       player: 1,
-      parseTarget: parseJu,
+      // parseTarget: parseJu,
       role: PieceRole.ju),
   PieceInfo(
       x: 1,
       y: 2,
       text: "炮",
       player: 1,
-      parseTarget: parsePao,
+      // parseTarget: parsePao,
       role: PieceRole.pao),
   PieceInfo(
       x: 7,
       y: 2,
       text: "炮",
       player: 1,
-      parseTarget: parsePao,
+      // parseTarget: parsePao,
       role: PieceRole.pao),
   PieceInfo(
       x: 0,
       y: 3,
       text: "兵",
       player: 1,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
   PieceInfo(
       x: 2,
       y: 3,
       text: "兵",
       player: 1,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
   // PieceInfo(
   //     x: 4,
@@ -692,14 +688,14 @@ final testPieceList = [
       y: 3,
       text: "兵",
       player: 1,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
   PieceInfo(
       x: 8,
       y: 3,
       text: "兵",
       player: 1,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
   //
   PieceInfo(
@@ -707,14 +703,14 @@ final testPieceList = [
       y: 9,
       text: "车",
       player: 2,
-      parseTarget: parseJu,
+      // parseTarget: parseJu,
       role: PieceRole.ju),
   PieceInfo(
       x: 1,
       y: 9,
       text: "马",
       player: 2,
-      parseTarget: parseMa,
+      // parseTarget: parseMa,
       maMove: true,
       role: PieceRole.ma),
   PieceInfo(
@@ -722,42 +718,42 @@ final testPieceList = [
       y: 9,
       text: "相",
       player: 2,
-      parseTarget: parseXiang,
+      // parseTarget: parseXiang,
       role: PieceRole.xiang),
   PieceInfo(
       x: 3,
       y: 9,
       text: "仕",
       player: 2,
-      parseTarget: parseShi,
+      // parseTarget: parseShi,
       role: PieceRole.shi),
   PieceInfo(
       x: 4,
       y: 9,
       text: "帅",
       player: 2,
-      parseTarget: parseShuai,
+      // parseTarget: parseShuai,
       role: PieceRole.jiang),
   PieceInfo(
       x: 5,
       y: 9,
       text: "仕",
       player: 2,
-      parseTarget: parseShi,
+      // parseTarget: parseShi,
       role: PieceRole.shi),
   PieceInfo(
       x: 6,
       y: 9,
       text: "相",
       player: 2,
-      parseTarget: parseXiang,
+      // parseTarget: parseXiang,
       role: PieceRole.xiang),
   PieceInfo(
       x: 7,
       y: 9,
       text: "马",
       player: 2,
-      parseTarget: parseMa,
+      // parseTarget: parseMa,
       maMove: true,
       role: PieceRole.ma),
   PieceInfo(
@@ -765,35 +761,35 @@ final testPieceList = [
       y: 9,
       text: "车",
       player: 2,
-      parseTarget: parseJu,
+      // parseTarget: parseJu,
       role: PieceRole.ju),
   PieceInfo(
       x: 1,
       y: 7,
       text: "炮",
       player: 2,
-      parseTarget: parsePao,
+      // parseTarget: parsePao,
       role: PieceRole.pao),
   PieceInfo(
       x: 4,
       y: 7,
       text: "炮",
       player: 2,
-      parseTarget: parsePao,
+      // parseTarget: parsePao,
       role: PieceRole.pao),
   PieceInfo(
       x: 0,
       y: 6,
       text: "兵",
       player: 2,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
   PieceInfo(
       x: 2,
       y: 6,
       text: "兵",
       player: 2,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
   // PieceInfo(
   //     x: 4,
@@ -807,13 +803,13 @@ final testPieceList = [
       y: 6,
       text: "兵",
       player: 2,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
   PieceInfo(
       x: 8,
       y: 6,
       text: "兵",
       player: 2,
-      parseTarget: parseZu,
+      // parseTarget: parseZu,
       role: PieceRole.zu),
 ];

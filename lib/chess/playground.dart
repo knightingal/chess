@@ -35,16 +35,18 @@ List<PosInfo> defaultTarget(
 }
 
 enum PieceRole {
-  none(parseTarget: defaultTarget),
-  jiang(parseTarget: parseShuai),
-  shi(parseTarget: parseShi),
-  xiang(parseTarget: parseXiang),
-  ma(parseTarget: parseMa),
-  ju(parseTarget: parseJu),
-  pao(parseTarget: parsePao),
-  zu(parseTarget: parseZu);
+  none(parseTarget: defaultTarget, name1: ""),
+  jiang(parseTarget: parseShuai, name1: "将"),
+  shi(parseTarget: parseShi, name1: "士"),
+  xiang(parseTarget: parseXiang, name1: "相"),
+  ma(parseTarget: parseMa, name1: "马"),
+  ju(parseTarget: parseJu, name1: "车"),
+  pao(parseTarget: parsePao, name1: "炮"),
+  zu(parseTarget: parseZu, name1: "卒");
 
-  const PieceRole({required this.parseTarget});
+  const PieceRole({required this.parseTarget, required this.name1});
+
+  final String name1;
 
   final List<PosInfo> Function(
       PieceInfo pieceInfo, ChessPlayGround chessPlayGround) parseTarget;

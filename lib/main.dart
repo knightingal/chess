@@ -128,7 +128,7 @@ class _ChessMainState extends State<ChessMain> with TickerProviderStateMixin {
         .map((e) => Piece(
               key: UniqueKey(),
               gridSize: grid,
-              text: e.text,
+              text: e.role.name1,
               x: e.x,
               y: e.y,
               diffX: e.diffX,

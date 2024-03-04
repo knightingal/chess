@@ -1,12 +1,28 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../chess/playground.dart';
 
-// const pieceBackground = Colors.brown;
-// const pieceBord = Colors.yellow;
-// const playgroundBackground = Colors.yellow;
-// const heightGridCount = 10;
-// const widthGridCount = 9;
+const heightGridCount = 14;
+const widthGridCount = 14;
+
+class DiscoverApp extends StatelessWidget {
+  const DiscoverApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+
+    var grid = min(height / heightGridCount, width / widthGridCount);
+    return MaterialApp(
+      title: "Discover",
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: DiscoverPlayGroundWidget(gridSize: grid),
+    );
+  }
+}
 
 class DiscoverPlayGroundWidget extends StatelessWidget {
   final double gridSize;
@@ -14,10 +30,19 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size(gridSize * widthGridCount, gridSize * heightGridCount),
-      painter: PlayGroundCustomPainter(gridSize: gridSize),
-    );
+    return Scaffold(
+        body: SizedBox(
+            width: gridSize * widthGridCount,
+            height: gridSize * heightGridCount,
+            child: Stack(
+              children: [
+                CustomPaint(
+                  size: Size(
+                      gridSize * widthGridCount, gridSize * heightGridCount),
+                  painter: PlayGroundCustomPainter(gridSize: gridSize),
+                ),
+              ],
+            )));
   }
 }
 
@@ -35,30 +60,13 @@ class PlayGroundCustomPainter extends CustomPainter {
       ..color = Colors.black
       ..strokeWidth = 2;
 
-    canvas.drawLine(calOffset(0, 0), calOffset(widthGridCount - 1, 0), paint);
-    canvas.drawLine(calOffset(0, heightGridCount - 1),
-        calOffset(widthGridCount - 1, heightGridCount - 1), paint);
-
-    canvas.drawLine(calOffset(0, 0), calOffset(0, heightGridCount - 1), paint);
-    canvas.drawLine(calOffset(widthGridCount - 1, 0),
-        calOffset(widthGridCount - 1, heightGridCount - 1), paint);
-
-    for (var i = 1; i < widthGridCount - 1; i++) {
-      canvas.drawLine(calOffset(i, 0), calOffset(i, 4), paint);
-      canvas.drawLine(
-          calOffset(i, 5), calOffset(i, heightGridCount - 1), paint);
-    }
-    for (var i = 1; i < heightGridCount - 1; i++) {
+    for (var i = 0; i < heightGridCount; i++) {
       canvas.drawLine(calOffset(0, i), calOffset(widthGridCount - 1, i), paint);
     }
-
-    canvas.drawLine(calOffset(3, 0), calOffset(5, 2), paint);
-    canvas.drawLine(calOffset(5, 0), calOffset(3, 2), paint);
-
-    canvas.drawLine(calOffset(3, heightGridCount - 1),
-        calOffset(5, heightGridCount - 3), paint);
-    canvas.drawLine(calOffset(5, heightGridCount - 1),
-        calOffset(3, heightGridCount - 3), paint);
+    for (var i = 0; i < widthGridCount; i++) {
+      canvas.drawLine(
+          calOffset(i, 0), calOffset(i, heightGridCount - 1), paint);
+    }
   }
 
   Offset calOffset(int x, int y) {

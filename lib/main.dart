@@ -5,27 +5,11 @@ import 'package:flutter/material.dart';
 import 'chess/piece.dart';
 import 'chess/playground.dart';
 import 'chess/target_cursor.dart';
-import 'discover_china/china_playground.dart';
+import 'discover_china/china_playground.dart'
+    hide heightGridCount, widthGridCount;
 
 void main() {
   runApp(const DiscoverApp());
-}
-
-class DiscoverApp extends StatelessWidget {
-  const DiscoverApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
-
-    var grid = min(height / heightGridCount, width / widthGridCount);
-    return MaterialApp(
-      title: "Discover",
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: DiscoverPlayGroundWidget(gridSize: grid),
-    );
-  }
 }
 
 class ChessApp extends StatelessWidget {

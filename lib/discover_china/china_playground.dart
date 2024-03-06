@@ -42,14 +42,39 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
                   painter: PlayGroundCustomPainter(gridSize: gridSize),
                 ),
                 Positioned(
-                    left: gridSize * 4,
+                    left: gridSize * 5,
                     top: gridSize * 5,
-                    width: gridSize * 2,
+                    width: gridSize,
                     height: gridSize,
                     child: Container(
                       color: Colors.amber,
-                      child: const Center(
-                        child: Text("北京"),
+                      child: Center(
+                        child: Text(
+                          overflow: TextOverflow.visible,
+                          textAlign: TextAlign.center,
+                          "北京",
+                          style: TextStyle(
+                            fontSize: gridSize / 3,
+                          ),
+                        ),
+                      ),
+                    )),
+                Positioned(
+                    left: gridSize * 4,
+                    top: gridSize * 5,
+                    width: gridSize,
+                    height: gridSize,
+                    child: Container(
+                      color: Colors.amber,
+                      child: Center(
+                        child: Text(
+                          "呼和浩特",
+                          overflow: TextOverflow.visible,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: gridSize / 3,
+                          ),
+                        ),
                       ),
                     )),
               ],

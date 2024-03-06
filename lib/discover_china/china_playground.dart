@@ -42,7 +42,7 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
                   painter: PlayGroundCustomPainter(gridSize: gridSize),
                 ),
                 Positioned(
-                    left: gridSize * 5,
+                    left: gridSize * 6,
                     top: gridSize * 5,
                     width: gridSize,
                     height: gridSize,
@@ -65,18 +65,19 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
                     width: gridSize,
                     height: gridSize,
                     child: Container(
-                      color: Colors.amber,
-                      child: Center(
-                        child: Text(
-                          "呼和浩特",
-                          overflow: TextOverflow.visible,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: gridSize / 3,
+                        color: Colors.amber,
+                        child: FittedBox(
+                          fit: BoxFit.none,
+                          child: Text(
+                            "呼和浩特",
+                            overflow: TextOverflow.visible,
+                            maxLines: 1,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: gridSize / 3,
+                            ),
                           ),
-                        ),
-                      ),
-                    )),
+                        ))),
               ],
             )));
   }

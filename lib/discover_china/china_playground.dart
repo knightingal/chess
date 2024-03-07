@@ -24,13 +24,13 @@ class DiscoverApp extends StatelessWidget {
   }
 }
 
-class CitiNameWidget extends StatelessWidget {
+class CityNameWidget extends StatelessWidget {
   final double gridSize;
   final int x;
   final int y;
   final String name;
 
-  const CitiNameWidget(
+  const CityNameWidget(
       {super.key,
       required this.gridSize,
       required this.x,
@@ -76,15 +76,15 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
                       gridSize * widthGridCount, gridSize * heightGridCount),
                   painter: PlayGroundCustomPainter(gridSize: gridSize),
                 ),
-                CitiNameWidget(gridSize: gridSize, x: 6, y: 5, name: "北京"),
-                CitiNameWidget(gridSize: gridSize, x: 5, y: 5, name: "天津"),
-                CitiNameWidget(gridSize: gridSize, x: 4, y: 7, name: "呼和浩特"),
-                CitiNameWidget(gridSize: gridSize, x: 3, y: 10, name: "西双版纳"),
-                CitiNameWidget(gridSize: gridSize, x: 4, y: 10, name: "昆明"),
-                CitiNameWidget(gridSize: gridSize, x: 10, y: 5, name: "南京"),
-                CitiNameWidget(gridSize: gridSize, x: 11, y: 6, name: "上海"),
-                CitiNameWidget(gridSize: gridSize, x: 11, y: 7, name: "杭州"),
-                CitiNameWidget(gridSize: gridSize, x: 12, y: 7, name: "台北"),
+                CityNameWidget(gridSize: gridSize, x: 6, y: 5, name: "北京"),
+                CityNameWidget(gridSize: gridSize, x: 5, y: 5, name: "天津"),
+                CityNameWidget(gridSize: gridSize, x: 4, y: 7, name: "呼和浩特"),
+                CityNameWidget(gridSize: gridSize, x: 3, y: 10, name: "西双版纳"),
+                CityNameWidget(gridSize: gridSize, x: 4, y: 10, name: "昆明"),
+                CityNameWidget(gridSize: gridSize, x: 10, y: 5, name: "南京"),
+                CityNameWidget(gridSize: gridSize, x: 11, y: 6, name: "上海"),
+                CityNameWidget(gridSize: gridSize, x: 11, y: 7, name: "杭州"),
+                CityNameWidget(gridSize: gridSize, x: 12, y: 7, name: "台北"),
               ],
             )));
   }

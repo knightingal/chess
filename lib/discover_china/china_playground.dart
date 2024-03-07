@@ -111,6 +111,7 @@ class PlayGroundCustomPainter extends CustomPainter {
       canvas.drawLine(
           calOffset(i, 0), calOffset(i, heightGridCount - 1), paint);
     }
+    canvas.drawLine(calOffset(6, 5), calOffset(11, 6), paint);
   }
 
   Offset calOffset(int x, int y) {

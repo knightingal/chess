@@ -24,6 +24,43 @@ class DiscoverApp extends StatelessWidget {
   }
 }
 
+class CitiNameWidget extends StatelessWidget {
+  final double gridSize;
+  final int x;
+  final int y;
+  final String name;
+
+  const CitiNameWidget(
+      {super.key,
+      required this.gridSize,
+      required this.x,
+      required this.y,
+      required this.name});
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+        left: gridSize * x,
+        top: gridSize * y,
+        width: gridSize,
+        height: gridSize,
+        child: Container(
+            color: Colors.amber,
+            child: FittedBox(
+              fit: BoxFit.none,
+              child: Text(
+                name,
+                overflow: TextOverflow.visible,
+                maxLines: 1,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: gridSize / 3,
+                ),
+              ),
+            )));
+  }
+}
+
 class DiscoverPlayGroundWidget extends StatelessWidget {
   final double gridSize;
   const DiscoverPlayGroundWidget({super.key, required this.gridSize});
@@ -41,43 +78,15 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
                       gridSize * widthGridCount, gridSize * heightGridCount),
                   painter: PlayGroundCustomPainter(gridSize: gridSize),
                 ),
-                Positioned(
-                    left: gridSize * 6,
-                    top: gridSize * 5,
-                    width: gridSize,
-                    height: gridSize,
-                    child: Container(
-                      color: Colors.amber,
-                      child: Center(
-                        child: Text(
-                          overflow: TextOverflow.visible,
-                          textAlign: TextAlign.center,
-                          "北京",
-                          style: TextStyle(
-                            fontSize: gridSize / 3,
-                          ),
-                        ),
-                      ),
-                    )),
-                Positioned(
-                    left: gridSize * 4,
-                    top: gridSize * 5,
-                    width: gridSize,
-                    height: gridSize,
-                    child: Container(
-                        color: Colors.amber,
-                        child: FittedBox(
-                          fit: BoxFit.none,
-                          child: Text(
-                            "呼和浩特",
-                            overflow: TextOverflow.visible,
-                            maxLines: 1,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: gridSize / 3,
-                            ),
-                          ),
-                        ))),
+                CitiNameWidget(gridSize: gridSize, x: 6, y: 5, name: "北京"),
+                CitiNameWidget(gridSize: gridSize, x: 5, y: 5, name: "天津"),
+                CitiNameWidget(gridSize: gridSize, x: 4, y: 7, name: "呼和浩特"),
+                CitiNameWidget(gridSize: gridSize, x: 3, y: 10, name: "西双版纳"),
+                CitiNameWidget(gridSize: gridSize, x: 4, y: 10, name: "昆明"),
+                CitiNameWidget(gridSize: gridSize, x: 10, y: 5, name: "南京"),
+                CitiNameWidget(gridSize: gridSize, x: 11, y: 6, name: "上海"),
+                CitiNameWidget(gridSize: gridSize, x: 11, y: 7, name: "杭州"),
+                CitiNameWidget(gridSize: gridSize, x: 12, y: 7, name: "台北"),
               ],
             )));
   }

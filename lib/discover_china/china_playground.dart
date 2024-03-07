@@ -38,27 +38,25 @@ class CitiNameWidget extends StatelessWidget {
       required this.name});
 
   @override
-  Widget build(BuildContext context) {
-    return Positioned(
-        left: gridSize * x,
-        top: gridSize * y,
-        width: gridSize,
-        height: gridSize,
-        child: Container(
-            color: Colors.amber,
-            child: FittedBox(
-              fit: BoxFit.none,
-              child: Text(
-                name,
-                overflow: TextOverflow.visible,
-                maxLines: 1,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: gridSize / 3,
-                ),
+  Widget build(BuildContext context) => Positioned(
+      left: gridSize * x,
+      top: gridSize * y,
+      width: gridSize,
+      height: gridSize,
+      child: Container(
+          color: Colors.amber,
+          child: FittedBox(
+            fit: BoxFit.none,
+            child: Text(
+              name,
+              overflow: TextOverflow.visible,
+              maxLines: 1,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: gridSize / 3,
               ),
-            )));
-  }
+            ),
+          )));
 }
 
 class DiscoverPlayGroundWidget extends StatelessWidget {

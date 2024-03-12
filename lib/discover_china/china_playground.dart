@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:chess/discover_china/city_info.dart';
 import 'package:flutter/material.dart';
 
 import '../chess/playground.dart';
@@ -13,6 +14,8 @@ class DiscoverApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    initCityList();
+
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
@@ -128,6 +131,17 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
   final double gridSize;
   const DiscoverPlayGroundWidget({super.key, required this.gridSize});
 
+  List<Widget> getCityWidgets() {
+    return cityList.values
+        .map((e) => CityNameWidget(
+            gridSize: gridSize,
+            x: e.x,
+            y: e.y,
+            name: e.cityName,
+            playerList: []))
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,63 +155,7 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
                       gridSize * widthGridCount, gridSize * heightGridCount),
                   painter: PlayGroundCustomPainter(gridSize: gridSize),
                 ),
-                CityNameWidget(
-                  gridSize: gridSize,
-                  x: 6,
-                  y: 4,
-                  name: "北京",
-                  playerList: [0, 2, 1, 3],
-                ),
-                CityNameWidget(
-                  gridSize: gridSize,
-                  x: 5,
-                  y: 5,
-                  name: "天津",
-                  playerList: [],
-                ),
-                CityNameWidget(
-                  gridSize: gridSize,
-                  x: 4,
-                  y: 7,
-                  name: "呼和浩特",
-                  playerList: [],
-                ),
-                CityNameWidget(
-                    gridSize: gridSize,
-                    x: 3,
-                    y: 10,
-                    name: "西双版纳",
-                    playerList: []),
-                CityNameWidget(
-                    gridSize: gridSize,
-                    x: 4,
-                    y: 10,
-                    name: "昆明",
-                    playerList: []),
-                CityNameWidget(
-                    gridSize: gridSize,
-                    x: 10,
-                    y: 5,
-                    name: "南京",
-                    playerList: []),
-                CityNameWidget(
-                    gridSize: gridSize,
-                    x: 11,
-                    y: 6,
-                    name: "上海",
-                    playerList: []),
-                CityNameWidget(
-                    gridSize: gridSize,
-                    x: 11,
-                    y: 7,
-                    name: "杭州",
-                    playerList: []),
-                CityNameWidget(
-                    gridSize: gridSize,
-                    x: 12,
-                    y: 7,
-                    name: "台北",
-                    playerList: []),
+                ...getCityWidgets()
               ],
             )));
   }

@@ -6,6 +6,7 @@ import '../chess/playground.dart';
 
 const heightGridCount = 14;
 const widthGridCount = 14;
+const consoleWidth = 12;
 
 class DiscoverApp extends StatelessWidget {
   const DiscoverApp({super.key});
@@ -15,7 +16,8 @@ class DiscoverApp extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
-    var grid = min(height / heightGridCount, width / widthGridCount);
+    var grid =
+        min(height / heightGridCount, width / (widthGridCount + consoleWidth));
     return MaterialApp(
       title: "Discover",
       theme: ThemeData(primarySwatch: Colors.blue),

@@ -201,6 +201,44 @@ class CityCardList extends StatelessWidget {
       width: gridSize * 10,
       height: gridSize * 6,
       color: Colors.blue,
+      child: Column(
+        children: [
+          Row(
+            children: [
+              SignleCity(gridSize: gridSize, color: Colors.red),
+              SignleCity(gridSize: gridSize, color: Colors.green),
+              SignleCity(gridSize: gridSize, color: Colors.blue),
+              SignleCity(gridSize: gridSize, color: Colors.purple),
+              SignleCity(gridSize: gridSize, color: Colors.yellow),
+            ],
+          ),
+          Row(
+            children: [
+              SignleCity(gridSize: gridSize, color: Colors.blue),
+              SignleCity(gridSize: gridSize, color: Colors.red),
+              SignleCity(gridSize: gridSize, color: Colors.yellow),
+              SignleCity(gridSize: gridSize, color: Colors.green),
+              SignleCity(gridSize: gridSize, color: Colors.purple),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class SignleCity extends StatelessWidget {
+  final double gridSize;
+  final Color color;
+
+  const SignleCity({super.key, required this.gridSize, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: gridSize * 2,
+      height: gridSize * 3,
+      color: color,
     );
   }
 }
@@ -216,6 +254,31 @@ class TicketList extends StatelessWidget {
       width: gridSize * 10,
       height: gridSize * 3,
       color: Colors.green,
+      child: Row(
+        children: [
+          SignleTicket(gridSize: gridSize, color: Colors.red),
+          SignleTicket(gridSize: gridSize, color: Colors.purple),
+          SignleTicket(gridSize: gridSize, color: Colors.blue),
+          SignleTicket(gridSize: gridSize, color: Colors.green),
+          SignleTicket(gridSize: gridSize, color: Colors.yellow),
+        ],
+      ),
+    );
+  }
+}
+
+class SignleTicket extends StatelessWidget {
+  final double gridSize;
+  final Color color;
+
+  const SignleTicket({super.key, required this.gridSize, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: gridSize * 2,
+      height: gridSize * 3,
+      color: color,
     );
   }
 }

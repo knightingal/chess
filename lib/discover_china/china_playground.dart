@@ -205,20 +205,25 @@ class CityCardList extends StatelessWidget {
         children: [
           Row(
             children: [
-              SignleCity(gridSize: gridSize, color: Colors.red),
-              SignleCity(gridSize: gridSize, color: Colors.green),
-              SignleCity(gridSize: gridSize, color: Colors.blue),
-              SignleCity(gridSize: gridSize, color: Colors.purple),
-              SignleCity(gridSize: gridSize, color: Colors.yellow),
+              CityCard(gridSize: gridSize, color: Colors.red, cityName: "北京"),
+              CityCard(gridSize: gridSize, color: Colors.green, cityName: "上海"),
+              CityCard(gridSize: gridSize, color: Colors.blue, cityName: "南京"),
+              CityCard(
+                  gridSize: gridSize, color: Colors.purple, cityName: "杭州"),
+              CityCard(
+                  gridSize: gridSize, color: Colors.yellow, cityName: "台北"),
             ],
           ),
           Row(
             children: [
-              SignleCity(gridSize: gridSize, color: Colors.blue),
-              SignleCity(gridSize: gridSize, color: Colors.red),
-              SignleCity(gridSize: gridSize, color: Colors.yellow),
-              SignleCity(gridSize: gridSize, color: Colors.green),
-              SignleCity(gridSize: gridSize, color: Colors.purple),
+              CityCard(gridSize: gridSize, color: Colors.blue, cityName: "郑州"),
+              CityCard(gridSize: gridSize, color: Colors.red, cityName: "乌鲁木齐"),
+              CityCard(
+                  gridSize: gridSize, color: Colors.yellow, cityName: "天津"),
+              CityCard(
+                  gridSize: gridSize, color: Colors.green, cityName: "西双版纳"),
+              CityCard(
+                  gridSize: gridSize, color: Colors.purple, cityName: "兰州"),
             ],
           )
         ],
@@ -227,11 +232,17 @@ class CityCardList extends StatelessWidget {
   }
 }
 
-class SignleCity extends StatelessWidget {
+class CityCard extends StatelessWidget {
   final double gridSize;
   final Color color;
+  final String cityName;
 
-  const SignleCity({super.key, required this.gridSize, required this.color});
+  const CityCard({
+    super.key,
+    required this.gridSize,
+    required this.color,
+    required this.cityName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -239,6 +250,9 @@ class SignleCity extends StatelessWidget {
       width: gridSize * 2,
       height: gridSize * 3,
       color: color,
+      child: Center(
+        child: Text(cityName),
+      ),
     );
   }
 }

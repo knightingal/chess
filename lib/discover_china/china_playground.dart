@@ -2,12 +2,13 @@ import 'dart:math';
 
 import 'package:chess/discover_china/city_info.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../chess/playground.dart';
 
 const heightGridCount = 14;
 const widthGridCount = 14;
-const consoleWidth = 12;
+const consoleWidth = 10;
 
 class DiscoverApp extends StatelessWidget {
   const DiscoverApp({super.key});
@@ -145,7 +146,9 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SizedBox(
+        body: Row(
+      children: [
+        SizedBox(
             width: gridSize * widthGridCount,
             height: gridSize * heightGridCount,
             child: Stack(
@@ -157,7 +160,99 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
                 ),
                 ...getCityWidgets()
               ],
-            )));
+            )),
+        PlayConsolePad(gridSize: gridSize),
+      ],
+    ));
+  }
+}
+
+class PlayConsolePad extends StatelessWidget {
+  final double gridSize;
+
+  const PlayConsolePad({super.key, required this.gridSize});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: gridSize * consoleWidth,
+      height: gridSize * heightGridCount,
+      color: Colors.blueGrey,
+      child: Column(
+        children: [
+          CityCardList(gridSize: gridSize),
+          TicketList(gridSize: gridSize),
+          DiceWidget(gridSize: gridSize)
+          // city list
+        ],
+      ),
+    );
+  }
+}
+
+class CityCardList extends StatelessWidget {
+  final double gridSize;
+
+  const CityCardList({super.key, required this.gridSize});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: gridSize * 10,
+      height: gridSize * 6,
+      color: Colors.blue,
+    );
+  }
+}
+
+class TicketList extends StatelessWidget {
+  final double gridSize;
+
+  const TicketList({super.key, required this.gridSize});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: gridSize * 10,
+      height: gridSize * 3,
+      color: Colors.green,
+    );
+  }
+}
+
+class DiceWidget extends StatelessWidget {
+  final double gridSize;
+
+  const DiceWidget({super.key, required this.gridSize});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: gridSize * 10,
+      height: gridSize * 5,
+      color: Colors.lightBlue,
+      child: Row(
+        children: [
+          SingleDice(gridSize: gridSize, color: Colors.red),
+          SingleDice(gridSize: gridSize, color: Colors.yellow),
+        ],
+      ),
+    );
+  }
+}
+
+class SingleDice extends StatelessWidget {
+  final double gridSize;
+  final Color color;
+
+  const SingleDice({super.key, required this.gridSize, required this.color});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: gridSize * 5,
+      height: gridSize * 5,
+      color: color,
+    );
   }
 }
 

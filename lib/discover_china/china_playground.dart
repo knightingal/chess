@@ -347,15 +347,15 @@ class PlayGroundCustomPainter extends CustomPainter {
       ..color = Colors.black
       ..strokeWidth = 2;
 
-    for (var i = 0; i < heightGridCount; i++) {
-      canvas.drawLine(calOffset(0, i), calOffset(widthGridCount - 1, i), paint);
-    }
-    for (var i = 0; i < widthGridCount; i++) {
-      canvas.drawLine(
-          calOffset(i, 0), calOffset(i, heightGridCount - 1), paint);
-    }
-    canvas.drawLine(calOffset(6, 4), calOffset(11, 6), paint);
-    canvas.drawLine(calOffset(10, 5), calOffset(11, 6), paint);
+    // for (var i = 0; i < heightGridCount; i++) {
+    //   canvas.drawLine(calOffset(0, i), calOffset(widthGridCount - 1, i), paint);
+    // }
+    // for (var i = 0; i < widthGridCount; i++) {
+    //   canvas.drawLine(
+    //       calOffset(i, 0), calOffset(i, heightGridCount - 1), paint);
+    // }
+    // canvas.drawLine(calOffset(6, 4), calOffset(11, 6), paint);
+    // canvas.drawLine(calOffset(10, 5), calOffset(11, 6), paint);
   }
 
   Offset calOffset(int x, int y) {

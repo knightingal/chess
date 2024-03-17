@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:chess/discover_china/city_info.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../chess/playground.dart';
 
@@ -16,6 +15,7 @@ class DiscoverApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     initCityList();
+    initLineList();
 
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
@@ -340,12 +340,21 @@ class PlayGroundCustomPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var rect = Offset.zero & size;
-    canvas.drawRect(rect, Paint()..color = playgroundBackground);
+    // var rect = Offset.zero & size;
+    // canvas.drawRect(rect, Paint()..color = playgroundBackground);
 
-    Paint paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 2;
+    for (var element in lineList) {
+      var city1 = cityList[element.cityName1];
+      var city2 = cityList[element.cityName2];
+      if (city1 != null && city2 != null) {
+        canvas.drawLine(
+            calOffset(city1.x, city1.y),
+            calOffset(city2.x, city2.y),
+            Paint()
+              ..color = element.color
+              ..strokeWidth = 4);
+      }
+    }
 
     // for (var i = 0; i < heightGridCount; i++) {
     //   canvas.drawLine(calOffset(0, i), calOffset(widthGridCount - 1, i), paint);

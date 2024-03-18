@@ -166,9 +166,9 @@ void initLineList() {
 }
 
 void initCityList() {
-  cityList["呼伦贝尔"] = CityInfo(cityName: "呼伦贝尔", x: 10, y: 0);
-  cityList["佳木斯"] = CityInfo(cityName: "佳木斯", x: 12, y: 0);
-  cityList["哈尔滨"] = CityInfo(cityName: "哈尔滨", x: 11, y: 1);
+  cityList["呼伦贝尔"] = CityInfo(cityName: "呼伦贝尔", x: 11, y: 0);
+  cityList["佳木斯"] = CityInfo(cityName: "佳木斯", x: 13, y: 0);
+  cityList["哈尔滨"] = CityInfo(cityName: "哈尔滨", x: 12, y: 1);
   cityList["长春"] = CityInfo(cityName: "长春", x: 11, y: 2);
   cityList["乌鲁木齐"] = CityInfo(cityName: "乌鲁木齐", x: 1, y: 2);
 
@@ -187,7 +187,7 @@ void initCityList() {
   cityList["可可西里"] = CityInfo(cityName: "可可西里", x: 3, y: 5);
   cityList["阿里地区"] = CityInfo(cityName: "阿里地区", x: 0, y: 5);
 
-  cityList["青岛"] = CityInfo(cityName: "青岛", x: 11, y: 6);
+  cityList["青岛"] = CityInfo(cityName: "青岛", x: 12, y: 6);
   cityList["济南"] = CityInfo(cityName: "济南", x: 11, y: 6);
   cityList["郑州"] = CityInfo(cityName: "郑州", x: 10, y: 6);
   cityList["洛阳"] = CityInfo(cityName: "洛阳", x: 9, y: 6);
@@ -198,23 +198,23 @@ void initCityList() {
   cityList["南京"] = CityInfo(cityName: "南京", x: 11, y: 7);
   cityList["合肥"] = CityInfo(cityName: "合肥", x: 10, y: 7);
 
-  cityList["杭州"] = CityInfo(cityName: "杭州", x: 11, y: 8);
+  cityList["杭州"] = CityInfo(cityName: "杭州", x: 12, y: 8);
   cityList["武汉"] = CityInfo(cityName: "武汉", x: 9, y: 8);
   cityList["张家界"] = CityInfo(cityName: "张家界", x: 8, y: 8);
   cityList["重庆"] = CityInfo(cityName: "重庆", x: 7, y: 8);
   cityList["成都"] = CityInfo(cityName: "成都", x: 6, y: 8);
   cityList["拉萨"] = CityInfo(cityName: "拉萨", x: 2, y: 8);
 
-  cityList["福州"] = CityInfo(cityName: "福州", x: 11, y: 9);
+  cityList["福州"] = CityInfo(cityName: "福州", x: 12, y: 9);
   cityList["南昌"] = CityInfo(cityName: "南昌", x: 10, y: 8);
   cityList["长沙"] = CityInfo(cityName: "长沙", x: 9, y: 9);
   cityList["贵阳"] = CityInfo(cityName: "贵阳", x: 7, y: 9);
   cityList["丽江"] = CityInfo(cityName: "丽江", x: 4, y: 9);
 
-  cityList["台北"] = CityInfo(cityName: "台北", x: 12, y: 10);
-  cityList["厦门"] = CityInfo(cityName: "厦门", x: 10, y: 10);
+  cityList["台北"] = CityInfo(cityName: "台北", x: 13, y: 10);
+  cityList["厦门"] = CityInfo(cityName: "厦门", x: 11, y: 10);
   cityList["桂林"] = CityInfo(cityName: "桂林", x: 8, y: 10);
-  cityList["昆明"] = CityInfo(cityName: "昆明", x: 8, y: 10);
+  cityList["昆明"] = CityInfo(cityName: "昆明", x: 6, y: 9);
 
   cityList["高雄"] = CityInfo(cityName: "高雄", x: 12, y: 11);
   cityList["广州"] = CityInfo(cityName: "广州", x: 9, y: 11);

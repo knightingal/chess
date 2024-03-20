@@ -177,10 +177,10 @@ void initCityList() {
   cityList["呼和浩特"] = CityInfo(cityName: "呼和浩特", x: 8, y: 3);
   cityList["敦煌"] = CityInfo(cityName: "敦煌", x: 3, y: 3);
 
-  cityList["天津"] = CityInfo(cityName: "天津", x: 10, y: 5);
+  cityList["天津"] = CityInfo(cityName: "天津", x: 11, y: 5);
   cityList["石家庄"] = CityInfo(cityName: "石家庄", x: 9, y: 5);
   cityList["太原"] = CityInfo(cityName: "太原", x: 8, y: 5);
-  cityList["大连"] = CityInfo(cityName: "大连", x: 11, y: 5);
+  cityList["大连"] = CityInfo(cityName: "大连", x: 12, y: 5);
   cityList["银川"] = CityInfo(cityName: "银川", x: 7, y: 5);
   cityList["兰州"] = CityInfo(cityName: "兰州", x: 6, y: 6);
   cityList["西宁"] = CityInfo(cityName: "西宁", x: 5, y: 5);

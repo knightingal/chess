@@ -3,8 +3,6 @@ import 'dart:math';
 import 'package:chess/discover_china/city_info.dart';
 import 'package:flutter/material.dart';
 
-import '../chess/playground.dart';
-
 const heightGridCount = 14;
 const widthGridCount = 14;
 const consoleWidth = 10;

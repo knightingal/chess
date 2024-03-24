@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:chess/discover_china/city_info.dart';
+import 'package:chess/discover_china/game_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'dice.dart';
 
@@ -182,7 +184,10 @@ class PlayConsolePad extends StatelessWidget {
         children: [
           CityCardList(gridSize: gridSize),
           TicketList(gridSize: gridSize),
-          DiceWidget(gridSize: gridSize)
+          ChangeNotifierProvider(
+            create: (context) => GameModel(),
+            child: DiceWidget(gridSize: gridSize),
+          )
           // city list
         ],
       ),

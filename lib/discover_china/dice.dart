@@ -1,7 +1,9 @@
 import 'dart:developer' as dev;
 import 'dart:math';
 
+import 'package:chess/discover_china/game_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DiceWidget extends StatefulWidget {
   final double gridSize;
@@ -35,12 +37,19 @@ class DiceState extends State<DiceWidget> {
           dice2 = Random().nextInt(6);
 
           dev.log("dice taped $dice1 $dice2");
-          setState(() {});
+          Provider.of<GameModel>(context, listen: false).setDice(dice1, dice2);
+          // setState(() {});
         },
         child: Row(
           children: [
-            SingleDice(gridSize: widget.gridSize, color: diceColors[dice1]),
-            SingleDice(gridSize: widget.gridSize, color: diceColors[dice2]),
+            Consumer<GameModel>(builder: (context, game, child) {
+              return SingleDice(
+                  gridSize: widget.gridSize, color: diceColors[game.dice1]);
+            }),
+            Consumer<GameModel>(builder: (context, game, child) {
+              return SingleDice(
+                  gridSize: widget.gridSize, color: diceColors[game.dice2]);
+            }),
           ],
         ),
       ),

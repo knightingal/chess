@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class CityInfo {
@@ -27,6 +29,7 @@ class LineInfo {
 Map<String, CityInfo> cityList = {};
 List<LineInfo> lineList = [];
 List<CityCardInfo> cityCardList = [];
+List<CityCardInfo> playerCityCard = [];
 
 void initCityCardInfoList() {
   cityCardList.add(CityCardInfo(cityName: "天津", ticket: 1));
@@ -34,7 +37,68 @@ void initCityCardInfoList() {
   cityCardList.add(CityCardInfo(cityName: "太原", ticket: 1));
   cityCardList.add(CityCardInfo(cityName: "沈阳", ticket: 1));
   cityCardList.add(CityCardInfo(cityName: "呼和浩特", ticket: 1));
-  cityCardList.add(CityCardInfo(cityName: "大连", ticket: 1));
+
+  cityCardList.add(CityCardInfo(cityName: "card10", ticket: 1));
+  cityCardList.add(CityCardInfo(cityName: "card11", ticket: 1));
+  cityCardList.add(CityCardInfo(cityName: "card12", ticket: 1));
+  cityCardList.add(CityCardInfo(cityName: "card13", ticket: 1));
+  cityCardList.add(CityCardInfo(cityName: "card14", ticket: 1));
+  cityCardList.add(CityCardInfo(cityName: "card15", ticket: 1));
+  cityCardList.add(CityCardInfo(cityName: "card16", ticket: 1));
+  cityCardList.add(CityCardInfo(cityName: "card17", ticket: 1));
+  cityCardList.add(CityCardInfo(cityName: "card18", ticket: 1));
+  cityCardList.add(CityCardInfo(cityName: "card19", ticket: 1));
+
+  cityCardList.add(CityCardInfo(cityName: "card20", ticket: 2));
+  cityCardList.add(CityCardInfo(cityName: "card21", ticket: 2));
+  cityCardList.add(CityCardInfo(cityName: "card22", ticket: 2));
+  cityCardList.add(CityCardInfo(cityName: "card23", ticket: 2));
+  cityCardList.add(CityCardInfo(cityName: "card24", ticket: 2));
+  cityCardList.add(CityCardInfo(cityName: "card25", ticket: 2));
+  cityCardList.add(CityCardInfo(cityName: "card26", ticket: 2));
+  cityCardList.add(CityCardInfo(cityName: "card27", ticket: 2));
+  cityCardList.add(CityCardInfo(cityName: "card28", ticket: 2));
+  cityCardList.add(CityCardInfo(cityName: "card29", ticket: 2));
+
+  cityCardList.add(CityCardInfo(cityName: "card30", ticket: 3));
+  cityCardList.add(CityCardInfo(cityName: "card31", ticket: 3));
+  cityCardList.add(CityCardInfo(cityName: "card32", ticket: 3));
+  cityCardList.add(CityCardInfo(cityName: "card33", ticket: 3));
+  cityCardList.add(CityCardInfo(cityName: "card34", ticket: 3));
+  cityCardList.add(CityCardInfo(cityName: "card35", ticket: 3));
+  cityCardList.add(CityCardInfo(cityName: "card36", ticket: 3));
+  cityCardList.add(CityCardInfo(cityName: "card37", ticket: 3));
+  cityCardList.add(CityCardInfo(cityName: "card38", ticket: 3));
+  cityCardList.add(CityCardInfo(cityName: "card39", ticket: 3));
+
+  cityCardList.add(CityCardInfo(cityName: "card40", ticket: 4));
+  cityCardList.add(CityCardInfo(cityName: "card41", ticket: 4));
+  cityCardList.add(CityCardInfo(cityName: "card42", ticket: 4));
+  cityCardList.add(CityCardInfo(cityName: "card43", ticket: 4));
+  cityCardList.add(CityCardInfo(cityName: "card44", ticket: 4));
+  cityCardList.add(CityCardInfo(cityName: "card45", ticket: 4));
+  cityCardList.add(CityCardInfo(cityName: "card46", ticket: 4));
+  cityCardList.add(CityCardInfo(cityName: "card47", ticket: 4));
+  cityCardList.add(CityCardInfo(cityName: "card48", ticket: 4));
+  cityCardList.add(CityCardInfo(cityName: "card49", ticket: 4));
+}
+
+void initPlayerCityCards() {
+  int currentTicket = 0;
+  for (;;) {
+    int totalCount = cityCardList.length;
+    int index = Random().nextInt(totalCount);
+    var cityCard = cityCardList[index];
+    if (currentTicket + cityCard.ticket > 10) {
+      continue;
+    }
+    cityCardList.remove(cityCard);
+    playerCityCard.add(cityCard);
+    currentTicket = currentTicket + cityCard.ticket;
+    if (currentTicket == 10) {
+      break;
+    }
+  }
 }
 
 void initLineList() {

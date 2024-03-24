@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class CityInfo {
@@ -8,6 +6,13 @@ class CityInfo {
   final int y;
 
   CityInfo({required this.cityName, required this.x, required this.y});
+}
+
+class CityCardInfo {
+  final String cityName;
+  final int ticket;
+
+  CityCardInfo({required this.cityName, required this.ticket});
 }
 
 class LineInfo {
@@ -21,6 +26,16 @@ class LineInfo {
 
 Map<String, CityInfo> cityList = {};
 List<LineInfo> lineList = [];
+List<CityCardInfo> cityCardList = [];
+
+void initCityCardInfoList() {
+  cityCardList.add(CityCardInfo(cityName: "天津", ticket: 1));
+  cityCardList.add(CityCardInfo(cityName: "石家庄", ticket: 1));
+  cityCardList.add(CityCardInfo(cityName: "太原", ticket: 1));
+  cityCardList.add(CityCardInfo(cityName: "沈阳", ticket: 1));
+  cityCardList.add(CityCardInfo(cityName: "呼和浩特", ticket: 1));
+  cityCardList.add(CityCardInfo(cityName: "大连", ticket: 1));
+}
 
 void initLineList() {
   lineList

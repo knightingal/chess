@@ -203,10 +203,10 @@ class CityCardList extends StatelessWidget {
   const CityCardList({super.key, required this.gridSize});
 
   static const List<Color> ticketColor = [
-    Colors.green,
     Colors.blue,
-    Colors.orange,
-    Colors.red
+    Colors.green,
+    Colors.brown,
+    Colors.purple
   ];
 
   @override

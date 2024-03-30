@@ -60,10 +60,10 @@ class DiceState extends State<DiceWidget> {
 
 List<Color> diceColors = [
   Colors.red,
+  Colors.purple,
   Colors.blue,
   Colors.green,
   Colors.orange,
-  Colors.purple,
   Colors.white
 ];
 

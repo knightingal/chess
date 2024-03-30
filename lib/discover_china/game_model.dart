@@ -1,8 +1,9 @@
+import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'dart:developer' as dev;
+import 'city_info.dart';
 
 class GameModel extends ChangeNotifier {
   int dice1 = Random().nextInt(6);
@@ -14,4 +15,19 @@ class GameModel extends ChangeNotifier {
     this.dice2 = dice2;
     notifyListeners();
   }
+}
+
+class PlayerData {
+  final int playerId;
+  String currCity = "北京";
+
+  List<CityCardInfo> cityCardList = [];
+
+  int ticketCountRed = 0;
+  int ticketCountPurple = 0;
+  int ticketCountBlue = 0;
+  int ticketCountGreen = 0;
+  int ticketCountYellow = 0;
+
+  PlayerData({required this.playerId});
 }

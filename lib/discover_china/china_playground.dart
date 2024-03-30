@@ -202,20 +202,31 @@ class CityCardList extends StatelessWidget {
 
   const CityCardList({super.key, required this.gridSize});
 
+  static const List<Color> ticketColor = [
+    Colors.green,
+    Colors.blue,
+    Colors.orange,
+    Colors.red
+  ];
+
   @override
   Widget build(BuildContext context) {
     int row1Max = min(5, playerCityCard.length);
 
     List<CityCard> row1 = playerCityCard.sublist(0, row1Max).map((e) {
       return CityCard(
-          gridSize: gridSize, color: Colors.red, cityName: e.cityName);
+          gridSize: gridSize,
+          color: ticketColor[e.ticket - 1],
+          cityName: e.cityName);
     }).toList();
 
     List<CityCard> row2 = [];
     if (playerCityCard.length > 5) {
       row2 = playerCityCard.sublist(5, playerCityCard.length).map((e) {
         return CityCard(
-            gridSize: gridSize, color: Colors.red, cityName: e.cityName);
+            gridSize: gridSize,
+            color: ticketColor[e.ticket - 1],
+            cityName: e.cityName);
       }).toList();
     }
 

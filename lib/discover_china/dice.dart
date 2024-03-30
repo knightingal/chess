@@ -37,6 +37,7 @@ class DiceState extends State<DiceWidget> {
           dice2 = Random().nextInt(6);
 
           dev.log("dice taped $dice1 $dice2");
+          Provider.of<GameModel>(context, listen: false).storeTicket();
           Provider.of<GameModel>(context, listen: false).setDice(dice1, dice2);
           // setState(() {});
         },

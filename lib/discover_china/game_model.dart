@@ -25,6 +25,18 @@ class GameModel extends ChangeNotifier {
     this.dice2 = dice2;
     notifyListeners();
   }
+
+  void storeTicket() {
+    if (dice1 < 5) {
+      playerDataList[0].ticketCount[dice1] =
+          playerDataList[0].ticketCount[dice1] + 1;
+    }
+    if (dice2 < 5) {
+      playerDataList[0].ticketCount[dice2] =
+          playerDataList[0].ticketCount[dice2] + 1;
+    }
+    notifyListeners();
+  }
 }
 
 class PlayerData {
@@ -33,11 +45,7 @@ class PlayerData {
 
   List<CityCardInfo> cityCardList = [];
 
-  int ticketCountRed = 0;
-  int ticketCountPurple = 0;
-  int ticketCountBlue = 0;
-  int ticketCountGreen = 0;
-  int ticketCountYellow = 0;
+  List<int> ticketCount = [0, 0, 0, 0, 0];
 
   PlayerData({required this.playerId});
 }

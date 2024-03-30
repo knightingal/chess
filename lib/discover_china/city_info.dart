@@ -29,7 +29,6 @@ class LineInfo {
 Map<String, CityInfo> cityList = {};
 List<LineInfo> lineList = [];
 List<CityCardInfo> cityCardList = [];
-List<CityCardInfo> playerCityCard = [];
 
 void initCityCardInfoList() {
   cityCardList.add(CityCardInfo(cityName: "大连", ticket: 1));
@@ -85,7 +84,8 @@ void initCityCardInfoList() {
   cityCardList.add(CityCardInfo(cityName: "佳木斯", ticket: 4));
 }
 
-void initPlayerCityCards() {
+List<CityCardInfo> getPlayerCityCards() {
+  List<CityCardInfo> playerCityCard = [];
   int currentTicket = 0;
   for (;;) {
     int totalCount = cityCardList.length;
@@ -101,6 +101,7 @@ void initPlayerCityCards() {
       break;
     }
   }
+  return playerCityCard;
 }
 
 void initLineList() {

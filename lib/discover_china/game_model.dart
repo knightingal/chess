@@ -9,6 +9,16 @@ class GameModel extends ChangeNotifier {
   int dice1 = Random().nextInt(6);
   int dice2 = Random().nextInt(6);
 
+  List<PlayerData> playerDataList = [];
+
+  GameModel(int playerCount) {
+    for (int i = 0; i < playerCount; i++) {
+      PlayerData playerData = PlayerData(playerId: i);
+      playerData.cityCardList = getPlayerCityCards();
+      playerDataList.add(playerData);
+    }
+  }
+
   void setDice(int dice1, int dice2) {
     dev.log("setDice $dice1 $dice2");
     this.dice1 = dice1;

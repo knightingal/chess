@@ -19,7 +19,6 @@ class DiscoverApp extends StatelessWidget {
     initCityList();
     initLineList();
     initCityCardInfoList();
-    initPlayerCityCards();
 
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
@@ -182,25 +181,38 @@ class PlayConsolePad extends StatelessWidget {
       width: gridSize * consoleWidth,
       height: gridSize * heightGridCount,
       color: Colors.blueGrey,
-      child: Column(
-        children: [
-          CityCardList(gridSize: gridSize),
-          TicketList(gridSize: gridSize),
-          ChangeNotifierProvider(
-            create: (context) => GameModel(),
-            child: DiceWidget(gridSize: gridSize),
-          )
-          // city list
-        ],
+      child: ChangeNotifierProvider(
+        create: (context) => GameModel(2),
+        child: Column(
+          children: [
+            CityCardList(gridSize: gridSize),
+            TicketList(gridSize: gridSize),
+            DiceWidget(gridSize: gridSize),
+
+            // city list
+          ],
+        ),
       ),
     );
   }
 }
 
-class CityCardList extends StatelessWidget {
+class CityCardList extends StatefulWidget {
   final double gridSize;
 
   const CityCardList({super.key, required this.gridSize});
+
+  @override
+  State<StatefulWidget> createState() {
+    return CityCardState();
+  }
+}
+
+class CityCardState extends State<CityCardList> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   static const List<Color> ticketColor = [
     Colors.blue,
@@ -211,57 +223,44 @@ class CityCardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int row1Max = min(5, playerCityCard.length);
-
-    List<CityCard> row1 = playerCityCard.sublist(0, row1Max).map((e) {
-      return CityCard(
-          gridSize: gridSize,
-          color: ticketColor[e.ticket - 1],
-          cityName: e.cityName);
-    }).toList();
-
-    List<CityCard> row2 = [];
-    if (playerCityCard.length > 5) {
-      row2 = playerCityCard.sublist(5, playerCityCard.length).map((e) {
-        return CityCard(
-            gridSize: gridSize,
-            color: ticketColor[e.ticket - 1],
-            cityName: e.cityName);
-      }).toList();
-    }
-
+    var gridSize = widget.gridSize;
     return Container(
       width: gridSize * 10,
       height: gridSize * 6,
-      color: Colors.blue,
-      child: Column(
-        children: [
-          Row(
+      color: Colors.grey,
+      child: Consumer<GameModel>(
+        builder: (context, game, child) {
+          var playerCityCard = game.playerDataList[0].cityCardList;
+          int row1Max = min(5, playerCityCard.length);
+
+          List<CityCard> row1 = playerCityCard.sublist(0, row1Max).map((e) {
+            return CityCard(
+                gridSize: gridSize,
+                color: ticketColor[e.ticket - 1],
+                cityName: e.cityName);
+          }).toList();
+
+          List<CityCard> row2 = [];
+          if (playerCityCard.length > 5) {
+            row2 = playerCityCard.sublist(5, playerCityCard.length).map((e) {
+              return CityCard(
+                  gridSize: gridSize,
+                  color: ticketColor[e.ticket - 1],
+                  cityName: e.cityName);
+            }).toList();
+          }
+
+          return Column(
             children: [
-              // CityCard(gridSize: gridSize, color: Colors.red, cityName: "北京"),
-              // CityCard(gridSize: gridSize, color: Colors.green, cityName: "上海"),
-              // CityCard(gridSize: gridSize, color: Colors.blue, cityName: "南京"),
-              // CityCard(
-              //     gridSize: gridSize, color: Colors.purple, cityName: "杭州"),
-              // CityCard(
-              //     gridSize: gridSize, color: Colors.yellow, cityName: "台北"),
-              ...row1
+              Row(
+                children: [...row1],
+              ),
+              Row(
+                children: [...row2],
+              )
             ],
-          ),
-          Row(
-            children: [
-              ...row2
-              // CityCard(gridSize: gridSize, color: Colors.blue, cityName: "郑州"),
-              // CityCard(gridSize: gridSize, color: Colors.red, cityName: "乌鲁木齐"),
-              // CityCard(
-              //     gridSize: gridSize, color: Colors.yellow, cityName: "天津"),
-              // CityCard(
-              //     gridSize: gridSize, color: Colors.green, cityName: "西双版纳"),
-              // CityCard(
-              //     gridSize: gridSize, color: Colors.purple, cityName: "兰州"),
-            ],
-          )
-        ],
+          );
+        },
       ),
     );
   }

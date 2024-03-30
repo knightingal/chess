@@ -170,6 +170,8 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
   }
 }
 
+GameModel gameModel = GameModel(2);
+
 class PlayConsolePad extends StatelessWidget {
   final double gridSize;
 
@@ -182,7 +184,7 @@ class PlayConsolePad extends StatelessWidget {
       height: gridSize * heightGridCount,
       color: Colors.blueGrey,
       child: ChangeNotifierProvider(
-        create: (context) => GameModel(2),
+        create: (context) => gameModel,
         child: Column(
           children: [
             CityCardList(gridSize: gridSize),

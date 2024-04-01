@@ -48,7 +48,7 @@ class CityNameWidget extends StatelessWidget {
       required this.name,
       required this.playerList});
 
-  List<Widget> getPlayerWidgetList() {
+  List<Widget> getPlayerWidgetList(List<int> playerList) {
     List<Widget> playerWidgetList = [];
     if (playerList.contains(0)) {
       playerWidgetList.add(
@@ -104,31 +104,39 @@ class CityNameWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Positioned(
-      left: gridSize * x,
-      top: gridSize * y,
-      width: gridSize,
-      height: gridSize,
-      child: Stack(
-        children: [
-          ...getPlayerWidgetList(),
-          SizedBox(
-              width: gridSize,
-              height: gridSize,
-              // color: Colors.amber,
-              child: FittedBox(
-                fit: BoxFit.none,
-                child: Text(
-                  name,
-                  overflow: TextOverflow.visible,
-                  maxLines: 1,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: gridSize / 3,
-                  ),
-                ),
-              ))
-        ],
-      ));
+        left: gridSize * x,
+        top: gridSize * y,
+        width: gridSize,
+        height: gridSize,
+        child: Consumer<GameModel>(builder: (context, game, child) {
+          List<PlayerData> playerList = game.playerDataList;
+          var playerIdList = playerList
+              .where((element) => element.currCity == name)
+              .map((e) => e.playerId)
+              .toList();
+          return Stack(
+            children: [
+              ...getPlayerWidgetList(playerIdList),
+              SizedBox(
+                  width: gridSize,
+                  height: gridSize,
+                  // color: Colors.amber,
+                  child: FittedBox(
+                    fit: BoxFit.none,
+                    child: Text(
+                      name,
+                      overflow: TextOverflow.visible,
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: gridSize / 3,
+                      ),
+                    ),
+                  ))
+            ],
+          );
+        }),
+      );
 }
 
 class DiscoverPlayGroundWidget extends StatelessWidget {
@@ -137,12 +145,16 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
 
   List<Widget> getCityWidgets() {
     return cityList.values
-        .map((e) => CityNameWidget(
-            gridSize: gridSize,
-            x: e.x,
-            y: e.y,
-            name: e.cityName,
-            playerList: []))
+        .map(
+          (e) => ChangeNotifierProvider(
+              create: (context) => gameModel,
+              child: CityNameWidget(
+                  gridSize: gridSize,
+                  x: e.x,
+                  y: e.y,
+                  name: e.cityName,
+                  playerList: [])),
+        )
         .toList();
   }
 
@@ -394,16 +406,6 @@ class PlayGroundCustomPainter extends CustomPainter {
               ..strokeWidth = 4);
       }
     }
-
-    // for (var i = 0; i < heightGridCount; i++) {
-    //   canvas.drawLine(calOffset(0, i), calOffset(widthGridCount - 1, i), paint);
-    // }
-    // for (var i = 0; i < widthGridCount; i++) {
-    //   canvas.drawLine(
-    //       calOffset(i, 0), calOffset(i, heightGridCount - 1), paint);
-    // }
-    // canvas.drawLine(calOffset(6, 4), calOffset(11, 6), paint);
-    // canvas.drawLine(calOffset(10, 5), calOffset(11, 6), paint);
   }
 
   Offset calOffset(int x, int y) {

@@ -38,15 +38,14 @@ class CityNameWidget extends StatelessWidget {
   final int x;
   final int y;
   final String name;
-  final List<int> playerList;
 
-  const CityNameWidget(
-      {super.key,
-      required this.gridSize,
-      required this.x,
-      required this.y,
-      required this.name,
-      required this.playerList});
+  const CityNameWidget({
+    super.key,
+    required this.gridSize,
+    required this.x,
+    required this.y,
+    required this.name,
+  });
 
   List<Widget> getPlayerWidgetList(List<int> playerList) {
     List<Widget> playerWidgetList = [];
@@ -149,11 +148,11 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
           (e) => ChangeNotifierProvider(
               create: (context) => gameModel,
               child: CityNameWidget(
-                  gridSize: gridSize,
-                  x: e.x,
-                  y: e.y,
-                  name: e.cityName,
-                  playerList: [])),
+                gridSize: gridSize,
+                x: e.x,
+                y: e.y,
+                name: e.cityName,
+              )),
         )
         .toList();
   }

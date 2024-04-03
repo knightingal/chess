@@ -5,6 +5,7 @@ import 'package:chess/discover_china/game_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'dart:developer' as dev;
 import 'dice.dart';
 
 const heightGridCount = 14;
@@ -107,34 +108,40 @@ class CityNameWidget extends StatelessWidget {
         top: gridSize * y,
         width: gridSize,
         height: gridSize,
-        child: Consumer<GameModel>(builder: (context, game, child) {
-          List<PlayerData> playerList = game.playerDataList;
-          var playerIdList = playerList
-              .where((element) => element.currCity == name)
-              .map((e) => e.playerId)
-              .toList();
-          return Stack(
-            children: [
-              ...getPlayerWidgetList(playerIdList),
-              SizedBox(
-                  width: gridSize,
-                  height: gridSize,
-                  // color: Colors.amber,
-                  child: FittedBox(
-                    fit: BoxFit.none,
-                    child: Text(
-                      name,
-                      overflow: TextOverflow.visible,
-                      maxLines: 1,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: gridSize / 3,
+        child: GestureDetector(
+          onTap: () {
+            Provider.of<GameModel>(context, listen: false)
+                .setPlayerCity(0, name);
+          },
+          child: Consumer<GameModel>(builder: (context, game, child) {
+            List<PlayerData> playerList = game.playerDataList;
+            var playerIdList = playerList
+                .where((element) => element.currCity == name)
+                .map((e) => e.playerId)
+                .toList();
+            return Stack(
+              children: [
+                ...getPlayerWidgetList(playerIdList),
+                SizedBox(
+                    width: gridSize,
+                    height: gridSize,
+                    // color: Colors.amber,
+                    child: FittedBox(
+                      fit: BoxFit.none,
+                      child: Text(
+                        name,
+                        overflow: TextOverflow.visible,
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: gridSize / 3,
+                        ),
                       ),
-                    ),
-                  ))
-            ],
-          );
-        }),
+                    ))
+              ],
+            );
+          }),
+        ),
       );
 }
 

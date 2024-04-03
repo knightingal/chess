@@ -19,6 +19,11 @@ class GameModel extends ChangeNotifier {
     }
   }
 
+  void setPlayerCity(int player, String city) {
+    playerDataList[player].currCity = city;
+    notifyListeners();
+  }
+
   void setDice(int dice1, int dice2) {
     dev.log("setDice $dice1 $dice2");
     this.dice1 = dice1;

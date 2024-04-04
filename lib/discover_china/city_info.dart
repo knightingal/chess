@@ -11,7 +11,7 @@ class CityInfo {
 }
 
 class CityCardInfo {
-  final String cityName;
+  String cityName;
   final int ticket;
 
   CityCardInfo({required this.cityName, required this.ticket});

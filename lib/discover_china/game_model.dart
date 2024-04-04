@@ -76,6 +76,13 @@ class GameModel extends ChangeNotifier {
 
   void setPlayerCity(int player, String city) {
     playerDataList[currentPlayer()].currCity = city;
+    var cityReachedIt = playerDataList[currentPlayer()]
+        .cityCardList
+        .where((element) => element.cityName == city);
+    if (cityReachedIt.isNotEmpty) {
+      var cityReached = cityReachedIt.first;
+      cityReached.cityName = "${cityReached.cityName}\u{2705}";
+    }
     notifyListeners();
   }
 

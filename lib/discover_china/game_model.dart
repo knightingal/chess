@@ -19,6 +19,9 @@ class GameModel extends ChangeNotifier {
   int dice1 = Random().nextInt(6);
   int dice2 = Random().nextInt(6);
 
+  bool dice1Used = false;
+  bool dice2Used = false;
+
   int playerTurn = 0;
 
   int currentPlayer() {
@@ -34,23 +37,24 @@ class GameModel extends ChangeNotifier {
   bool checkAndUseTicket(Color color) {
     var ticketCount = playerDataList[currentPlayer()].ticketCount;
     int colorIndex = _colorToIndex(color);
-    if (dice1 == colorIndex) {
-      dice1 = 6;
+    if (dice1 == colorIndex && !dice1Used) {
+      // dice1 = 6;
+      dice1Used = true;
       notifyListeners();
       return true;
     }
-    if (dice2 == colorIndex) {
-      dice2 = 6;
+    if (dice2 == colorIndex && !dice2Used) {
+      dice2Used = true;
       notifyListeners();
       return true;
     }
-    if (dice1 == 5) {
-      dice1 = 6;
+    if (dice1 == 5 && !dice1Used) {
+      dice1Used = true;
       notifyListeners();
       return true;
     }
-    if (dice2 == 5) {
-      dice2 = 6;
+    if (dice2 == 5 && !dice2Used) {
+      dice2Used = true;
       notifyListeners();
       return true;
     }
@@ -79,16 +83,18 @@ class GameModel extends ChangeNotifier {
     dev.log("setDice $dice1 $dice2");
     this.dice1 = dice1;
     this.dice2 = dice2;
+    dice1Used = false;
+    dice2Used = false;
     playerTurn += 1;
     notifyListeners();
   }
 
   void storeTicket() {
-    if (dice1 < 5) {
+    if (dice1 < 5 && !dice1Used) {
       playerDataList[currentPlayer()].ticketCount[dice1] =
           playerDataList[currentPlayer()].ticketCount[dice1] + 1;
     }
-    if (dice2 < 5) {
+    if (dice2 < 5 && !dice2Used) {
       playerDataList[currentPlayer()].ticketCount[dice2] =
           playerDataList[currentPlayer()].ticketCount[dice2] + 1;
     }

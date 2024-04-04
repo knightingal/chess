@@ -45,11 +45,17 @@ class DiceState extends State<DiceWidget> {
           children: [
             Consumer<GameModel>(builder: (context, game, child) {
               return SingleDice(
-                  gridSize: widget.gridSize, color: diceColors[game.dice1]);
+                gridSize: widget.gridSize,
+                color: diceColors[game.dice1],
+                used: game.dice1Used,
+              );
             }),
             Consumer<GameModel>(builder: (context, game, child) {
               return SingleDice(
-                  gridSize: widget.gridSize, color: diceColors[game.dice2]);
+                gridSize: widget.gridSize,
+                color: diceColors[game.dice2],
+                used: game.dice2Used,
+              );
             }),
           ],
         ),
@@ -61,14 +67,20 @@ class DiceState extends State<DiceWidget> {
 class SingleDice extends StatelessWidget {
   final double gridSize;
   final Color color;
+  final bool used;
 
-  const SingleDice({super.key, required this.gridSize, required this.color});
+  const SingleDice(
+      {super.key,
+      required this.gridSize,
+      required this.color,
+      required this.used});
   @override
   Widget build(BuildContext context) {
     return Container(
       width: gridSize * 5,
       height: gridSize * 5,
       color: color,
+      child: used ? const Text("\u{2705}") : null,
     );
   }
 }

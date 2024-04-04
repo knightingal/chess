@@ -9,6 +9,12 @@ class GameModel extends ChangeNotifier {
   int dice1 = Random().nextInt(6);
   int dice2 = Random().nextInt(6);
 
+  int playerTurn = 0;
+
+  int currentPlayer() {
+    return playerTurn % playerDataList.length;
+  }
+
   List<PlayerData> playerDataList = [];
 
   GameModel(int playerCount) {
@@ -20,7 +26,7 @@ class GameModel extends ChangeNotifier {
   }
 
   void setPlayerCity(int player, String city) {
-    playerDataList[player].currCity = city;
+    playerDataList[currentPlayer()].currCity = city;
     notifyListeners();
   }
 
@@ -28,17 +34,18 @@ class GameModel extends ChangeNotifier {
     dev.log("setDice $dice1 $dice2");
     this.dice1 = dice1;
     this.dice2 = dice2;
+    playerTurn += 1;
     notifyListeners();
   }
 
   void storeTicket() {
     if (dice1 < 5) {
-      playerDataList[0].ticketCount[dice1] =
-          playerDataList[0].ticketCount[dice1] + 1;
+      playerDataList[currentPlayer()].ticketCount[dice1] =
+          playerDataList[currentPlayer()].ticketCount[dice1] + 1;
     }
     if (dice2 < 5) {
-      playerDataList[0].ticketCount[dice2] =
-          playerDataList[0].ticketCount[dice2] + 1;
+      playerDataList[currentPlayer()].ticketCount[dice2] =
+          playerDataList[currentPlayer()].ticketCount[dice2] + 1;
     }
     notifyListeners();
   }

@@ -5,7 +5,6 @@ import 'package:chess/discover_china/game_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'dart:developer' as dev;
 import 'dice.dart';
 
 const heightGridCount = 14;
@@ -250,7 +249,8 @@ class CityCardState extends State<CityCardList> {
       color: Colors.grey,
       child: Consumer<GameModel>(
         builder: (context, game, child) {
-          var playerCityCard = game.playerDataList[0].cityCardList;
+          var playerCityCard =
+              game.playerDataList[game.currentPlayer()].cityCardList;
           int row1Max = min(5, playerCityCard.length);
 
           List<CityCard> row1 = playerCityCard.sublist(0, row1Max).map((e) {
@@ -331,7 +331,7 @@ class TicketState extends State<TicketList> {
       height: gridSize * 3,
       color: Colors.green,
       child: Consumer<GameModel>(builder: (context, game, child) {
-        var ticketCount = game.playerDataList[0].ticketCount;
+        var ticketCount = game.playerDataList[game.currentPlayer()].ticketCount;
         return Row(
           children: [
             SignleTicket(

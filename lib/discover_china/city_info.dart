@@ -104,6 +104,17 @@ List<CityCardInfo> getPlayerCityCards() {
   return playerCityCard;
 }
 
+Color findLine(String city1, String city2) {
+  var targetLine = lineList.where((element) =>
+      element.cityName1 == city1 && element.cityName2 == city2 ||
+      element.cityName1 == city2 && element.cityName2 == city1);
+  if (targetLine.isEmpty) {
+    return Colors.black;
+  } else {
+    return targetLine.first.color;
+  }
+}
+
 void initLineList() {
   lineList
       .add(LineInfo(cityName1: "呼伦贝尔", cityName2: "哈尔滨", color: Colors.red));

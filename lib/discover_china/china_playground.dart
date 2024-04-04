@@ -101,6 +101,19 @@ class CityNameWidget extends StatelessWidget {
     return playerWidgetList;
   }
 
+  void goToCity(BuildContext context) {
+    var game = Provider.of<GameModel>(context, listen: false);
+    PlayerData playerData = game.playerDataList[game.currentPlayer()];
+    var currentCity = playerData.currCity;
+    var lineColor = findLine(currentCity, name);
+    if (lineColor == Colors.black) {
+      return;
+    }
+    if (game.checkAndUseTicket(lineColor)) {
+      game.setPlayerCity(0, name);
+    }
+  }
+
   @override
   Widget build(BuildContext context) => Positioned(
         left: gridSize * x,
@@ -109,8 +122,7 @@ class CityNameWidget extends StatelessWidget {
         height: gridSize,
         child: GestureDetector(
           onTap: () {
-            Provider.of<GameModel>(context, listen: false)
-                .setPlayerCity(0, name);
+            goToCity(context);
           },
           child: Consumer<GameModel>(builder: (context, game, child) {
             List<PlayerData> playerList = game.playerDataList;

@@ -58,15 +58,6 @@ class DiceState extends State<DiceWidget> {
   }
 }
 
-List<Color> diceColors = [
-  Colors.red,
-  Colors.purple,
-  Colors.blue,
-  Colors.green,
-  Colors.orange,
-  Colors.white
-];
-
 class SingleDice extends StatelessWidget {
   final double gridSize;
   final Color color;

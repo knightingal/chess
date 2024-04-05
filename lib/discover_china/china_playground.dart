@@ -10,6 +10,7 @@ import 'dice.dart';
 const heightGridCount = 14;
 const widthGridCount = 14;
 const consoleWidth = 10;
+const playerTabWidth = 1;
 
 class DiscoverApp extends StatelessWidget {
   const DiscoverApp({super.key});
@@ -23,8 +24,8 @@ class DiscoverApp extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
-    var grid =
-        min(height / heightGridCount, width / (widthGridCount + consoleWidth));
+    var grid = min(height / heightGridCount,
+        width / (widthGridCount + consoleWidth + playerTabWidth));
     return MaterialApp(
       title: "Discover",
       theme: ThemeData(primarySwatch: Colors.blue),
@@ -194,12 +195,28 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
               ],
             )),
         PlayConsolePad(gridSize: gridSize),
+        PlayerTab(gridSize: gridSize),
       ],
     ));
   }
 }
 
 GameModel gameModel = GameModel(2);
+
+class PlayerTab extends StatelessWidget {
+  final double gridSize;
+
+  const PlayerTab({super.key, required this.gridSize});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: gridSize * playerTabWidth,
+      height: gridSize * heightGridCount,
+      color: Colors.grey[850],
+    );
+  }
+}
 
 class PlayConsolePad extends StatelessWidget {
   final double gridSize;

@@ -3,8 +3,7 @@
 import 'package:flutter/material.dart';
 
 import 'chess/chess_app.dart';
-import 'discover_china/widget/china_playground.dart'
-    hide heightGridCount, widthGridCount;
+import 'discover_china/widget/china_playground.dart';
 
 void main() {
   if (true) {

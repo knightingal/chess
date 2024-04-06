@@ -104,6 +104,7 @@ class GameModel extends ChangeNotifier {
     dice1Used = false;
     dice2Used = false;
     playerTurn += 1;
+    tabPlayer = currentPlayer();
     notifyListeners();
   }
 

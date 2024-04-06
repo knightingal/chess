@@ -6,11 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'dice.dart';
-
-const heightGridCount = 14;
-const widthGridCount = 14;
-const consoleWidth = 10;
-const playerTabWidth = 1;
+import 'widget_static_data.dart';
 
 class DiscoverApp extends StatelessWidget {
   const DiscoverApp({super.key});

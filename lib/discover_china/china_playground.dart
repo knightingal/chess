@@ -213,6 +213,7 @@ class PlayerTabs extends StatelessWidget {
     List<PlayerTab> playerTabs = [];
     for (int i = 0; i < playerCount; i++) {
       playerTabs.add(PlayerTab(
+        playerIndex: i,
         gridSize: gridSize,
         tabHeight: height / playerCount,
         color: playerColors[i],
@@ -226,12 +227,14 @@ class PlayerTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
 
-    return SizedBox(
-      width: gridSize * playerTabWidth,
-      height: gridSize * heightGridCount,
-      // color: Colors.grey[850],
-      child: Column(
-        children: [...getTabs(gridSize, height, 2)],
+    return ChangeNotifierProvider(
+      create: (context) => gameModel,
+      child: SizedBox(
+        width: gridSize * playerTabWidth,
+        height: gridSize * heightGridCount,
+        child: Column(
+          children: [...getTabs(gridSize, height, 2)],
+        ),
       ),
     );
   }
@@ -241,19 +244,49 @@ class PlayerTab extends StatelessWidget {
   final double gridSize;
   final double tabHeight;
   final Color color;
+  final int playerIndex;
 
   const PlayerTab(
       {super.key,
+      required this.playerIndex,
       required this.gridSize,
       required this.tabHeight,
       required this.color});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: gridSize,
-      height: tabHeight,
-      color: color,
-    );
+    return GestureDetector(onTap: () {
+      Provider.of<GameModel>(context, listen: false).setTabPlayer(playerIndex);
+    }, child: Consumer<GameModel>(
+      builder: ((context, game, child) {
+        var playIndexText =
+            "$playerIndex${game.currentPlayer() == playerIndex ? "\u{2705}" : ""}";
+        if (game.getTabPlayer() != playerIndex) {
+          return Container(
+            width: gridSize,
+            height: tabHeight,
+            color: Colors.white,
+            child: Center(
+              child: Text(
+                playIndexText,
+                style: TextStyle(color: color),
+              ),
+            ),
+          );
+        } else {
+          return Container(
+            width: gridSize,
+            height: tabHeight,
+            color: color,
+            child: Center(
+              child: Text(
+                playIndexText,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          );
+        }
+      }),
+    ));
   }
 }
 
@@ -318,7 +351,7 @@ class CityCardState extends State<CityCardList> {
       child: Consumer<GameModel>(
         builder: (context, game, child) {
           var playerCityCard =
-              game.playerDataList[game.currentPlayer()].cityCardList;
+              game.playerDataList[game.getTabPlayer()].cityCardList;
           int row1Max = min(5, playerCityCard.length);
 
           List<CityCard> row1 = playerCityCard.sublist(0, row1Max).map((e) {
@@ -399,7 +432,7 @@ class TicketState extends State<TicketList> {
       height: gridSize * 3,
       color: Colors.green,
       child: Consumer<GameModel>(builder: (context, game, child) {
-        var ticketCount = game.playerDataList[game.currentPlayer()].ticketCount;
+        var ticketCount = game.playerDataList[game.getTabPlayer()].ticketCount;
         return Row(
           children: [
             SignleTicket(

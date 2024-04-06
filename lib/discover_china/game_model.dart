@@ -28,6 +28,17 @@ class GameModel extends ChangeNotifier {
     return playerTurn % playerDataList.length;
   }
 
+  int tabPlayer = 0;
+
+  void setTabPlayer(int tabPlayer) {
+    this.tabPlayer = tabPlayer;
+    notifyListeners();
+  }
+
+  int getTabPlayer() {
+    return tabPlayer;
+  }
+
   List<PlayerData> playerDataList = [];
 
   int _colorToIndex(Color color) {

@@ -131,3 +131,5 @@ class PlayerData {
 
   PlayerData({required this.playerId});
 }
+
+GameModel gameModel = GameModel(2);

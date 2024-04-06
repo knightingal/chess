@@ -195,7 +195,7 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
               ],
             )),
         PlayConsolePad(gridSize: gridSize),
-        PlayerTab(gridSize: gridSize),
+        PlayerTabs(gridSize: gridSize),
       ],
     ));
   }
@@ -203,17 +203,56 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
 
 GameModel gameModel = GameModel(2);
 
-class PlayerTab extends StatelessWidget {
+class PlayerTabs extends StatelessWidget {
   final double gridSize;
 
-  const PlayerTab({super.key, required this.gridSize});
+  const PlayerTabs({super.key, required this.gridSize});
+
+  List<PlayerTab> getTabs(double gridSize, double height, int playerCount) {
+    var playerColors = [Colors.red, Colors.blue, Colors.orange, Colors.green];
+    List<PlayerTab> playerTabs = [];
+    for (int i = 0; i < playerCount; i++) {
+      playerTabs.add(PlayerTab(
+        gridSize: gridSize,
+        tabHeight: height / playerCount,
+        color: playerColors[i],
+      ));
+    }
+
+    return playerTabs;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    var height = MediaQuery.of(context).size.height;
+
+    return SizedBox(
       width: gridSize * playerTabWidth,
       height: gridSize * heightGridCount,
-      color: Colors.grey[850],
+      // color: Colors.grey[850],
+      child: Column(
+        children: [...getTabs(gridSize, height, 2)],
+      ),
+    );
+  }
+}
+
+class PlayerTab extends StatelessWidget {
+  final double gridSize;
+  final double tabHeight;
+  final Color color;
+
+  const PlayerTab(
+      {super.key,
+      required this.gridSize,
+      required this.tabHeight,
+      required this.color});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: gridSize,
+      height: tabHeight,
+      color: color,
     );
   }
 }

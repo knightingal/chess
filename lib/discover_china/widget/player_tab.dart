@@ -11,15 +11,14 @@ class PlayerTabs extends StatelessWidget {
 
   List<PlayerTab> getTabs(double gridSize, double height, int playerCount) {
     var playerColors = [Colors.red, Colors.blue, Colors.orange, Colors.green];
-    List<PlayerTab> playerTabs = [];
-    for (int i = 0; i < playerCount; i++) {
-      playerTabs.add(PlayerTab(
+    List<PlayerTab> playerTabs = List.generate(playerCount, (i) {
+      return PlayerTab(
         playerIndex: i,
         gridSize: gridSize,
         tabHeight: height / playerCount,
         color: playerColors[i],
-      ));
-    }
+      );
+    });
 
     return playerTabs;
   }

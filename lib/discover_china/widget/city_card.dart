@@ -40,13 +40,16 @@ class CityCardState extends State<CityCardList> {
         builder: (context, game, child) {
           var playerCityCard =
               game.playerDataList[game.getTabPlayer()].cityCardList;
+          var selectedCard =
+              game.playerDataList[game.getTabPlayer()].selectedCard;
           int row1Max = min(5, playerCityCard.length);
 
           List<CityCard> row1 = playerCityCard.sublist(0, row1Max).map((e) {
             return CityCard(
                 gridSize: gridSize,
                 color: ticketColor[e.ticket - 1],
-                cityName: e.cityName);
+                cityName: e.cityName,
+                selected: e.cityName == selectedCard);
           }).toList();
 
           List<CityCard> row2 = [];
@@ -55,7 +58,8 @@ class CityCardState extends State<CityCardList> {
               return CityCard(
                   gridSize: gridSize,
                   color: ticketColor[e.ticket - 1],
-                  cityName: e.cityName);
+                  cityName: e.cityName,
+                  selected: e.cityName == selectedCard);
             }).toList();
           }
 
@@ -79,22 +83,34 @@ class CityCard extends StatelessWidget {
   final double gridSize;
   final Color color;
   final String cityName;
+  final bool selected;
 
   const CityCard({
     super.key,
     required this.gridSize,
     required this.color,
     required this.cityName,
+    required this.selected,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: gridSize * 2,
-      height: gridSize * 3,
-      color: color,
-      child: Center(
-        child: Text(cityName),
+    var backgroundColor = selected ? color : Colors.white;
+    var textColor = selected ? Colors.white : color;
+    return GestureDetector(
+      onTap: () {
+        Provider.of<GameModel>(context, listen: false).setSelectCard(cityName);
+      },
+      child: Container(
+        width: gridSize * 2,
+        height: gridSize * 3,
+        color: backgroundColor,
+        child: Center(
+          child: Text(
+            cityName,
+            style: TextStyle(color: textColor),
+          ),
+        ),
       ),
     );
   }

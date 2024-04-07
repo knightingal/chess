@@ -119,11 +119,34 @@ class GameModel extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void setSelectCard(String cityName) {
+    if (playerDataList[tabPlayer].selectedCard == cityName) {
+      playerDataList[tabPlayer].selectedCard = "";
+    } else {
+      if (playerDataList[tabPlayer].selectedCard != "") {
+        int toIndex = playerDataList[tabPlayer]
+            .cityCardList
+            .indexWhere((element) => element.cityName == cityName);
+        var fromCard = playerDataList[tabPlayer].cityCardList.firstWhere(
+            (element) =>
+                element.cityName == playerDataList[tabPlayer].selectedCard);
+        playerDataList[tabPlayer].cityCardList.remove(fromCard);
+        playerDataList[tabPlayer].cityCardList.insert(toIndex, fromCard);
+        playerDataList[tabPlayer].selectedCard = "";
+      } else {
+        playerDataList[tabPlayer].selectedCard = cityName;
+      }
+    }
+    notifyListeners();
+  }
 }
 
 class PlayerData {
   final int playerId;
   String currCity = "北京";
+
+  String selectedCard = "";
 
   List<CityCardInfo> cityCardList = [];
 

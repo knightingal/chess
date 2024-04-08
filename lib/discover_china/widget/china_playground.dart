@@ -33,6 +33,38 @@ class DiscoverApp extends StatelessWidget {
   }
 }
 
+class PlayerPiece extends StatelessWidget {
+  final double size;
+  final Color color;
+
+  const PlayerPiece({super.key, required this.size, required this.color});
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+        size: Size(size, size), painter: PlayerPiecePainter(color: color));
+  }
+}
+
+class PlayerPiecePainter extends CustomPainter {
+  final Color color;
+
+  PlayerPiecePainter({super.repaint, required this.color});
+  @override
+  void paint(Canvas canvas, Size size) {
+    Path path = Path();
+    path.moveTo(size.width / 2, 0);
+    path.lineTo(0, size.height);
+    path.lineTo(size.width, size.height);
+
+    canvas.drawPath(path, Paint()..color = color);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
 class CityNameWidget extends StatelessWidget {
   final double gridSize;
   final int x;
@@ -57,7 +89,7 @@ class CityNameWidget extends StatelessWidget {
             width: gridSize / 2,
             height: gridSize / 2,
             child: Container(
-              color: Colors.red,
+              child: PlayerPiece(size: gridSize / 2, color: Colors.red),
             )),
       );
     }
@@ -69,7 +101,7 @@ class CityNameWidget extends StatelessWidget {
             width: gridSize / 2,
             height: gridSize / 2,
             child: Container(
-              color: Colors.blue,
+              child: PlayerPiece(size: gridSize / 2, color: Colors.blue),
             )),
       );
     }
@@ -81,7 +113,7 @@ class CityNameWidget extends StatelessWidget {
             width: gridSize / 2,
             height: gridSize / 2,
             child: Container(
-              color: Colors.orange,
+              child: PlayerPiece(size: gridSize / 2, color: Colors.orange),
             )),
       );
     }
@@ -93,7 +125,7 @@ class CityNameWidget extends StatelessWidget {
             width: gridSize / 2,
             height: gridSize / 2,
             child: Container(
-              color: Colors.green,
+              child: PlayerPiece(size: gridSize / 2, color: Colors.green),
             )),
       );
     }

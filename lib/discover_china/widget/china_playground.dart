@@ -28,7 +28,10 @@ class DiscoverApp extends StatelessWidget {
     return MaterialApp(
       title: "Discover",
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: DiscoverPlayGroundWidget(gridSize: grid),
+      home: ChangeNotifierProvider(
+        create: (context) => gameModel,
+        child: DiscoverPlayGroundWidget(gridSize: grid),
+      ),
     );
   }
 }
@@ -36,12 +39,27 @@ class DiscoverApp extends StatelessWidget {
 class PlayerPiece extends StatelessWidget {
   final double size;
   final Color color;
+  final double gridSize;
+  final int x;
+  final int y;
 
-  const PlayerPiece({super.key, required this.size, required this.color});
+  const PlayerPiece(
+      {super.key,
+      required this.size,
+      required this.color,
+      required this.gridSize,
+      required this.x,
+      required this.y});
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-        size: Size(size, size), painter: PlayerPiecePainter(color: color));
+    return Positioned(
+      left: gridSize * x,
+      top: gridSize * y,
+      width: gridSize,
+      height: gridSize,
+      child: CustomPaint(
+          size: Size(size, size), painter: PlayerPiecePainter(color: color)),
+    );
   }
 }
 
@@ -88,9 +106,12 @@ class CityNameWidget extends StatelessWidget {
             top: 0,
             width: gridSize / 2,
             height: gridSize / 2,
-            child: Container(
-              child: PlayerPiece(size: gridSize / 2, color: Colors.red),
-            )),
+            child: PlayerPiece(
+                size: gridSize / 2,
+                color: Colors.red,
+                gridSize: gridSize,
+                x: 0,
+                y: 0)),
       );
     }
     if (playerList.contains(1)) {
@@ -100,9 +121,12 @@ class CityNameWidget extends StatelessWidget {
             top: 0,
             width: gridSize / 2,
             height: gridSize / 2,
-            child: Container(
-              child: PlayerPiece(size: gridSize / 2, color: Colors.blue),
-            )),
+            child: PlayerPiece(
+                size: gridSize / 2,
+                color: Colors.blue,
+                gridSize: gridSize,
+                x: 0,
+                y: 0)),
       );
     }
     if (playerList.contains(2)) {
@@ -112,9 +136,12 @@ class CityNameWidget extends StatelessWidget {
             top: gridSize / 2,
             width: gridSize / 2,
             height: gridSize / 2,
-            child: Container(
-              child: PlayerPiece(size: gridSize / 2, color: Colors.orange),
-            )),
+            child: PlayerPiece(
+                size: gridSize / 2,
+                color: Colors.orange,
+                gridSize: gridSize,
+                x: 0,
+                y: 0)),
       );
     }
     if (playerList.contains(3)) {
@@ -124,9 +151,12 @@ class CityNameWidget extends StatelessWidget {
             top: gridSize / 2,
             width: gridSize / 2,
             height: gridSize / 2,
-            child: Container(
-              child: PlayerPiece(size: gridSize / 2, color: Colors.green),
-            )),
+            child: PlayerPiece(
+                size: gridSize / 2,
+                color: Colors.green,
+                gridSize: gridSize,
+                x: 0,
+                y: 0)),
       );
     }
 
@@ -157,14 +187,14 @@ class CityNameWidget extends StatelessWidget {
             goToCity(context);
           },
           child: Consumer<GameModel>(builder: (context, game, child) {
-            List<PlayerData> playerList = game.playerDataList;
-            var playerIdList = playerList
-                .where((element) => element.currCity == name)
-                .map((e) => e.playerId)
-                .toList();
+            // List<PlayerData> playerList = game.playerDataList;
+            // var playerIdList = playerList
+            //     .where((element) => element.currCity == name)
+            //     .map((e) => e.playerId)
+            //     .toList();
             return Stack(
               children: [
-                ...getPlayerWidgetList(playerIdList),
+                // ...getPlayerWidgetList(playerIdList),
                 SizedBox(
                     width: gridSize,
                     height: gridSize,
@@ -207,6 +237,22 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
         .toList();
   }
 
+  List<Widget> getPlayerWidgetList(BuildContext context) {
+    var playerDataList =
+        Provider.of<GameModel>(context, listen: false).playerDataList;
+    return playerDataList.map((playerData) {
+      var cityName = playerData.currCity;
+      int x = cityList[cityName]!.x;
+      int y = cityList[cityName]!.y;
+      return PlayerPiece(
+          size: gridSize / 2,
+          color: Colors.black,
+          gridSize: gridSize,
+          x: x,
+          y: y);
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -222,6 +268,7 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
                       gridSize * widthGridCount, gridSize * heightGridCount),
                   painter: PlayGroundCustomPainter(gridSize: gridSize),
                 ),
+                ...getPlayerWidgetList(context),
                 ...getCityWidgets()
               ],
             )),

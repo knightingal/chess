@@ -42,9 +42,11 @@ class PlayerPiece extends StatelessWidget {
   final double gridSize;
   final int x;
   final int y;
+  final int playerIndex;
 
   const PlayerPiece(
       {super.key,
+      required this.playerIndex,
       required this.size,
       required this.color,
       required this.gridSize,
@@ -52,11 +54,37 @@ class PlayerPiece extends StatelessWidget {
       required this.y});
   @override
   Widget build(BuildContext context) {
+    double left = 0;
+    double top = 0;
+    Color color = Colors.black;
+    switch (playerIndex) {
+      case 0:
+        left = gridSize * x;
+        top = gridSize * y;
+        color = Colors.red;
+        break;
+      case 1:
+        left = gridSize * x + gridSize / 2;
+        top = gridSize * y;
+        color = Colors.blue;
+        break;
+      case 2:
+        left = gridSize * x;
+        top = gridSize * y + gridSize / 2;
+        color = Colors.orange;
+        break;
+      case 3:
+        left = gridSize * x + gridSize / 2;
+        top = gridSize * y + gridSize / 2;
+        color = Colors.green;
+        break;
+    }
+
     return Positioned(
-      left: gridSize * x,
-      top: gridSize * y,
-      width: gridSize,
-      height: gridSize,
+      left: left,
+      top: top,
+      width: gridSize / 2,
+      height: gridSize / 2,
       child: CustomPaint(
           size: Size(size, size), painter: PlayerPiecePainter(color: color)),
     );
@@ -107,6 +135,7 @@ class CityNameWidget extends StatelessWidget {
             width: gridSize / 2,
             height: gridSize / 2,
             child: PlayerPiece(
+                playerIndex: 0,
                 size: gridSize / 2,
                 color: Colors.red,
                 gridSize: gridSize,
@@ -122,6 +151,7 @@ class CityNameWidget extends StatelessWidget {
             width: gridSize / 2,
             height: gridSize / 2,
             child: PlayerPiece(
+                playerIndex: 0,
                 size: gridSize / 2,
                 color: Colors.blue,
                 gridSize: gridSize,
@@ -137,6 +167,7 @@ class CityNameWidget extends StatelessWidget {
             width: gridSize / 2,
             height: gridSize / 2,
             child: PlayerPiece(
+                playerIndex: 0,
                 size: gridSize / 2,
                 color: Colors.orange,
                 gridSize: gridSize,
@@ -152,6 +183,7 @@ class CityNameWidget extends StatelessWidget {
             width: gridSize / 2,
             height: gridSize / 2,
             child: PlayerPiece(
+                playerIndex: 0,
                 size: gridSize / 2,
                 color: Colors.green,
                 gridSize: gridSize,
@@ -237,14 +269,13 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
         .toList();
   }
 
-  List<Widget> getPlayerWidgetList(BuildContext context) {
-    var playerDataList =
-        Provider.of<GameModel>(context, listen: false).playerDataList;
+  List<Widget> getPlayerWidgetList(List<PlayerData> playerDataList) {
     return playerDataList.map((playerData) {
       var cityName = playerData.currCity;
       int x = cityList[cityName]!.x;
       int y = cityList[cityName]!.y;
       return PlayerPiece(
+          playerIndex: playerData.playerId,
           size: gridSize / 2,
           color: Colors.black,
           gridSize: gridSize,
@@ -255,27 +286,29 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Row(
-      children: [
-        SizedBox(
-            width: gridSize * widthGridCount,
-            height: gridSize * heightGridCount,
-            child: Stack(
-              children: [
-                CustomPaint(
-                  size: Size(
-                      gridSize * widthGridCount, gridSize * heightGridCount),
-                  painter: PlayGroundCustomPainter(gridSize: gridSize),
-                ),
-                ...getPlayerWidgetList(context),
-                ...getCityWidgets()
-              ],
-            )),
-        PlayConsolePad(gridSize: gridSize),
-        PlayerTabs(gridSize: gridSize),
-      ],
-    ));
+    return Consumer<GameModel>(builder: (context, game, child) {
+      return Scaffold(
+          body: Row(
+        children: [
+          SizedBox(
+              width: gridSize * widthGridCount,
+              height: gridSize * heightGridCount,
+              child: Stack(
+                children: [
+                  CustomPaint(
+                    size: Size(
+                        gridSize * widthGridCount, gridSize * heightGridCount),
+                    painter: PlayGroundCustomPainter(gridSize: gridSize),
+                  ),
+                  ...getPlayerWidgetList(game.playerDataList),
+                  ...getCityWidgets()
+                ],
+              )),
+          PlayConsolePad(gridSize: gridSize),
+          PlayerTabs(gridSize: gridSize),
+        ],
+      ));
+    });
   }
 }
 

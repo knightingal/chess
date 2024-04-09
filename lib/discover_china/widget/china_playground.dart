@@ -28,7 +28,10 @@ class DiscoverApp extends StatelessWidget {
     return MaterialApp(
       title: "Discover",
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: DiscoverPlayGroundWidget(gridSize: grid),
+      home: ChangeNotifierProvider(
+        create: (context) => gameModel,
+        child: DiscoverPlayGroundWidget(gridSize: grid),
+      ),
     );
   }
 }
@@ -36,12 +39,55 @@ class DiscoverApp extends StatelessWidget {
 class PlayerPiece extends StatelessWidget {
   final double size;
   final Color color;
+  final double gridSize;
+  final int x;
+  final int y;
+  final int playerIndex;
 
-  const PlayerPiece({super.key, required this.size, required this.color});
+  const PlayerPiece(
+      {super.key,
+      required this.playerIndex,
+      required this.size,
+      required this.color,
+      required this.gridSize,
+      required this.x,
+      required this.y});
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-        size: Size(size, size), painter: PlayerPiecePainter(color: color));
+    double left = 0;
+    double top = 0;
+    Color color = Colors.black;
+    switch (playerIndex) {
+      case 0:
+        left = gridSize * x;
+        top = gridSize * y;
+        color = Colors.red;
+        break;
+      case 1:
+        left = gridSize * x + gridSize / 2;
+        top = gridSize * y;
+        color = Colors.blue;
+        break;
+      case 2:
+        left = gridSize * x;
+        top = gridSize * y + gridSize / 2;
+        color = Colors.orange;
+        break;
+      case 3:
+        left = gridSize * x + gridSize / 2;
+        top = gridSize * y + gridSize / 2;
+        color = Colors.green;
+        break;
+    }
+
+    return Positioned(
+      left: left,
+      top: top,
+      width: gridSize / 2,
+      height: gridSize / 2,
+      child: CustomPaint(
+          size: Size(size, size), painter: PlayerPiecePainter(color: color)),
+    );
   }
 }
 
@@ -79,60 +125,6 @@ class CityNameWidget extends StatelessWidget {
     required this.name,
   });
 
-  List<Widget> getPlayerWidgetList(List<int> playerList) {
-    List<Widget> playerWidgetList = [];
-    if (playerList.contains(0)) {
-      playerWidgetList.add(
-        Positioned(
-            left: 0,
-            top: 0,
-            width: gridSize / 2,
-            height: gridSize / 2,
-            child: Container(
-              child: PlayerPiece(size: gridSize / 2, color: Colors.red),
-            )),
-      );
-    }
-    if (playerList.contains(1)) {
-      playerWidgetList.add(
-        Positioned(
-            left: gridSize / 2,
-            top: 0,
-            width: gridSize / 2,
-            height: gridSize / 2,
-            child: Container(
-              child: PlayerPiece(size: gridSize / 2, color: Colors.blue),
-            )),
-      );
-    }
-    if (playerList.contains(2)) {
-      playerWidgetList.add(
-        Positioned(
-            left: 0,
-            top: gridSize / 2,
-            width: gridSize / 2,
-            height: gridSize / 2,
-            child: Container(
-              child: PlayerPiece(size: gridSize / 2, color: Colors.orange),
-            )),
-      );
-    }
-    if (playerList.contains(3)) {
-      playerWidgetList.add(
-        Positioned(
-            left: gridSize / 2,
-            top: gridSize / 2,
-            width: gridSize / 2,
-            height: gridSize / 2,
-            child: Container(
-              child: PlayerPiece(size: gridSize / 2, color: Colors.green),
-            )),
-      );
-    }
-
-    return playerWidgetList;
-  }
-
   void goToCity(BuildContext context) {
     var game = Provider.of<GameModel>(context, listen: false);
     PlayerData playerData = game.playerDataList[game.currentPlayer()];
@@ -157,14 +149,14 @@ class CityNameWidget extends StatelessWidget {
             goToCity(context);
           },
           child: Consumer<GameModel>(builder: (context, game, child) {
-            List<PlayerData> playerList = game.playerDataList;
-            var playerIdList = playerList
-                .where((element) => element.currCity == name)
-                .map((e) => e.playerId)
-                .toList();
+            // List<PlayerData> playerList = game.playerDataList;
+            // var playerIdList = playerList
+            //     .where((element) => element.currCity == name)
+            //     .map((e) => e.playerId)
+            //     .toList();
             return Stack(
               children: [
-                ...getPlayerWidgetList(playerIdList),
+                // ...getPlayerWidgetList(playerIdList),
                 SizedBox(
                     width: gridSize,
                     height: gridSize,
@@ -207,28 +199,46 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
         .toList();
   }
 
+  List<Widget> getPlayerWidgetList(List<PlayerData> playerDataList) {
+    return playerDataList.map((playerData) {
+      var cityName = playerData.currCity;
+      int x = cityList[cityName]!.x;
+      int y = cityList[cityName]!.y;
+      return PlayerPiece(
+          playerIndex: playerData.playerId,
+          size: gridSize / 2,
+          color: Colors.black,
+          gridSize: gridSize,
+          x: x,
+          y: y);
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Row(
-      children: [
-        SizedBox(
-            width: gridSize * widthGridCount,
-            height: gridSize * heightGridCount,
-            child: Stack(
-              children: [
-                CustomPaint(
-                  size: Size(
-                      gridSize * widthGridCount, gridSize * heightGridCount),
-                  painter: PlayGroundCustomPainter(gridSize: gridSize),
-                ),
-                ...getCityWidgets()
-              ],
-            )),
-        PlayConsolePad(gridSize: gridSize),
-        PlayerTabs(gridSize: gridSize),
-      ],
-    ));
+    return Consumer<GameModel>(builder: (context, game, child) {
+      return Scaffold(
+          body: Row(
+        children: [
+          SizedBox(
+              width: gridSize * widthGridCount,
+              height: gridSize * heightGridCount,
+              child: Stack(
+                children: [
+                  CustomPaint(
+                    size: Size(
+                        gridSize * widthGridCount, gridSize * heightGridCount),
+                    painter: PlayGroundCustomPainter(gridSize: gridSize),
+                  ),
+                  ...getPlayerWidgetList(game.playerDataList),
+                  ...getCityWidgets()
+                ],
+              )),
+          PlayConsolePad(gridSize: gridSize),
+          PlayerTabs(gridSize: gridSize),
+        ],
+      ));
+    });
   }
 }
 

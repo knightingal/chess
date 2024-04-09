@@ -54,31 +54,23 @@ class PlayerPiece extends StatelessWidget {
       required this.y});
   @override
   Widget build(BuildContext context) {
-    double left = 0;
-    double top = 0;
-    Color color = Colors.black;
-    switch (playerIndex) {
-      case 0:
-        left = gridSize * x;
-        top = gridSize * y;
-        color = Colors.red;
-        break;
-      case 1:
-        left = gridSize * x + gridSize / 2;
-        top = gridSize * y;
-        color = Colors.blue;
-        break;
-      case 2:
-        left = gridSize * x;
-        top = gridSize * y + gridSize / 2;
-        color = Colors.orange;
-        break;
-      case 3:
-        left = gridSize * x + gridSize / 2;
-        top = gridSize * y + gridSize / 2;
-        color = Colors.green;
-        break;
-    }
+    double left = switch (playerIndex) {
+      0 || 2 => gridSize * x,
+      1 || 3 => gridSize * x + gridSize / 2,
+      _ => 0
+    };
+    double top = switch (playerIndex) {
+      0 || 1 => gridSize * y,
+      2 || 3 => gridSize * y + gridSize / 2,
+      _ => 0
+    };
+    Color color = switch (playerIndex) {
+      0 => Colors.red,
+      1 => Colors.blue,
+      2 => Colors.orange,
+      3 => Colors.green,
+      _ => Colors.black
+    };
 
     return Positioned(
       left: left,

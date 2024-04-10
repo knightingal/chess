@@ -141,14 +141,8 @@ class CityNameWidget extends StatelessWidget {
             goToCity(context);
           },
           child: Consumer<GameModel>(builder: (context, game, child) {
-            // List<PlayerData> playerList = game.playerDataList;
-            // var playerIdList = playerList
-            //     .where((element) => element.currCity == name)
-            //     .map((e) => e.playerId)
-            //     .toList();
             return Stack(
               children: [
-                // ...getPlayerWidgetList(playerIdList),
                 SizedBox(
                     width: gridSize,
                     height: gridSize,
@@ -208,14 +202,14 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<GameModel>(builder: (context, game, child) {
-      return Scaffold(
-          body: Row(
-        children: [
-          SizedBox(
-              width: gridSize * widthGridCount,
-              height: gridSize * heightGridCount,
-              child: Stack(
+    return Scaffold(
+        body: Row(
+      children: [
+        SizedBox(
+            width: gridSize * widthGridCount,
+            height: gridSize * heightGridCount,
+            child: Consumer<GameModel>(builder: (context, game, child) {
+              return Stack(
                 children: [
                   CustomPaint(
                     size: Size(
@@ -225,12 +219,12 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
                   ...getPlayerWidgetList(game.playerDataList),
                   ...getCityWidgets()
                 ],
-              )),
-          PlayConsolePad(gridSize: gridSize),
-          PlayerTabs(gridSize: gridSize),
-        ],
-      ));
-    });
+              );
+            })),
+        PlayConsolePad(gridSize: gridSize),
+        PlayerTabs(gridSize: gridSize),
+      ],
+    ));
   }
 }
 

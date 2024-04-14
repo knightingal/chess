@@ -34,29 +34,28 @@ List<Path> dijkstra(List<DJNode> graph, DJNode vNode) {
 
     List<Neighbor> vNeighbor =
         node.neighbors.takeWhile((neighbor) => neighbor.node == vNode).toList();
-    if (vNeighbor.length != 0) {
+    if (vNeighbor.isNotEmpty) {
       distance = vNeighbor[0].weight;
       path.add(node);
     }
     return Path(targetNode: node, path: path, distance: distance);
   }).toList();
 
-  while (uList.length > 0) {
+  while (uList.isNotEmpty) {
     uList.sort((a, b) => a.distance - b.distance);
     var u = uList.removeAt(0);
     var uNode = u.targetNode;
     sList.add(u);
-    uNode.neighbors.forEach((uNeighbor) {
-      uList.forEach((restUPath) {
+    for (var uNeighbor in uNode.neighbors) {
+      for (var restUPath in uList) {
         if (restUPath.targetNode == uNeighbor.node &&
             uNeighbor.weight + u.distance < restUPath.distance) {
           restUPath.distance = uNeighbor.weight + u.distance;
-          // u.path.coypWithin <- what is this?
           restUPath.path = u.path.map((e) => e).toList();
           restUPath.path.add(restUPath.targetNode);
         }
-      });
-    });
+      }
+    }
   }
 
   return sList;

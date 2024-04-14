@@ -1,5 +1,3 @@
-class FindPath {}
-
 class DJNode {
   final String nodeId;
   List<Neighbor> neighbors = [];

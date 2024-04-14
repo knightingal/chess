@@ -25,13 +25,13 @@ class Path {
 List<Path> dijkstra(List<DJNode> graph, DJNode vNode) {
   List<Path> sList = [Path(targetNode: vNode, path: [], distance: 0)];
   List<DJNode> graphWithoutVNode =
-      graph.takeWhile((value) => value != vNode).toList();
+      graph.where((value) => value != vNode).toList();
   List<Path> uList = graphWithoutVNode.map((node) {
     var distance = 999;
     List<DJNode> path = [];
 
     List<Neighbor> vNeighbor =
-        node.neighbors.takeWhile((neighbor) => neighbor.node == vNode).toList();
+        node.neighbors.where((neighbor) => neighbor.node == vNode).toList();
     if (vNeighbor.isNotEmpty) {
       distance = vNeighbor[0].weight;
       path.add(node);

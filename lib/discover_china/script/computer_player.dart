@@ -39,11 +39,11 @@ List<Path> dijkstra(List<DJNode> graph, DJNode vNode) {
 
   while (uList.isNotEmpty) {
     uList.sort((a, b) => a.distance - b.distance);
-    var u = uList.removeAt(0);
-    var uNode = u.targetNode;
+    Path u = uList.removeAt(0);
+    DJNode uNode = u.targetNode;
     sList.add(u);
-    for (var uNeighbor in uNode.neighbors) {
-      for (var restUPath in uList) {
+    for (Neighbor uNeighbor in uNode.neighbors) {
+      for (Path restUPath in uList) {
         if (restUPath.targetNode == uNeighbor.node &&
             uNeighbor.weight + u.distance < restUPath.distance) {
           restUPath.distance = uNeighbor.weight + u.distance;

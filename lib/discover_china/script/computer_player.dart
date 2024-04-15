@@ -53,7 +53,7 @@ List<Path> dijkstra(List<DJNode> graph, DJNode sourceNode) {
             targetNeighbor.weight + topRestPath.distance < restPath.distance) {
           // find a nearer path
           restPath.distance = targetNeighbor.weight + topRestPath.distance;
-          restPath.path = topRestPath.path.map((e) => e).toList();
+          restPath.path = [...topRestPath.path];
           restPath.path.add(restPath.targetNode);
         }
       }

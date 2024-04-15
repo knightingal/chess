@@ -20,16 +20,21 @@ class Path {
   Path({required this.targetNode, required this.path, required this.distance});
 }
 
-List<Path> dijkstra(List<DJNode> graph, DJNode vNode) {
-  List<Path> sList = [Path(targetNode: vNode, path: [], distance: 0)];
+List<Path> dijkstra(List<DJNode> graph, DJNode sourceNode) {
+  List<Path> sList = [Path(targetNode: sourceNode, path: [], distance: 0)];
+
+  // init each target path to sourceNode
   List<DJNode> graphWithoutVNode =
-      graph.where((value) => value != vNode).toList();
-  List<Path> uList = graphWithoutVNode.map((node) {
+      graph.where((value) => value != sourceNode).toList();
+  List<Path> restPathList = graphWithoutVNode.map((node) {
     var distance = 999;
     List<DJNode> path = [];
 
-    List<Neighbor> vNeighbor =
-        node.neighbors.where((neighbor) => neighbor.node == vNode).toList();
+    // if is neighbor to source node, create a distanced path
+    // else, create an unreached path
+    List<Neighbor> vNeighbor = node.neighbors
+        .where((neighbor) => neighbor.node == sourceNode)
+        .toList();
     if (vNeighbor.isNotEmpty) {
       distance = vNeighbor[0].weight;
       path.add(node);
@@ -37,18 +42,19 @@ List<Path> dijkstra(List<DJNode> graph, DJNode vNode) {
     return Path(targetNode: node, path: path, distance: distance);
   }).toList();
 
-  while (uList.isNotEmpty) {
-    uList.sort((a, b) => a.distance - b.distance);
-    Path u = uList.removeAt(0);
-    DJNode uNode = u.targetNode;
-    sList.add(u);
-    for (Neighbor uNeighbor in uNode.neighbors) {
-      for (Path restUPath in uList) {
-        if (restUPath.targetNode == uNeighbor.node &&
-            uNeighbor.weight + u.distance < restUPath.distance) {
-          restUPath.distance = uNeighbor.weight + u.distance;
-          restUPath.path = u.path.map((e) => e).toList();
-          restUPath.path.add(restUPath.targetNode);
+  while (restPathList.isNotEmpty) {
+    restPathList.sort((a, b) => a.distance - b.distance);
+    Path topRestPath = restPathList.removeAt(0);
+    DJNode targetNode = topRestPath.targetNode;
+    sList.add(topRestPath);
+    for (Neighbor targetNeighbor in targetNode.neighbors) {
+      for (Path restPath in restPathList) {
+        if (restPath.targetNode == targetNeighbor.node &&
+            targetNeighbor.weight + topRestPath.distance < restPath.distance) {
+          // find a nearer path
+          restPath.distance = targetNeighbor.weight + topRestPath.distance;
+          restPath.path = topRestPath.path.map((e) => e).toList();
+          restPath.path.add(restPath.targetNode);
         }
       }
     }

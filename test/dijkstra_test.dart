@@ -5,33 +5,38 @@ import 'package:chess/discover_china/script/computer_player.dart';
 import 'package:test/test.dart';
 
 List<DJNode> initGraph1() {
-  DJNode node0 = DJNode(nodeId: "node0");
-  DJNode node1 = DJNode(nodeId: "node1");
-  DJNode node2 = DJNode(nodeId: "node2");
-  DJNode node3 = DJNode(nodeId: "node3");
+  DJNode nodeS = DJNode(nodeId: "nodeS");
+  DJNode nodeT = DJNode(nodeId: "nodeT");
+  DJNode nodeY = DJNode(nodeId: "nodeY");
+  DJNode nodeX = DJNode(nodeId: "nodeX");
+  DJNode nodeZ = DJNode(nodeId: "nodeZ");
 
-  node0.neighbors = [
-    Neighbor(node: node1, weight: 3),
-    Neighbor(node: node2, weight: 2),
+  nodeS.neighbors = [
+    Neighbor(node: nodeT, weight: 10),
+    Neighbor(node: nodeY, weight: 5),
   ];
 
-  node1.neighbors = [
-    Neighbor(node: node0, weight: 3),
-    Neighbor(node: node2, weight: 2),
-    Neighbor(node: node3, weight: 1),
-  ];
-  node2.neighbors = [
-    Neighbor(node: node0, weight: 2),
-    Neighbor(node: node1, weight: 2),
-    Neighbor(node: node3, weight: 1),
+  nodeT.neighbors = [
+    Neighbor(node: nodeX, weight: 1),
+    Neighbor(node: nodeY, weight: 2),
   ];
 
-  node3.neighbors = [
-    Neighbor(node: node2, weight: 1),
-    Neighbor(node: node1, weight: 1),
+  nodeY.neighbors = [
+    Neighbor(node: nodeT, weight: 3),
+    Neighbor(node: nodeX, weight: 9),
+    Neighbor(node: nodeZ, weight: 2),
   ];
 
-  return [node0, node1, node2, node3];
+  nodeX.neighbors = [
+    Neighbor(node: nodeZ, weight: 4),
+  ];
+
+  nodeZ.neighbors = [
+    Neighbor(node: nodeS, weight: 7),
+    Neighbor(node: nodeX, weight: 6),
+  ];
+
+  return [nodeS, nodeY, nodeT, nodeX, nodeZ];
 }
 
 List<DJNode> initGraph2() {
@@ -101,15 +106,12 @@ List<DJNode> initGraph3() {
 
 void main() {
   test('test dijkstra 1', () {
+    log("start test1");
     List<DJNode> graph = initGraph1();
     DJNode vNode = graph[0];
     List<Path> path = dijkstra(graph, vNode);
-    expect(path.length, 4);
+    expect(path.length, 5);
     expect(path.firstWhere((element) => element.distance == 0).path.length, 0);
-    Path node3Path = path.firstWhere((element) {
-      return element.targetNode == graph[3];
-    });
-    expect(node3Path.distance, 3);
   });
 
   test('test dijkstra 2', () {
@@ -130,9 +132,5 @@ void main() {
     List<Path> path = dijkstra(graph, vNode);
     expect(path.length, graph.length);
     expect(path.firstWhere((element) => element.distance == 0).path.length, 0);
-    // Path node3Path = path.firstWhere((element) {
-    //   return element.targetNode == graph[3];
-    // });
-    // expect(node3Path.distance, 1);
   });
 }

@@ -62,7 +62,7 @@ List<Path> dijkstra(List<DJNode> graph, DJNode sourceNode) {
       return Path(targetNode: node, path: [], distance: 999);
     }
   }).toList();
-
+  log("================");
   while (restPathList.isNotEmpty) {
     restPathList.sort((a, b) => a.distance - b.distance);
     Path topRestPath = restPathList.removeAt(0);

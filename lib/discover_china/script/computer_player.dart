@@ -17,9 +17,14 @@ class Neighbor {
 class Path {
   late DJNode targetNode;
   List<DJNode> path = [];
+  List<DJNode> nextStep = [];
   int distance = 0;
 
-  Path({required this.targetNode, required this.path, required this.distance});
+  Path(
+      {required this.targetNode,
+      required this.path,
+      required this.distance,
+      required this.nextStep});
 }
 
 String pathToString(List<DJNode> path) {
@@ -34,7 +39,9 @@ String pathToString(List<DJNode> path) {
 }
 
 List<Path> dijkstra(List<DJNode> graph, DJNode sourceNode) {
-  List<Path> sList = [Path(targetNode: sourceNode, path: [], distance: 0)];
+  List<Path> sList = [
+    Path(targetNode: sourceNode, path: [], distance: 0, nextStep: [])
+  ];
 
   // init each target path to sourceNode
   List<DJNode> graphWithoutVNode =
@@ -53,13 +60,16 @@ List<Path> dijkstra(List<DJNode> graph, DJNode sourceNode) {
       log("is neighbor to source, ${pathToString(path)}, $distance");
       log("process target node:${node.nodeId} end");
       return Path(
-          targetNode: node, path: [node], distance: targetList[0].weight);
+          targetNode: node,
+          path: [node],
+          distance: targetList[0].weight,
+          nextStep: [node]);
     } else {
       List<DJNode> path = [];
       var distance = 999;
       log("not neighbor to source, ${pathToString(path)}, $distance");
       log("process target node:${node.nodeId} end");
-      return Path(targetNode: node, path: [], distance: 999);
+      return Path(targetNode: node, path: [], distance: 999, nextStep: []);
     }
   }).toList();
   log("================");
@@ -82,6 +92,13 @@ List<Path> dijkstra(List<DJNode> graph, DJNode sourceNode) {
         log("find a nearer path to ${targetNeighbor.node.nodeId} !!!");
         restPath.distance = targetNeighbor.weight + topRestPath.distance;
         restPath.path = [...topRestPath.path, restPath.targetNode];
+        restPath.nextStep = [restPath.path[0]];
+        log("distance:${restPath.distance}, path:${pathToString(restPath.path)}");
+      } else if (targetNeighbor.weight + topRestPath.distance ==
+          restPath.distance) {
+        log("find a equal distance path to ${targetNeighbor.node.nodeId} !!!");
+        restPath.path = [...topRestPath.path, restPath.targetNode];
+        restPath.nextStep.add(restPath.path[0]);
         log("distance:${restPath.distance}, path:${pathToString(restPath.path)}");
       }
     }

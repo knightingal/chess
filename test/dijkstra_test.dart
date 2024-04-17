@@ -22,7 +22,7 @@ List<DJNode> initGraph1() {
   ];
 
   nodeY.neighbors = [
-    Neighbor(node: nodeT, weight: 3),
+    Neighbor(node: nodeT, weight: 5),
     Neighbor(node: nodeX, weight: 9),
     Neighbor(node: nodeZ, weight: 2),
   ];

@@ -71,6 +71,35 @@ List<DJNode> initGraph2() {
   return [node0, node1, node2, node3];
 }
 
+List<DJNode> initGraph4() {
+  DJNode node0 = DJNode(nodeId: "node0");
+  DJNode node1 = DJNode(nodeId: "node1");
+  DJNode node2 = DJNode(nodeId: "node2");
+  DJNode node3 = DJNode(nodeId: "node3");
+  DJNode nodeX = DJNode(nodeId: "nodeX");
+
+  node0.neighbors = [
+    Neighbor(node: node1, weight: 1),
+    Neighbor(node: node2, weight: 2),
+    Neighbor(node: node3, weight: 3),
+  ];
+
+  node1.neighbors = [
+    Neighbor(node: node2, weight: 1),
+    Neighbor(node: node3, weight: 2),
+  ];
+
+  node2.neighbors = [
+    Neighbor(node: node3, weight: 1),
+  ];
+
+  node3.neighbors = [
+    Neighbor(node: nodeX, weight: 1),
+  ];
+
+  return [node0, node1, node2, node3, nodeX];
+}
+
 List<DJNode> initGraph3() {
   initLineList();
   initCityList();
@@ -128,6 +157,14 @@ void main() {
 
   test('test dijkstra 3', () {
     List<DJNode> graph = initGraph3();
+    DJNode vNode = graph[0];
+    List<Path> path = dijkstra(graph, vNode);
+    expect(path.length, graph.length);
+    expect(path.firstWhere((element) => element.distance == 0).path.length, 0);
+  });
+
+  test('test dijkstra 4', () {
+    List<DJNode> graph = initGraph4();
     DJNode vNode = graph[0];
     List<Path> path = dijkstra(graph, vNode);
     expect(path.length, graph.length);

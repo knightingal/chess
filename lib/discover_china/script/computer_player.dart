@@ -27,6 +27,23 @@ class Path {
       required this.nextStep});
 }
 
+class NextStepNode {
+  Set<DJNode> nextNode = {};
+  int distance = 0;
+}
+
+class NextMatrix {
+  Map<DJNode, Map<DJNode, NextStepNode>> matrix = {};
+
+  void addNode(DJNode source, DJNode target, NextStepNode nextStepNode) {
+    matrix[source]![target] = nextStepNode;
+  }
+
+  NextStepNode? getNode(DJNode source, DJNode target) {
+    return matrix[source]![target];
+  }
+}
+
 String pathToString(List<DJNode> path) {
   String ret = "";
   ret += "[";

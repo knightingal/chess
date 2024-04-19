@@ -36,6 +36,9 @@ class NextMatrix {
   Map<DJNode, Map<DJNode, NextStepNode>> matrix = {};
 
   void addNode(DJNode source, DJNode target, NextStepNode nextStepNode) {
+    if (!matrix.containsKey(source)) {
+      matrix[source] = {};
+    }
     matrix[source]![target] = nextStepNode;
   }
 
@@ -55,7 +58,8 @@ String pathToString(List<DJNode> path) {
   return ret;
 }
 
-List<Path> dijkstra(List<DJNode> graph, DJNode sourceNode) {
+List<Path> dijkstra(
+    List<DJNode> graph, DJNode sourceNode, NextMatrix nextMatrix) {
   Map<DJNode, Path> sList = {
     sourceNode:
         Path(targetNode: sourceNode, path: [], distance: 0, nextStep: {})
@@ -77,6 +81,12 @@ List<Path> dijkstra(List<DJNode> graph, DJNode sourceNode) {
       var distance = targetList[0].weight;
       log("is neighbor to source, ${pathToString(path)}, $distance");
       log("process target node:${node.nodeId} end");
+      nextMatrix.addNode(
+          sourceNode,
+          node,
+          NextStepNode()
+            ..distance = distance
+            ..nextNode = {node});
       return Path(
           targetNode: node,
           path: [node],
@@ -85,6 +95,12 @@ List<Path> dijkstra(List<DJNode> graph, DJNode sourceNode) {
     } else {
       List<DJNode> path = [];
       var distance = 999;
+      nextMatrix.addNode(
+          sourceNode,
+          node,
+          NextStepNode()
+            ..distance = distance
+            ..nextNode = {node});
       log("not neighbor to source, ${pathToString(path)}, $distance");
       log("process target node:${node.nodeId} end");
       return Path(targetNode: node, path: [], distance: 999, nextStep: {});
@@ -95,6 +111,13 @@ List<Path> dijkstra(List<DJNode> graph, DJNode sourceNode) {
     restPathList.sort((a, b) => a.distance - b.distance);
     Path topRestPath = restPathList.removeAt(0);
     log("pop path to ${topRestPath.targetNode.nodeId}");
+
+    nextMatrix.addNode(
+        sourceNode,
+        topRestPath.targetNode,
+        NextStepNode()
+          ..distance = topRestPath.distance
+          ..nextNode = topRestPath.nextStep);
     DJNode targetNode = topRestPath.targetNode;
     sList.addAll({targetNode: topRestPath});
     for (Neighbor targetNeighbor in targetNode.neighbors) {

@@ -138,7 +138,8 @@ void main() {
     log("start test1");
     List<DJNode> graph = initGraph1();
     DJNode vNode = graph[0];
-    List<Path> path = dijkstra(graph, vNode);
+    NextMatrix nextMatrix = NextMatrix();
+    List<Path> path = dijkstra(graph, vNode, nextMatrix);
     expect(path.length, 5);
     expect(path.firstWhere((element) => element.distance == 0).path.length, 0);
   });
@@ -146,7 +147,8 @@ void main() {
   test('test dijkstra 2', () {
     List<DJNode> graph = initGraph2();
     DJNode vNode = graph[0];
-    List<Path> path = dijkstra(graph, vNode);
+    NextMatrix nextMatrix = NextMatrix();
+    List<Path> path = dijkstra(graph, vNode, nextMatrix);
     expect(path.length, 4);
     expect(path.firstWhere((element) => element.distance == 0).path.length, 0);
     Path node3Path = path.firstWhere((element) {
@@ -158,16 +160,21 @@ void main() {
   test('test dijkstra 3', () {
     List<DJNode> graph = initGraph3();
     DJNode vNode = graph[0];
-    List<Path> path = dijkstra(graph, vNode);
+    NextMatrix nextMatrix = NextMatrix();
+    List<Path> path = dijkstra(graph, vNode, nextMatrix);
     expect(path.length, graph.length);
     expect(path.firstWhere((element) => element.distance == 0).path.length, 0);
   });
 
   test('test dijkstra 4', () {
     List<DJNode> graph = initGraph4();
-    DJNode vNode = graph[0];
-    List<Path> path = dijkstra(graph, vNode);
-    expect(path.length, graph.length);
-    expect(path.firstWhere((element) => element.distance == 0).path.length, 0);
+    NextMatrix nextMatrix = NextMatrix();
+    for (DJNode vNode in graph) {
+      List<Path> path = dijkstra(graph, vNode, nextMatrix);
+      expect(path.length, graph.length);
+      expect(
+          path.firstWhere((element) => element.distance == 0).path.length, 0);
+    }
+    log("succ");
   });
 }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 class DJNode {
@@ -5,6 +6,10 @@ class DJNode {
   List<Neighbor> neighbors = [];
 
   DJNode({required this.nodeId});
+
+  Map<String, dynamic> toJson() {
+    return {"nodeid": nodeId};
+  }
 }
 
 class Neighbor {
@@ -30,20 +35,28 @@ class Path {
 class NextStepNode {
   Set<DJNode> nextNode = {};
   int distance = 0;
+  Map<String, dynamic> toJson() {
+    return {"nextNode": nextNode.toList(), "distance": distance};
+  }
 }
 
 class NextMatrix {
-  Map<DJNode, Map<DJNode, NextStepNode>> matrix = {};
+  Map<String, Map<String, NextStepNode>> matrix = {};
 
   void addNode(DJNode source, DJNode target, NextStepNode nextStepNode) {
-    if (!matrix.containsKey(source)) {
-      matrix[source] = {};
+    if (!matrix.containsKey(source.nodeId)) {
+      matrix[source.nodeId] = {};
     }
-    matrix[source]![target] = nextStepNode;
+    matrix[source.nodeId]![target.nodeId] = nextStepNode;
   }
 
   NextStepNode? getNode(DJNode source, DJNode target) {
-    return matrix[source]![target];
+    return matrix[source.nodeId]![target.nodeId];
+  }
+
+  void printMatrix() {
+    var matrixJson = jsonEncode(matrix);
+    print(matrixJson);
   }
 }
 

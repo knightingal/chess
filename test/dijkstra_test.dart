@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:chess/discover_china/city_info.dart';
@@ -120,7 +121,7 @@ List<DJNode> initGraph3() {
         .map((neighborName) {
           return djNodeList.firstWhere(
               (element) => element.nodeId == neighborName, orElse: () {
-            log("not fount ${neighborName}");
+            log("not fount $neighborName");
             // throw IterableElementError.noElement();
             return DJNode(nodeId: "nodeId");
           });
@@ -159,11 +160,15 @@ void main() {
 
   test('test dijkstra 3', () {
     List<DJNode> graph = initGraph3();
-    DJNode vNode = graph[0];
     NextMatrix nextMatrix = NextMatrix();
-    List<Path> path = dijkstra(graph, vNode, nextMatrix);
-    expect(path.length, graph.length);
-    expect(path.firstWhere((element) => element.distance == 0).path.length, 0);
+    for (DJNode vNode in graph) {
+      List<Path> path = dijkstra(graph, vNode, nextMatrix);
+      expect(path.length, graph.length);
+      expect(
+          path.firstWhere((element) => element.distance == 0).path.length, 0);
+    }
+    nextMatrix.printMatrix();
+    log("succ");
   });
 
   test('test dijkstra 4', () {
@@ -176,5 +181,20 @@ void main() {
           path.firstWhere((element) => element.distance == 0).path.length, 0);
     }
     log("succ");
+  });
+
+  test('json test', () {
+    DJNode node = DJNode(nodeId: "node1");
+    // Map<String, DJNode> nodeMap = {"1": node};
+    NextStepNode nextStepNode = NextStepNode()
+      ..distance = 1
+      ..nextNode = {node};
+    var text = jsonEncode(nextStepNode);
+    log(text);
+    Map<String, Map<String, NextStepNode>> matrix = {
+      "node1": {"node1": nextStepNode}
+    };
+    var matrixText = jsonEncode(matrix);
+    log(matrixText);
   });
 }

@@ -59,6 +59,11 @@ class GameModel extends ChangeNotifier {
       notifyListeners();
       return true;
     }
+    if (ticketCount[colorIndex] > 0) {
+      ticketCount[colorIndex] -= 1;
+      notifyListeners();
+      return true;
+    }
     if (dice1 == 5 && !dice1Used) {
       dice1Used = true;
       notifyListeners();
@@ -66,11 +71,6 @@ class GameModel extends ChangeNotifier {
     }
     if (dice2 == 5 && !dice2Used) {
       dice2Used = true;
-      notifyListeners();
-      return true;
-    }
-    if (ticketCount[colorIndex] > 0) {
-      ticketCount[colorIndex] -= 1;
       notifyListeners();
       return true;
     }

@@ -85,15 +85,15 @@ List<Path> dijkstra(
   List<Path> restPathList = graphWithoutVNode.map((node) {
     // if is neighbor to source node, create a distanced path
     // else, create an unreached path
-    log("process target node:${node.nodeId}");
+    // log("process target node:${node.nodeId}");
     var targetList = sourceNode.neighbors
         .where((neighbor) => neighbor.node == node)
         .toList();
     if (targetList.isNotEmpty) {
       var path = [node];
       var distance = targetList[0].weight;
-      log("is neighbor to source, ${pathToString(path)}, $distance");
-      log("process target node:${node.nodeId} end");
+      // log("is neighbor to source, ${pathToString(path)}, $distance");
+      // log("process target node:${node.nodeId} end");
       nextMatrix.addNode(
           sourceNode,
           node,
@@ -114,16 +114,16 @@ List<Path> dijkstra(
           NextStepNode()
             ..distance = distance
             ..nextNode = {node});
-      log("not neighbor to source, ${pathToString(path)}, $distance");
-      log("process target node:${node.nodeId} end");
+      // log("not neighbor to source, ${pathToString(path)}, $distance");
+      // log("process target node:${node.nodeId} end");
       return Path(targetNode: node, path: [], distance: 999, nextStep: {});
     }
   }).toList();
-  log("================");
+  // log("================");
   while (restPathList.isNotEmpty) {
     restPathList.sort((a, b) => a.distance - b.distance);
     Path topRestPath = restPathList.removeAt(0);
-    log("pop path to ${topRestPath.targetNode.nodeId}");
+    // log("pop path to ${topRestPath.targetNode.nodeId}");
 
     nextMatrix.addNode(
         sourceNode,
@@ -134,7 +134,7 @@ List<Path> dijkstra(
     DJNode targetNode = topRestPath.targetNode;
     sList.addAll({targetNode: topRestPath});
     for (Neighbor targetNeighbor in targetNode.neighbors) {
-      log("process neighbot ${targetNeighbor.node.nodeId}");
+      // log("process neighbot ${targetNeighbor.node.nodeId}");
       List<Path> restPaths = restPathList
           .where((restPath) => restPath.targetNode == targetNeighbor.node)
           .toList();
@@ -143,14 +143,14 @@ List<Path> dijkstra(
       }
       var restPath = restPaths[0];
       if (targetNeighbor.weight + topRestPath.distance < restPath.distance) {
-        log("find a nearer path to ${targetNeighbor.node.nodeId} !!!");
+        // log("find a nearer path to ${targetNeighbor.node.nodeId} !!!");
         restPath.distance = targetNeighbor.weight + topRestPath.distance;
         restPath.path = [...topRestPath.path, restPath.targetNode];
         restPath.nextStep = {};
         for (DJNode path in topRestPath.path) {
           restPath.nextStep.addAll(sList[path]!.nextStep);
         }
-        log("distance:${restPath.distance}, path:${pathToString(restPath.path)}");
+        // log("distance:${restPath.distance}, path:${pathToString(restPath.path)}");
       } else if (targetNeighbor.weight + topRestPath.distance ==
           restPath.distance) {
         log("find a equal distance path to ${targetNeighbor.node.nodeId} !!!");
@@ -158,10 +158,10 @@ List<Path> dijkstra(
         for (DJNode path in topRestPath.path) {
           restPath.nextStep.addAll(sList[path]!.nextStep);
         }
-        log("distance:${restPath.distance}, path:${pathToString(restPath.path)}");
+        // log("distance:${restPath.distance}, path:${pathToString(restPath.path)}");
       }
     }
-    log("pop path to ${topRestPath.targetNode.nodeId} end");
+    // log("pop path to ${topRestPath.targetNode.nodeId} end");
   }
 
   return sList.values.toList();

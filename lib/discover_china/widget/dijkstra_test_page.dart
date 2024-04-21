@@ -9,7 +9,7 @@ class DijkstraTest extends StatelessWidget {
     NextMatrix nextMatrix = initDiscoverGraph();
 
     TableCell toTableCell(NextStepNode nextStepNode) {
-      List<Text> texts = nextStepNode.nextNode.map((node) {
+      List<Widget> texts = nextStepNode.nextNode.map((node) {
         return Text(node.nodeId);
       }).toList();
       return TableCell(
@@ -28,63 +28,16 @@ class DijkstraTest extends StatelessWidget {
       return toTableRow(e);
     }).toList();
 
+    var table = Table(
+        children: [...tableRows],
+        border: TableBorder.all(),
+        defaultVerticalAlignment: TableCellVerticalAlignment.middle);
+
     return MaterialApp(
         title: "Discover",
         theme: ThemeData(primarySwatch: Colors.blue),
-        home: Table(
-          border: TableBorder.all(),
-          // columnWidths: const <int, TableColumnWidth>{
-          //   0: FixedColumnWidth(64),
-          // 1: FixedColumnWidth(64),
-          // 2: FixedColumnWidth(64),
-          // },
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          children: <TableRow>[
-            ...tableRows
-            //   TableRow(
-            //     children: <Widget>[
-            //       Container(
-            //         height: 32,
-            //         color: Colors.green,
-            //       ),
-            //       TableCell(
-            //         verticalAlignment: TableCellVerticalAlignment.top,
-            //         child: Container(
-            //           height: 32,
-            //           width: 32,
-            //           color: Colors.red,
-            //         ),
-            //       ),
-            //       Container(
-            //         height: 64,
-            //         color: Colors.blue,
-            //       ),
-            //     ],
-            //   ),
-            //   TableRow(
-            //     decoration: const BoxDecoration(
-            //       color: Colors.grey,
-            //     ),
-            //     children: <Widget>[
-            //       Container(
-            //         height: 64,
-            //         width: 128,
-            //         color: Colors.purple,
-            //       ),
-            //       Container(
-            //         height: 32,
-            //         color: Colors.yellow,
-            //       ),
-            //       Center(
-            //         child: Container(
-            //           height: 32,
-            //           width: 32,
-            //           color: Colors.orange,
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-          ],
+        home: Scaffold(
+          body: table,
         ));
   }
 }

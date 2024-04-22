@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../script/discover_graph.dart';
 
 class DijkstraTest extends StatelessWidget {
+  const DijkstraTest({super.key});
+
   @override
   Widget build(BuildContext context) {
     NextMatrix nextMatrix = initDiscoverGraph();
@@ -37,7 +39,17 @@ class DijkstraTest extends StatelessWidget {
         title: "Discover",
         theme: ThemeData(primarySwatch: Colors.blue),
         home: Scaffold(
-          body: table,
+          body: Scrollbar(
+            child: SingleChildScrollView(
+              primary: true,
+              scrollDirection: Axis.horizontal,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                primary: true,
+                child: table,
+              ),
+            ),
+          ),
         ));
   }
 }

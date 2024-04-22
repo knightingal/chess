@@ -31,6 +31,7 @@ class DijkstraTest extends StatelessWidget {
     }).toList();
 
     var table = Table(
+        defaultColumnWidth: const IntrinsicColumnWidth(),
         children: [...tableRows],
         border: TableBorder.all(),
         defaultVerticalAlignment: TableCellVerticalAlignment.middle);

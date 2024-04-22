@@ -1,3 +1,4 @@
+import 'package:chess/discover_china/city_info.dart';
 import 'package:chess/discover_china/script/computer_player.dart';
 import 'package:flutter/material.dart';
 
@@ -21,14 +22,61 @@ class DijkstraTest extends StatelessWidget {
       );
     }
 
-    TableRow toTableRow(Map<String, NextStepNode> lineItem) {
-      return TableRow(
-          children: lineItem.values.map((e) => toTableCell(e)).toList());
+    List<String> cityNameList = cityList.keys.toList();
+
+    TableRow toTableRow(String sourceName, Map<String, NextStepNode> lineItem,
+        List<String> cityNameList) {
+      TableCell emptyCell = const TableCell(
+        child: Text(""),
+      );
+      List<TableCell> cellList = List.generate(cityNameList.length, (i) {
+        return emptyCell;
+      });
+
+      for (var item in lineItem.entries) {
+        cellList[cityNameList.indexOf(item.key)] = toTableCell(item.value);
+      }
+
+      return TableRow(children: [
+        TableCell(
+          child: Column(
+            children: [
+              Text(
+                sourceName,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              )
+            ],
+          ),
+        ),
+        ...cellList
+      ]);
     }
 
-    List<TableRow> tableRows = nextMatrix.matrix.values.map((e) {
-      return toTableRow(e);
-    }).toList();
+    TableRow toHeaderRow(List<String> cityNameList) {
+      return TableRow(children: [
+        const TableCell(child: Text("")),
+        ...cityNameList.map((e) {
+          return TableCell(
+              child: Column(
+            children: [
+              Text(
+                e,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              )
+            ],
+          ));
+        }).toList()
+      ]);
+    }
+
+    List<TableRow> tableRows = [
+      toHeaderRow(cityNameList),
+      ...nextMatrix.matrix.entries.map((e) {
+        return toTableRow(e.key, e.value, cityNameList);
+      }).toList()
+    ];
 
     var table = Table(
         defaultColumnWidth: const IntrinsicColumnWidth(),

@@ -1,6 +1,25 @@
 import 'computer_player.dart';
 
-void tsp(List<DJNode> nodeList, NextMatrix nextMatrix) {}
+List<DJNode> tsp(List<DJNode> nodeList, NextMatrix nextMatrix) {
+  DJNode node0 = nodeList.removeAt(0);
+  List<DJNode> result = [node0];
+  while (nodeList.isNotEmpty) {
+    int distanceTemp = 99999;
+    DJNode nodeN = nodeList.removeAt(0);
+    List<DJNode> minList = [];
+    for (int i = 0; i <= result.length; i++) {
+      List<DJNode> resultTemp = [...result];
+      resultTemp.insert(i, nodeN);
+      int calDistanceTemp = calDistance([...resultTemp], nextMatrix);
+      if (calDistanceTemp < distanceTemp) {
+        minList = resultTemp;
+        distanceTemp = calDistanceTemp;
+      }
+    }
+    result = minList;
+  }
+  return result;
+}
 
 int calDistance(List<DJNode> nodeList, NextMatrix nextMatrix) {
   int distance = 0;

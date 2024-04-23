@@ -17,7 +17,7 @@ class DijkstraTest extends StatelessWidget {
       }).toList();
       return TableCell(
         child: Column(
-          children: [...texts],
+          children: [...texts, Text(nextStepNode.distance.toString())],
         ),
       );
     }
@@ -43,8 +43,7 @@ class DijkstraTest extends StatelessWidget {
             children: [
               Text(
                 sourceName,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               )
             ],
           ),
@@ -62,8 +61,7 @@ class DijkstraTest extends StatelessWidget {
             children: [
               Text(
                 e,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               )
             ],
           ));

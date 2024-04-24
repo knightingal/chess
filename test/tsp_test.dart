@@ -46,9 +46,11 @@ void main() {
           path.firstWhere((element) => element.distance == 0).path.length, 0);
     }
 
+    DJNode source = graph.firstWhere((element) => element.nodeId == "北京");
+
     List<DJNode> nodeList = [
       graph[4],
-      graph[6],
+      graph[8],
       graph[1],
       graph[19],
       graph[30]
@@ -56,7 +58,7 @@ void main() {
     for (DJNode djNode in nodeList) {
       log(djNode.nodeId);
     }
-    List<DJNode> result = tsp(nodeList, nextMatrix);
+    List<DJNode> result = tsp(source, nodeList, nextMatrix);
     int distacnce = calDistance([...result], nextMatrix);
 
     log(distacnce.toString());

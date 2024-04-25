@@ -90,7 +90,6 @@ List<Path> dijkstra(
         .where((neighbor) => neighbor.node == node)
         .toList();
     if (targetList.isNotEmpty) {
-      var path = [node];
       var distance = targetList[0].weight;
       // log("is neighbor to source, ${pathToString(path)}, $distance");
       // log("process target node:${node.nodeId} end");
@@ -106,7 +105,6 @@ List<Path> dijkstra(
           distance: targetList[0].weight,
           nextStep: {node});
     } else {
-      List<DJNode> path = [];
       var distance = 999;
       nextMatrix.addNode(
           sourceNode,

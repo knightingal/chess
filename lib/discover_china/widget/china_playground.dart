@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:developer' as dev;
 
 import 'package:chess/discover_china/city_info.dart';
 import 'package:chess/discover_china/game_model.dart';
@@ -131,15 +132,24 @@ class CityNameWidget extends StatelessWidget {
     }
   }
 
+  void setPath(BuildContext context) {
+    GameModel game = Provider.of<GameModel>(context, listen: false);
+    game.setPath(name);
+  }
+
   @override
   Widget build(BuildContext context) => Positioned(
         left: gridSize * x,
         top: gridSize * y,
         width: gridSize,
         height: gridSize,
-        child: GestureDetector(
-          onTap: () {
-            goToCity(context);
+        child: Listener(
+          onPointerDown: (details) {
+            if (details.buttons == 1) {
+              goToCity(context);
+            } else if (details.buttons == 4) {
+              setPath(context);
+            }
           },
           child: Consumer<GameModel>(builder: (context, game, child) {
             return Stack(
@@ -275,7 +285,7 @@ class PlayGroundCustomPainter extends CustomPainter {
             calOffset(city2.x, city2.y),
             Paint()
               ..color = element.color
-              ..strokeWidth = 4);
+              ..strokeWidth = element.strokeWidth);
       }
     }
   }

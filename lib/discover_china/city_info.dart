@@ -23,6 +23,7 @@ class LineInfo {
   final String cityName1;
   final String cityName2;
   final Color color;
+  double strokeWidth = 4;
 
   LineInfo(
       {required this.cityName1, required this.cityName2, required this.color});

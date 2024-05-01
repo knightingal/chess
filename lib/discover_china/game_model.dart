@@ -1,6 +1,7 @@
 import 'dart:developer' as dev;
 import 'dart:math';
 
+import 'package:chess/discover_china/script/discover_graph.dart';
 import 'package:flutter/material.dart';
 
 import 'city_info.dart';
@@ -18,6 +19,8 @@ List<Color> diceColors = [
 class GameModel extends ChangeNotifier {
   int dice1 = Random().nextInt(6);
   int dice2 = Random().nextInt(6);
+
+  Set<String> pathName = {};
 
   bool dice1Used = false;
   bool dice2Used = false;
@@ -95,6 +98,17 @@ class GameModel extends ChangeNotifier {
       cityReached.cityName = "${cityReached.cityName}\u{2705}";
     }
     notifyListeners();
+  }
+
+  void setPath(String city) {
+    pathName.add(city);
+    if (pathName.length == 2) {
+      Set<LineInfo> allPath = calAllPath(pathName.first, pathName.last);
+      for (var line in allPath) {
+        line.strokeWidth = 8;
+      }
+      dev.log(allPath.toString());
+    }
   }
 
   void setDice(int dice1, int dice2) {

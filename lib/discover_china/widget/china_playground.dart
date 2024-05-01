@@ -19,6 +19,7 @@ class DiscoverApp extends StatelessWidget {
     initCityList();
     initLineList();
     initCityCardInfoList();
+    initNextMatrix();
 
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;

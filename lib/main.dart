@@ -9,7 +9,7 @@ import 'discover_china/widget/china_playground.dart';
 void main() {
   var test = true;
   if (test) {
-    runApp(DijkstraTest());
+    runApp(const DijkstraTest());
   } else {
     if (true) {
       runApp(const DiscoverApp());

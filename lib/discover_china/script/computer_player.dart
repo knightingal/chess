@@ -54,6 +54,10 @@ class NextMatrix {
     return matrix[source.nodeId]![target.nodeId];
   }
 
+  NextStepNode? getNodeById(String source, String target) {
+    return matrix[source]![target];
+  }
+
   void printMatrix() {
     var matrixJson = jsonEncode(matrix);
     print(matrixJson);

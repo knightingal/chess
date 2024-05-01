@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:chess/discover_china/city_info.dart';
 import 'package:chess/discover_china/script/computer_player.dart';
+import 'package:chess/discover_china/script/discover_graph.dart';
 import 'package:test/test.dart';
 
 List<DJNode> initGraph1() {
@@ -168,6 +169,15 @@ void main() {
           path.firstWhere((element) => element.distance == 0).path.length, 0);
     }
     nextMatrix.printMatrix();
+    log("succ");
+  });
+
+  test('test dijkstra 5', () {
+    initCityList();
+    initLineList();
+    initNextMatrix();
+
+    var allPath = calAllPath("北京", "南京");
     log("succ");
   });
 

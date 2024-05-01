@@ -9,6 +9,8 @@ class DijkstraTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    initLineList();
+    initCityList();
     NextMatrix nextMatrix = initDiscoverGraph();
 
     TableCell toTableCell(NextStepNode nextStepNode) {

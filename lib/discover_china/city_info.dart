@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'script/computer_player.dart';
+import 'script/discover_graph.dart';
 import 'package:flutter/material.dart';
 
 class CityInfo {
@@ -29,6 +31,12 @@ class LineInfo {
 Map<String, CityInfo> cityList = {};
 List<LineInfo> lineList = [];
 List<CityCardInfo> cityCardList = [];
+
+NextMatrix nextMatrix = NextMatrix();
+
+void initNextMatrix() {
+  nextMatrix = initDiscoverGraph();
+}
 
 void initCityCardInfoList() {
   cityCardList.add(CityCardInfo(cityName: "大连", ticket: 1));

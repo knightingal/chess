@@ -3,9 +3,29 @@ import 'dart:developer';
 import '../city_info.dart';
 import 'computer_player.dart';
 
+Set<LineInfo> calAllPath(String source, String dest) {
+  Set<LineInfo> lineInfoSet = {};
+  NextStepNode nextStepNode = nextMatrix.getNodeById(source, dest)!;
+  for (DJNode nextNode in nextStepNode.nextNode) {
+    var line = lineList
+        .where((element) =>
+            element.cityName1 == source &&
+                element.cityName2 == nextNode.nodeId ||
+            element.cityName1 == nextNode.nodeId && element.cityName2 == source)
+        .first;
+    if (nextNode.nodeId == dest) {
+      return {line};
+    } else {
+      lineInfoSet.add(line);
+      lineInfoSet.addAll(calAllPath(nextNode.nodeId, dest));
+    }
+  }
+  return lineInfoSet;
+}
+
 NextMatrix initDiscoverGraph() {
-  initLineList();
-  initCityList();
+  // initLineList();
+  // initCityList();
   List<DJNode> djNodeList =
       cityList.keys.map((city) => DJNode(nodeId: city)).toList();
   for (DJNode djNode in djNodeList) {

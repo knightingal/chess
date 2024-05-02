@@ -20,10 +20,11 @@ class GameModel extends ChangeNotifier {
   int dice1 = Random().nextInt(6);
   int dice2 = Random().nextInt(6);
 
-  Set<String> pathName = {};
-
   bool dice1Used = false;
   bool dice2Used = false;
+
+  String? pathSrc;
+  String? pathDest;
 
   int playerTurn = 0;
 
@@ -100,15 +101,21 @@ class GameModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Set<LineInfo> markedLine = {};
+
   void setPath(String city) {
-    pathName.add(city);
-    if (pathName.length == 2) {
-      Set<LineInfo> allPath = calAllPath(pathName.first, pathName.last);
-      for (var line in allPath) {
-        line.strokeWidth = 8;
-      }
-      dev.log(allPath.toString());
+    if (pathSrc == null) {
+      pathSrc = city;
+    } else if (pathDest == null) {
+      pathDest = city;
+      Set<LineInfo> allPath = calAllPath(pathSrc!, pathDest!);
+      markedLine = allPath;
+    } else {
+      pathSrc = city;
+      pathDest = null;
+      markedLine = {};
     }
+    notifyListeners();
   }
 
   void setDice(int dice1, int dice2) {

@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:developer' as dev;
 
 import 'package:chess/discover_china/city_info.dart';
 import 'package:chess/discover_china/game_model.dart';
@@ -222,11 +221,8 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
             child: Consumer<GameModel>(builder: (context, game, child) {
               return Stack(
                 children: [
-                  CustomPaint(
-                    size: Size(
-                        gridSize * widthGridCount, gridSize * heightGridCount),
-                    painter: PlayGroundCustomPainter(gridSize: gridSize),
-                  ),
+                  PlayGroundPaint(
+                      gridSize: gridSize, markedLine: game.markedLine),
                   ...getPlayerWidgetList(game.playerDataList),
                   ...getCityWidgets()
                 ],
@@ -236,6 +232,23 @@ class DiscoverPlayGroundWidget extends StatelessWidget {
         PlayerTabs(gridSize: gridSize),
       ],
     ));
+  }
+}
+
+class PlayGroundPaint extends StatelessWidget {
+  final double gridSize;
+  final Set<LineInfo> markedLine;
+
+  const PlayGroundPaint(
+      {super.key, required this.gridSize, required this.markedLine});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      size: Size(gridSize * widthGridCount, gridSize * heightGridCount),
+      painter:
+          PlayGroundCustomPainter(gridSize: gridSize, markedLine: markedLine),
+    );
   }
 }
 
@@ -268,8 +281,9 @@ class PlayConsolePad extends StatelessWidget {
 
 class PlayGroundCustomPainter extends CustomPainter {
   final double gridSize;
+  final Set<LineInfo> markedLine;
 
-  PlayGroundCustomPainter({required this.gridSize});
+  PlayGroundCustomPainter({required this.gridSize, required this.markedLine});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -285,7 +299,7 @@ class PlayGroundCustomPainter extends CustomPainter {
             calOffset(city2.x, city2.y),
             Paint()
               ..color = element.color
-              ..strokeWidth = element.strokeWidth);
+              ..strokeWidth = markedLine.contains(element) ? 8 : 4);
       }
     }
   }
@@ -296,6 +310,6 @@ class PlayGroundCustomPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
+    return true;
   }
 }

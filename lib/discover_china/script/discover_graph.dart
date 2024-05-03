@@ -24,8 +24,6 @@ Set<LineInfo> calAllPath(String source, String dest) {
 }
 
 NextMatrix initDiscoverGraph() {
-  // initLineList();
-  // initCityList();
   List<DJNode> djNodeList =
       cityList.keys.map((city) => DJNode(nodeId: city)).toList();
   for (DJNode djNode in djNodeList) {
@@ -44,7 +42,6 @@ NextMatrix initDiscoverGraph() {
           return djNodeList.firstWhere(
               (element) => element.nodeId == neighborName, orElse: () {
             log("not fount $neighborName");
-            // throw IterableElementError.noElement();
             return DJNode(nodeId: "nodeId");
           });
         })
@@ -53,14 +50,9 @@ NextMatrix initDiscoverGraph() {
     djNode.neighbors = neighborList;
   }
 
-  // return djNodeList;
-
   NextMatrix nextMatrix = NextMatrix();
   for (DJNode vNode in djNodeList) {
     dijkstra(djNodeList, vNode, nextMatrix);
-    // expect(path.length, graph.length);
-    // expect(
-    //     path.firstWhere((element) => element.distance == 0).path.length, 0);
   }
   return nextMatrix;
 }

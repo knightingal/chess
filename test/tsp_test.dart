@@ -58,8 +58,8 @@ void main() {
     for (DJNode djNode in nodeList) {
       log(djNode.nodeId);
     }
-    List<DJNode> result = tsp(source, nodeList, nextMatrix);
-    int distacnce = calDistance([...result], nextMatrix);
+    List<List<DJNode>> result = tsp(source, nodeList, nextMatrix);
+    int distacnce = calDistance([...result[0]], nextMatrix);
 
     log(distacnce.toString());
     // expect(distacnce, 19);

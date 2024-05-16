@@ -64,4 +64,8 @@ void main() {
     log(distacnce.toString());
     // expect(distacnce, 19);
   });
+
+  DJNode findNodeByName(List<DJNode> graph, String name) {
+    return graph.firstWhere((element) => element.nodeId == name);
+  }
 }

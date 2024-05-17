@@ -68,4 +68,40 @@ void main() {
   DJNode findNodeByName(List<DJNode> graph, String name) {
     return graph.firstWhere((element) => element.nodeId == name);
   }
+
+  test("test tsp3", () {
+    List<DJNode> graph = initGraph3();
+    NextMatrix nextMatrix = NextMatrix();
+    for (DJNode vNode in graph) {
+      List<Path> path = dijkstra(graph, vNode, nextMatrix);
+      expect(path.length, graph.length);
+      expect(
+          path.firstWhere((element) => element.distance == 0).path.length, 0);
+    }
+
+    DJNode source = graph.firstWhere((element) => element.nodeId == "北京");
+
+    List<DJNode> nodeList = [
+      findNodeByName(graph, "佳木斯"),
+      findNodeByName(graph, "济南"),
+      findNodeByName(graph, "敦煌"),
+      findNodeByName(graph, "乌鲁木齐"),
+      findNodeByName(graph, "重庆"),
+    ];
+    // List<DJNode> nodeList = [
+    //   findNodeByName(graph, "乌鲁木齐"),
+    //   findNodeByName(graph, "敦煌"),
+    //   findNodeByName(graph, "佳木斯"),
+    //   findNodeByName(graph, "济南"),
+    //   findNodeByName(graph, "重庆"),
+    // ];
+    for (DJNode djNode in nodeList) {
+      log(djNode.nodeId);
+    }
+    List<List<DJNode>> result = tsp(source, nodeList, nextMatrix);
+    int distacnce = calDistance([...result[0]], nextMatrix);
+
+    log(distacnce.toString());
+    // expect(distacnce, 19);
+  });
 }

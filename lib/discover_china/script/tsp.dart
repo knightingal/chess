@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'computer_player.dart';
 
 List<List<DJNode>> tsp(
@@ -14,7 +16,9 @@ List<List<DJNode>> tsp(
       for (int i = 1; i <= pathItem.length; i++) {
         List<DJNode> resultTemp = [...pathItem];
         resultTemp.insert(i, nodeN);
+        log("parse:${nodeListToString(resultTemp)}");
         int calDistanceTemp = calDistance([...resultTemp], nextMatrix);
+        log("distance:$calDistanceTemp");
         if (calDistanceTemp < distanceTemp) {
           minList = [resultTemp];
           distanceTemp = calDistanceTemp;
@@ -26,6 +30,14 @@ List<List<DJNode>> tsp(
     }
   }
   return result;
+}
+
+String nodeListToString(List<DJNode> djNodeList) {
+  String buf = "";
+  for (DJNode jdNode in djNodeList) {
+    buf += jdNode.nodeId + ",";
+  }
+  return buf;
 }
 
 int calDistance(List<DJNode> nodeList, NextMatrix nextMatrix) {

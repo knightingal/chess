@@ -63,6 +63,44 @@ void main() {
 
     log(distacnce.toString());
     // expect(distacnce, 19);
+    /*
+[log] 乌鲁木齐
+[log] 敦煌
+[log] 佳木斯
+[log] 济南
+[log] 重庆
+[log] parse:北京,乌鲁木齐,
+[log] distance:5
+[log] parse:北京,敦煌,乌鲁木齐,
+[log] distance:5
+[log] parse:北京,乌鲁木齐,敦煌,
+[log] distance:6
+[log] parse:北京,佳木斯,敦煌,乌鲁木齐,
+[log] distance:13
+[log] parse:北京,敦煌,佳木斯,乌鲁木齐,
+[log] distance:21
+[log] parse:北京,敦煌,乌鲁木齐,佳木斯,
+[log] distance:14
+[log] parse:北京,济南,佳木斯,敦煌,乌鲁木齐,
+[log] distance:17
+[log] parse:北京,佳木斯,济南,敦煌,乌鲁木齐,
+[log] distance:16
+[log] parse:北京,佳木斯,敦煌,济南,乌鲁木齐,
+[log] distance:23
+[log] parse:北京,佳木斯,敦煌,乌鲁木齐,济南,
+[log] distance:19
+[log] parse:北京,重庆,佳木斯,济南,敦煌,乌鲁木齐,
+[log] distance:28
+[log] parse:北京,佳木斯,重庆,济南,敦煌,乌鲁木齐,
+[log] distance:24
+[log] parse:北京,佳木斯,济南,重庆,敦煌,乌鲁木齐,
+[log] distance:19
+[log] parse:北京,佳木斯,济南,敦煌,重庆,乌鲁木齐,
+[log] distance:24
+[log] parse:北京,佳木斯,济南,敦煌,乌鲁木齐,重庆,
+[log] distance:21
+[log] 19
+    */
   });
 
   DJNode findNodeByName(List<DJNode> graph, String name) {
@@ -103,5 +141,83 @@ void main() {
 
     log(distacnce.toString());
     // expect(distacnce, 19);
+    /*
+
+[log] 佳木斯
+[log] 济南
+[log] 敦煌
+[log] 乌鲁木齐
+[log] 重庆
+[log] parse:北京,佳木斯,
+[log] distance:4
+[log] parse:北京,济南,佳木斯,
+[log] distance:8
+[log] parse:北京,佳木斯,济南,
+[log] distance:10
+[log] parse:北京,敦煌,济南,佳木斯,
+[log] distance:15
+[log] parse:北京,济南,敦煌,佳木斯,
+[log] distance:15
+[log] parse:北京,济南,佳木斯,敦煌,
+[log] distance:16
+[log] parse:北京,乌鲁木齐,敦煌,济南,佳木斯,
+[log] distance:17
+[log] parse:北京,敦煌,乌鲁木齐,济南,佳木斯,
+[log] distance:17
+[log] parse:北京,敦煌,济南,乌鲁木齐,佳木斯,
+[log] distance:24
+[log] parse:北京,敦煌,济南,佳木斯,乌鲁木齐,
+[log] distance:24
+[log] parse:北京,乌鲁木齐,济南,敦煌,佳木斯,
+[log] distance:24
+[log] parse:北京,济南,乌鲁木齐,敦煌,佳木斯,
+[log] distance:17
+[log] parse:北京,济南,敦煌,乌鲁木齐,佳木斯,
+[log] distance:17
+[log] parse:北京,济南,敦煌,佳木斯,乌鲁木齐,
+[log] distance:24
+[log] parse:北京,重庆,乌鲁木齐,敦煌,济南,佳木斯,
+[log] distance:23
+[log] parse:北京,乌鲁木齐,重庆,敦煌,济南,佳木斯,
+[log] distance:25
+[log] parse:北京,乌鲁木齐,敦煌,重庆,济南,佳木斯,
+[log] distance:20
+[log] parse:北京,乌鲁木齐,敦煌,济南,重庆,佳木斯,
+[log] distance:25
+[log] parse:北京,乌鲁木齐,敦煌,济南,佳木斯,重庆,
+[log] distance:27
+[log] parse:北京,重庆,敦煌,乌鲁木齐,济南,佳木斯,
+[log] distance:23
+[log] parse:北京,敦煌,重庆,乌鲁木齐,济南,佳木斯,
+[log] distance:25
+[log] parse:北京,敦煌,乌鲁木齐,重庆,济南,佳木斯,
+[log] distance:20
+[log] parse:北京,敦煌,乌鲁木齐,济南,重庆,佳木斯,
+[log] distance:25
+[log] parse:北京,敦煌,乌鲁木齐,济南,佳木斯,重庆,
+[log] distance:27
+[log] parse:北京,重庆,济南,乌鲁木齐,敦煌,佳木斯,
+[log] distance:25
+[log] parse:北京,济南,重庆,乌鲁木齐,敦煌,佳木斯,
+[log] distance:20
+[log] parse:北京,济南,乌鲁木齐,重庆,敦煌,佳木斯,
+[log] distance:25
+[log] parse:北京,济南,乌鲁木齐,敦煌,重庆,佳木斯,
+[log] distance:23
+[log] parse:北京,济南,乌鲁木齐,敦煌,佳木斯,重庆,
+[log] parse:北京,济南,乌鲁木齐,敦煌,佳木斯,重庆,
+[log] distance:27
+[log] parse:北京,重庆,济南,敦煌,乌鲁木齐,佳木斯,
+[log] distance:25
+[log] parse:北京,济南,重庆,敦煌,乌鲁木齐,佳木斯,
+[log] distance:20
+[log] parse:北京,济南,敦煌,重庆,乌鲁木齐,佳木斯,
+[log] distance:25
+[log] parse:北京,济南,敦煌,乌鲁木齐,重庆,佳木斯,
+[log] distance:23
+[log] parse:北京,济南,敦煌,乌鲁木齐,佳木斯,重庆,
+[log] distance:27
+[log] 20
+     */
   });
 }

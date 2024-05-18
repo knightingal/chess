@@ -2,31 +2,68 @@ import 'dart:developer';
 
 import 'computer_player.dart';
 
-List<List<DJNode>> tsp(
+List<List<DJNode>> tspMisstake(
     DJNode source, List<DJNode> nodeList, NextMatrix nextMatrix) {
-  DJNode node0 = source;
-  List<List<DJNode>> result = [
-    [node0]
-  ];
-  while (nodeList.isNotEmpty) {
-    int distanceTemp = 99999;
-    DJNode nodeN = nodeList.removeAt(0);
-    List<List<DJNode>> minList = [];
-    for (List<DJNode> pathItem in result) {
-      for (int i = 1; i <= pathItem.length; i++) {
-        List<DJNode> resultTemp = [...pathItem];
-        resultTemp.insert(i, nodeN);
-        log("parse:${nodeListToString(resultTemp)}");
-        int calDistanceTemp = calDistance([...resultTemp], nextMatrix);
-        log("distance:$calDistanceTemp");
-        if (calDistanceTemp < distanceTemp) {
-          minList = [resultTemp];
-          distanceTemp = calDistanceTemp;
-        } else if (calDistanceTemp == distanceTemp) {
-          minList.add(resultTemp);
+  int currMinDistance = 99999;
+  List<List<DJNode>> result = [];
+  if (nodeList.length == 1) {
+    return [nodeList];
+  } else {
+    for (int i = 0; i < nodeList.length; i++) {
+      List<DJNode> tmpList = [...nodeList];
+      DJNode outNode = tmpList.removeAt(i);
+      List<List<DJNode>> subCollect = tsp(source, tmpList, nextMatrix);
+      for (List<DJNode> subItemList in subCollect) {
+        var targetList = [source, ...subItemList, outNode];
+        int calDistanceTemp = calDistance(targetList, nextMatrix);
+        if (calDistanceTemp < currMinDistance) {
+          result = [
+            [...subItemList, outNode]
+          ];
+          currMinDistance = calDistanceTemp;
+        } else if (calDistanceTemp == currMinDistance) {
+          result.add([...subItemList, outNode]);
         }
       }
-      result = minList;
+    }
+  }
+  return result;
+}
+
+List<List<DJNode>> tsp(
+    DJNode source, List<DJNode> nodeList, NextMatrix nextMatrix) {
+  List<List<DJNode>> result = [];
+  List<List<DJNode>> subCollect = tspInnerLoop(nodeList, nextMatrix);
+  int currMinDistance = 99999;
+  for (List<DJNode> subCollectItem in subCollect) {
+    var targetCollect = [source, ...subCollectItem];
+    int distance = calDistance(targetCollect, nextMatrix);
+    if (distance < currMinDistance) {
+      result = [
+        [source, ...subCollectItem]
+      ];
+      currMinDistance = distance;
+    } else if (distance == currMinDistance) {
+      result.add([source, ...subCollectItem]);
+    }
+  }
+
+  return result;
+}
+
+List<List<DJNode>> tspInnerLoop(List<DJNode> nodeList, NextMatrix nextMatrix) {
+  List<List<DJNode>> result = [];
+  if (nodeList.length == 1) {
+    return [nodeList];
+  } else {
+    for (int i = 0; i < nodeList.length; i++) {
+      List<DJNode> tmpList = [...nodeList];
+      DJNode outNode = tmpList.removeAt(i);
+      List<List<DJNode>> subCollect = tspInnerLoop(tmpList, nextMatrix);
+      for (List<DJNode> subItemList in subCollect) {
+        var targetList = [...subItemList, outNode];
+        result.add(targetList);
+      }
     }
   }
   return result;

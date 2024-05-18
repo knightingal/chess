@@ -7,7 +7,7 @@ import 'chess/chess_app.dart';
 import 'discover_china/widget/china_playground.dart';
 
 void main() {
-  var test = true;
+  var test = false;
   if (test) {
     runApp(const DijkstraTest());
   } else {

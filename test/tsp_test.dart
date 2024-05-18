@@ -59,7 +59,7 @@ void main() {
       log(djNode.nodeId);
     }
     List<List<DJNode>> result = tsp(source, nodeList, nextMatrix);
-    int distacnce = calDistance([...result[0]], nextMatrix);
+    int distacnce = calDistance([source, ...result[0]], nextMatrix);
 
     log(distacnce.toString());
     // expect(distacnce, 19);

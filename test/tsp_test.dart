@@ -119,20 +119,33 @@ void main() {
 
     DJNode source = graph.firstWhere((element) => element.nodeId == "北京");
 
-    List<DJNode> nodeList = [
-      findNodeByName(graph, "佳木斯"),
-      findNodeByName(graph, "济南"),
-      findNodeByName(graph, "敦煌"),
-      findNodeByName(graph, "乌鲁木齐"),
-      findNodeByName(graph, "重庆"),
-    ];
-    // List<DJNode> nodeList = [
-    //   findNodeByName(graph, "乌鲁木齐"),
-    //   findNodeByName(graph, "敦煌"),
-    //   findNodeByName(graph, "佳木斯"),
-    //   findNodeByName(graph, "济南"),
-    //   findNodeByName(graph, "重庆"),
-    // ];
+    DJNode node1 = findNodeByName(graph, "佳木斯");
+    DJNode node2 = findNodeByName(graph, "济南");
+    DJNode node3 = findNodeByName(graph, "敦煌");
+    DJNode node4 = findNodeByName(graph, "乌鲁木齐");
+    DJNode node5 = findNodeByName(graph, "重庆");
+    List<DJNode> nodeList = [node1, node2, node3, node4, node5];
+
+    log("北京->佳木斯, ${nextMatrix.getNode(source, node1)!.distance}");
+    log("北京->济南, ${nextMatrix.getNode(source, node2)!.distance}");
+    log("北京->敦煌, ${nextMatrix.getNode(source, node3)!.distance}");
+    log("北京->乌鲁木齐, ${nextMatrix.getNode(source, node4)!.distance}");
+    log("北京->重庆, ${nextMatrix.getNode(source, node5)!.distance}");
+
+    log("佳木斯->济南, ${nextMatrix.getNode(node1, node2)!.distance}");
+    log("佳木斯->敦煌, ${nextMatrix.getNode(node1, node3)!.distance}");
+    log("佳木斯->乌鲁木齐, ${nextMatrix.getNode(node1, node4)!.distance}");
+    log("佳木斯->重庆, ${nextMatrix.getNode(node1, node5)!.distance}");
+
+    log("济南->敦煌, ${nextMatrix.getNode(node2, node3)!.distance}");
+    log("济南->乌鲁木齐, ${nextMatrix.getNode(node2, node4)!.distance}");
+    log("济南->重庆, ${nextMatrix.getNode(node2, node5)!.distance}");
+
+    log("敦煌->乌鲁木齐, ${nextMatrix.getNode(node3, node4)!.distance}");
+    log("敦煌->重庆, ${nextMatrix.getNode(node3, node5)!.distance}");
+
+    log("乌鲁木齐->重庆, ${nextMatrix.getNode(node4, node5)!.distance}");
+
     for (DJNode djNode in nodeList) {
       log(djNode.nodeId);
     }

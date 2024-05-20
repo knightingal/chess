@@ -233,4 +233,29 @@ void main() {
 [log] 20
      */
   });
+  test("test tsp5", () {
+    List<DJNode> graph = initGraph3();
+    NextMatrix nextMatrix = NextMatrix();
+    for (DJNode vNode in graph) {
+      List<Path> path = dijkstra(graph, vNode, nextMatrix);
+      expect(path.length, graph.length);
+      expect(
+          path.firstWhere((element) => element.distance == 0).path.length, 0);
+    }
+
+    DJNode source = graph.firstWhere((element) => element.nodeId == "北京");
+
+    DJNode node1 = findNodeByName(graph, "天津");
+    DJNode node2 = findNodeByName(graph, "济南");
+    DJNode node3 = findNodeByName(graph, "石家庄");
+    List<DJNode> nodeList = [node1, node2, node3];
+
+    for (DJNode djNode in nodeList) {
+      log(djNode.nodeId);
+    }
+    List<List<DJNode>> result = tsp(source, nodeList, nextMatrix);
+    int distacnce = calDistance([...result[0]], nextMatrix);
+
+    log(distacnce.toString());
+  });
 }

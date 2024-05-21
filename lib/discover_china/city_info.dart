@@ -110,6 +110,8 @@ List<CityCardInfo> getPlayerCityCards() {
       break;
     }
   }
+
+  // TODO: sort by tsp here
   return playerCityCard;
 }
 

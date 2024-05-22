@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:chess/discover_china/script/tsp.dart';
+
 import 'script/computer_player.dart';
 import 'script/discover_graph.dart';
 import 'package:flutter/material.dart';
@@ -111,8 +113,23 @@ List<CityCardInfo> getPlayerCityCards() {
     }
   }
 
+  DJNode source =
+      nextMatrix.djNodeList.firstWhere((element) => element.nodeId == "北京");
+
+  List<DJNode> nodeList = nextMatrix.djNodeList
+      .where((element) =>
+          playerCityCard.any((cityCard) => cityCard.cityName == element.nodeId))
+      .toList();
+
+  List<List<DJNode>> tspResult = tsp(source, nodeList, nextMatrix);
+
   // TODO: sort by tsp here
-  return playerCityCard;
+  List<CityCardInfo> result = tspResult[0]
+      .where((element) => element.nodeId != "北京")
+      .map((e) =>
+          playerCityCard.firstWhere((element) => element.cityName == e.nodeId))
+      .toList();
+  return result;
 }
 
 Color findLine(String city1, String city2) {

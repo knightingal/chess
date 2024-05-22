@@ -43,6 +43,8 @@ class NextStepNode {
 class NextMatrix {
   Map<String, Map<String, NextStepNode>> matrix = {};
 
+  List<DJNode> djNodeList = [];
+
   void addNode(DJNode source, DJNode target, NextStepNode nextStepNode) {
     if (!matrix.containsKey(source.nodeId)) {
       matrix[source.nodeId] = {};

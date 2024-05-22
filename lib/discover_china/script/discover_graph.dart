@@ -54,5 +54,6 @@ NextMatrix initDiscoverGraph() {
   for (DJNode vNode in djNodeList) {
     dijkstra(djNodeList, vNode, nextMatrix);
   }
+  nextMatrix.djNodeList = djNodeList;
   return nextMatrix;
 }

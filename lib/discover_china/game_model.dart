@@ -84,7 +84,7 @@ class GameModel extends ChangeNotifier {
   GameModel(int playerCount) {
     for (int i = 0; i < playerCount; i++) {
       PlayerData playerData = PlayerData(playerId: i);
-      playerData.cityCardList = getPlayerCityCards();
+      playerData.cityCardList = getPlayerCityCards(i != 0);
       playerDataList.add(playerData);
     }
   }

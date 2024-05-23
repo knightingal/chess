@@ -95,7 +95,7 @@ void initCityCardInfoList() {
   cityCardList.add(CityCardInfo(cityName: "佳木斯", ticket: 4));
 }
 
-List<CityCardInfo> getPlayerCityCards() {
+List<CityCardInfo> getPlayerCityCards(bool tspOrder) {
   List<CityCardInfo> playerCityCard = [];
   int currentTicket = 0;
   for (;;) {
@@ -111,6 +111,9 @@ List<CityCardInfo> getPlayerCityCards() {
     if (currentTicket == 10) {
       break;
     }
+  }
+  if (!tspOrder) {
+    return playerCityCard;
   }
 
   DJNode source =

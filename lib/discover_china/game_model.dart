@@ -83,8 +83,8 @@ class GameModel extends ChangeNotifier {
 
   GameModel(int playerCount) {
     for (int i = 0; i < playerCount; i++) {
-      PlayerData playerData = PlayerData(playerId: i);
-      playerData.cityCardList = getPlayerCityCards(i != 0);
+      PlayerData playerData = PlayerData(playerId: i, robote: i != 0);
+      playerData.cityCardList = getPlayerCityCards(playerData.robote);
       playerDataList.add(playerData);
     }
   }
@@ -169,11 +169,13 @@ class PlayerData {
 
   String selectedCard = "";
 
+  bool robote;
+
   List<CityCardInfo> cityCardList = [];
 
   List<int> ticketCount = [0, 0, 0, 0, 0];
 
-  PlayerData({required this.playerId});
+  PlayerData({required this.playerId, required this.robote});
 }
 
 GameModel gameModel = GameModel(2);

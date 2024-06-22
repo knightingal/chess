@@ -145,7 +145,6 @@ class GameModel extends ChangeNotifier {
     this.dice2 = dice2;
     dice1Used = false;
     dice2Used = false;
-    // notifyListeners();
   }
 
   void nextTurn() {
@@ -167,7 +166,6 @@ class GameModel extends ChangeNotifier {
       playerDataList[currentPlayer()].ticketCount[dice2] =
           playerDataList[currentPlayer()].ticketCount[dice2] + 1;
     }
-    // notifyListeners();
   }
 
   void setSelectCard(String cityName) {

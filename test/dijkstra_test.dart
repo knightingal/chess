@@ -177,7 +177,7 @@ void main() {
     initLineList();
     initNextMatrix();
 
-    var allPath = calAllPath("北京", "南京");
+    calAllPath("北京", "南京");
     log("succ");
   });
 

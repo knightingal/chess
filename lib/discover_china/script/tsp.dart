@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'computer_player.dart';
 
 List<List<DJNode>> tspMisstake(
@@ -72,7 +70,7 @@ List<List<DJNode>> tspInnerLoop(List<DJNode> nodeList, NextMatrix nextMatrix) {
 String nodeListToString(List<DJNode> djNodeList) {
   String buf = "";
   for (DJNode jdNode in djNodeList) {
-    buf += jdNode.nodeId + ",";
+    buf += "${jdNode.nodeId},";
   }
   return buf;
 }

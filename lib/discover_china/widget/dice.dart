@@ -1,6 +1,3 @@
-import 'dart:developer' as dev;
-import 'dart:math';
-
 import 'package:chess/discover_china/game_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,8 +14,6 @@ class DiceWidget extends StatefulWidget {
 class DiceState extends State<DiceWidget> {
   DiceState();
 
-  int dice1 = Random().nextInt(6);
-  int dice2 = Random().nextInt(6);
   @override
   void initState() {
     super.initState();
@@ -32,14 +27,7 @@ class DiceState extends State<DiceWidget> {
       color: Colors.lightBlue,
       child: GestureDetector(
         onTapDown: (e) {
-          // dev.log("dice taped");
-          dice1 = Random().nextInt(6);
-          dice2 = Random().nextInt(6);
-
-          dev.log("dice taped $dice1 $dice2");
-          Provider.of<GameModel>(context, listen: false).storeTicket();
-          Provider.of<GameModel>(context, listen: false).setDice(dice1, dice2);
-          // setState(() {});
+          Provider.of<GameModel>(context, listen: false).nextTurn();
         },
         child: Row(
           children: [

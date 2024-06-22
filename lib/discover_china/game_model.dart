@@ -139,18 +139,26 @@ class GameModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setDice(int dice1, int dice2) {
+  void _setDice(int dice1, int dice2) {
     dev.log("setDice $dice1 $dice2");
     this.dice1 = dice1;
     this.dice2 = dice2;
     dice1Used = false;
     dice2Used = false;
+    // notifyListeners();
+  }
+
+  void nextTurn() {
+    _storeTicket();
+    int dice1 = Random().nextInt(6);
+    int dice2 = Random().nextInt(6);
+    _setDice(dice1, dice2);
     playerTurn += 1;
     tabPlayer = currentPlayer();
     notifyListeners();
   }
 
-  void storeTicket() {
+  void _storeTicket() {
     if (dice1 < 5 && !dice1Used) {
       playerDataList[currentPlayer()].ticketCount[dice1] =
           playerDataList[currentPlayer()].ticketCount[dice1] + 1;
@@ -159,7 +167,7 @@ class GameModel extends ChangeNotifier {
       playerDataList[currentPlayer()].ticketCount[dice2] =
           playerDataList[currentPlayer()].ticketCount[dice2] + 1;
     }
-    notifyListeners();
+    // notifyListeners();
   }
 
   void setSelectCard(String cityName) {

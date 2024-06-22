@@ -101,6 +101,13 @@ class GameModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void playerGo(int player) {
+    PlayerData playerData = playerDataList[player];
+    if (!playerData.robote) {
+      return;
+    }
+  }
+
   Set<LineInfo> markedLine = {};
 
   void setPath(String city) {

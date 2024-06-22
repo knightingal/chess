@@ -1,6 +1,7 @@
 import 'dart:developer' as dev;
 import 'dart:math';
 
+import 'package:chess/discover_china/script/computer_player.dart';
 import 'package:chess/discover_china/script/discover_graph.dart';
 import 'package:flutter/material.dart';
 
@@ -105,6 +106,19 @@ class GameModel extends ChangeNotifier {
     PlayerData playerData = playerDataList[player];
     if (!playerData.robote) {
       return;
+    }
+
+    String currCity = playerData.currCity;
+    String targetCity = playerData.cityCardList[0].cityName;
+    NextStepNode? nextNode = nextMatrix.getNodeById(currCity, targetCity);
+    String nextCity = nextNode!.nextNode.first.nodeId;
+
+    var lineColor = findLine(currCity, nextCity);
+    if (lineColor == Colors.black) {
+      return;
+    }
+    if (checkAndUseTicket(lineColor)) {
+      setPlayerCity(player, nextCity);
     }
   }
 

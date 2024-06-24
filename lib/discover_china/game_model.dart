@@ -155,6 +155,11 @@ class GameModel extends ChangeNotifier {
     playerTurn += 1;
     tabPlayer = currentPlayer();
     notifyListeners();
+
+    if (playerDataList[currentPlayer()].robote) {
+      playerGo(currentPlayer());
+      nextTurn();
+    }
   }
 
   void _storeTicket() {

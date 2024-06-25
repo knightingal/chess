@@ -98,6 +98,7 @@ class GameModel extends ChangeNotifier {
     if (cityReachedIt.isNotEmpty) {
       var cityReached = cityReachedIt.first;
       cityReached.cityName = "${cityReached.cityName}\u{2705}";
+      cityReached.reached = true;
     }
     notifyListeners();
   }
@@ -109,7 +110,9 @@ class GameModel extends ChangeNotifier {
     }
 
     String currCity = playerData.currCity;
-    String targetCity = playerData.cityCardList[0].cityName;
+    String targetCity = playerData.cityCardList
+        .firstWhere((element) => element.reached == false)
+        .cityName;
     NextStepNode? nextNode = nextMatrix.getNodeById(currCity, targetCity);
     String nextCity = nextNode!.nextNode.first.nodeId;
 

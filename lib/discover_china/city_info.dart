@@ -18,6 +18,8 @@ class CityCardInfo {
   String cityName;
   final int ticket;
 
+  bool reached = false;
+
   CityCardInfo({required this.cityName, required this.ticket});
 }
 

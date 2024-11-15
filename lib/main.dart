@@ -1,5 +1,7 @@
 // ignore_for_file: dead_code
 
+import 'package:chess/demos/tabs.dart';
+
 import 'discover_china/widget/dijkstra_test_page.dart';
 import 'package:flutter/material.dart';
 
@@ -8,13 +10,18 @@ import 'discover_china/widget/china_playground.dart';
 
 void main() {
   var test = false;
-  if (test) {
-    runApp(const DijkstraTest());
+  var tabs = true;
+  if (tabs) {
+    runApp(const TabsApp());
   } else {
-    if (true) {
-      runApp(const DiscoverApp());
+    if (test) {
+      runApp(const DijkstraTest());
     } else {
-      runApp(const ChessApp());
+      if (true) {
+        runApp(const DiscoverApp());
+      } else {
+        runApp(const ChessApp());
+      }
     }
   }
 }

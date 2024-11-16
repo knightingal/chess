@@ -36,8 +36,8 @@ class TabsMain extends StatelessWidget {
   }
 }
 
-const double TAB_WIDTH = 160;
-const double TAB_INDENT = 20;
+const double tabWidth = 160;
+const double tabIndent = 20;
 
 class TabsBox extends MultiChildRenderObjectWidget {
   const TabsBox({Key? key, required List<Widget> children})
@@ -71,7 +71,7 @@ class RenderTabs extends RenderBox
     while (firstChild != null) {
       developer.log("layout $i");
       TabsParentData childParentData = firstChild.parentData as TabsParentData;
-      childParentData.offset = Offset(i * (TAB_WIDTH - TAB_INDENT), 0);
+      childParentData.offset = Offset(i * (tabWidth - tabIndent), 0);
 
       firstChild.layout(
         constraints.copyWith(maxWidth: constraints.maxWidth),
@@ -82,7 +82,7 @@ class RenderTabs extends RenderBox
       i++;
     }
 
-    size = Size(i * (TAB_WIDTH - TAB_INDENT) + TAB_INDENT, 40);
+    size = Size(i * (tabWidth - tabIndent) + tabIndent, 40);
   }
 
   @override
@@ -130,7 +130,7 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
 
   @override
   void performLayout() {
-    size = const Size(TAB_WIDTH, 40);
+    size = const Size(tabWidth, 40);
   }
 
   @override

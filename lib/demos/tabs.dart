@@ -1,4 +1,5 @@
 import 'dart:developer' as developer;
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -37,7 +38,7 @@ class TabsMain extends StatelessWidget {
 }
 
 const double tabWidth = 160;
-const double tabIndent = 20;
+const double tabIndent = 30;
 
 class TabsBox extends MultiChildRenderObjectWidget {
   const TabsBox({Key? key, required List<Widget> children})
@@ -136,29 +137,40 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
   @override
   void paint(PaintingContext context, Offset offset) {
     developer.log("get offset ${offset.dx}");
+
+    // context.canvas.drawRect(
+    //     offset & size,
+    //     Paint()
+    //       ..color = Colors.yellow
+    //       ..strokeWidth = 2
+    //       ..style = PaintingStyle.stroke);
+
     Rect rect = offset & size;
     Rect tRect =
         Rect.fromLTRB(rect.left + 40, rect.top, rect.right - 40, rect.bottom);
     context.canvas.drawRect(tRect, Paint()..color = color);
 
+    Rect arcRect = Rect.fromLTWH(rect.left - 40, rect.top, 80, 80);
+
     Path path = Path()
       ..moveTo(rect.left, rect.top)
       ..lineTo(rect.left + 40, rect.top)
       ..lineTo(rect.left + 40, rect.top + 40)
-      ..close()
+      ..arcTo(arcRect, 0, -pi / 2, true);
+    // ..close();
+    context.canvas.drawPath(
+        path,
+        Paint()
+          ..color = color
+          ..style = PaintingStyle.fill);
+
+    arcRect = Rect.fromLTWH(rect.right - 80, rect.top, 80, 80);
+
+    path = Path()
       ..moveTo(rect.right - 40, rect.top)
-      ..lineTo(rect.right, rect.top + 40)
+      ..arcTo(arcRect, 0, -pi / 2, true)
       ..lineTo(rect.right - 40, rect.top + 40)
       ..close();
     context.canvas.drawPath(path, Paint()..color = color);
-
-    context.canvas.drawPath(path, Paint()..color = color);
-
-    context.canvas.drawRect(
-        offset & size,
-        Paint()
-          ..color = Colors.yellow
-          ..strokeWidth = 2
-          ..style = PaintingStyle.stroke);
   }
 }

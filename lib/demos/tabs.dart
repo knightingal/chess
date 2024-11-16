@@ -136,40 +136,40 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
   void paint(PaintingContext context, Offset offset) {
     developer.log("get offset ${offset.dx}");
 
-    context.canvas.drawRect(
-        offset & size,
-        Paint()
-          ..color = Colors.yellow
-          ..strokeWidth = 2
-          ..style = PaintingStyle.stroke);
+    // context.canvas.drawRect(
+    //     offset & size,
+    //     Paint()
+    //       ..color = Colors.yellow
+    //       ..strokeWidth = 2
+    //       ..style = PaintingStyle.stroke);
 
     Rect rect = offset & size;
-    Rect tRect =
-        Rect.fromLTRB(rect.left + 40, rect.top, rect.right - 40, rect.bottom);
-    context.canvas.drawRect(tRect, Paint()..color = color);
+    // Rect tRect =
+    //     Rect.fromLTRB(rect.left + 40, rect.top, rect.right - 40, rect.bottom);
+    // context.canvas.drawRect(tRect, Paint()..color = color);
 
-    Rect arcRect = Rect.fromLTWH(rect.left - 40, rect.top, 80, 80);
+    // Rect arcRect = Rect.fromLTWH(rect.left - 40, rect.top, 80, 80);
 
-    Path path = Path()
-      ..moveTo(rect.left, rect.top)
-      ..lineTo(rect.left + 40, rect.top)
-      ..lineTo(rect.left + 40, rect.top + 40)
-      ..arcTo(arcRect, 0, -pi / 2, true);
-    // ..close();
-    context.canvas.drawPath(
-        path,
-        Paint()
-          ..color = color
-          ..style = PaintingStyle.fill);
+    // Path path = Path()
+    //   ..moveTo(rect.left, rect.top)
+    //   ..lineTo(rect.left + 40, rect.top)
+    //   ..lineTo(rect.left + 40, rect.top + 40)
+    //   ..arcTo(arcRect, 0, -pi / 2, true);
+    // // ..close();
+    // context.canvas.drawPath(
+    //     path,
+    //     Paint()
+    //       ..color = color
+    //       ..style = PaintingStyle.fill);
 
-    arcRect = Rect.fromLTWH(rect.right - 80, rect.top, 80, 80);
+    // arcRect = Rect.fromLTWH(rect.right - 80, rect.top, 80, 80);
 
-    path = Path()
-      ..moveTo(rect.right - 40, rect.top)
-      ..arcTo(arcRect, 0, -pi / 2, true)
-      ..lineTo(rect.right - 40, rect.top + 40)
-      ..close();
-    context.canvas.drawPath(path, Paint()..color = color);
+    // path = Path()
+    //   ..moveTo(rect.right - 40, rect.top)
+    //   ..arcTo(arcRect, 0, -pi / 2, true)
+    //   ..lineTo(rect.right - 40, rect.top + 40)
+    //   ..close();
+    // context.canvas.drawPath(path, Paint()..color = color);
 
     Rect rRect = Rect.fromLTRB(
         rect.left + 15, rect.top, rect.right - 15, rect.bottom - 5);
@@ -186,6 +186,7 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
         Paint()
           ..color = Colors.red
           ..style = PaintingStyle.fill);
+
     Rect arcRectRight = Rect.fromLTWH(rect.right - 15, rect.top, 10, 10);
     Path arcRectLeftRight = Path()
       ..moveTo(rect.right - 10, rect.top)
@@ -197,5 +198,35 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
         Paint()
           ..color = Colors.red
           ..style = PaintingStyle.fill);
+
+    Rect arcRectLeftButton =
+        Rect.fromLTWH(rect.left + 15, rect.bottom - 10, 10, 10);
+    Path arcRectLeftButtonPath = Path()
+      ..moveTo(rect.left + 15, rect.bottom - 5)
+      ..lineTo(rect.left + 20, rect.bottom - 5)
+      ..lineTo(rect.left + 20, rect.bottom)
+      ..arcTo(arcRectLeftButton, pi / 2, pi / 2, true);
+    context.canvas.drawPath(
+        arcRectLeftButtonPath,
+        Paint()
+          ..color = Colors.red
+          ..style = PaintingStyle.fill);
+
+    Rect arcRectRightButton =
+        Rect.fromLTWH(rect.right - 25, rect.bottom - 10, 10, 10);
+    Path arcRectRightButtonPath = Path()
+      ..moveTo(rect.right - 15, rect.bottom - 5)
+      ..lineTo(rect.right - 20, rect.bottom - 5)
+      ..lineTo(rect.right - 20, rect.bottom)
+      ..arcTo(arcRectRightButton, pi / 2, -pi / 2, true);
+    context.canvas.drawPath(
+        arcRectRightButtonPath,
+        Paint()
+          ..color = Colors.red
+          ..style = PaintingStyle.fill);
+    context.canvas.drawRect(
+        Rect.fromLTRB(
+            rect.left + 20, rect.bottom - 5, rect.right - 20, rect.bottom),
+        Paint()..color = Colors.red);
   }
 }

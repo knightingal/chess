@@ -29,8 +29,6 @@ class TabsMain extends StatelessWidget {
           TabBox(color: Colors.green),
           TabBox(color: Colors.green),
           TabBox(color: Colors.green),
-          TabBox(color: Colors.green),
-          TabBox(color: Colors.green),
         ],
       ),
     );
@@ -38,7 +36,7 @@ class TabsMain extends StatelessWidget {
 }
 
 const double tabWidth = 160;
-const double tabIndent = 30;
+const double tabIndent = 20;
 
 class TabsBox extends MultiChildRenderObjectWidget {
   const TabsBox({Key? key, required List<Widget> children})
@@ -138,12 +136,12 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
   void paint(PaintingContext context, Offset offset) {
     developer.log("get offset ${offset.dx}");
 
-    // context.canvas.drawRect(
-    //     offset & size,
-    //     Paint()
-    //       ..color = Colors.yellow
-    //       ..strokeWidth = 2
-    //       ..style = PaintingStyle.stroke);
+    context.canvas.drawRect(
+        offset & size,
+        Paint()
+          ..color = Colors.yellow
+          ..strokeWidth = 2
+          ..style = PaintingStyle.stroke);
 
     Rect rect = offset & size;
     Rect tRect =
@@ -172,5 +170,21 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
       ..lineTo(rect.right - 40, rect.top + 40)
       ..close();
     context.canvas.drawPath(path, Paint()..color = color);
+
+    Rect rRect = Rect.fromLTRB(
+        rect.left + 15, rect.top + 5, rect.right - 15, rect.bottom - 5);
+    context.canvas.drawRect(rRect, Paint()..color = Colors.red);
+
+    Rect arcRectLeft = Rect.fromLTWH(rect.left + 5, rect.top, 10, 10);
+    Path arcRectLeftPath = Path()
+      ..moveTo(rect.left + 10, rect.top)
+      ..lineTo(rect.left + 15, rect.top)
+      ..lineTo(rect.left + 15, rect.top + 5)
+      ..arcTo(arcRectLeft, 0, -pi / 2, true);
+    context.canvas.drawPath(
+        arcRectLeftPath,
+        Paint()
+          ..color = Colors.red
+          ..style = PaintingStyle.fill);
   }
 }

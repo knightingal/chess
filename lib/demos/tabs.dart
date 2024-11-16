@@ -172,7 +172,7 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
     context.canvas.drawPath(path, Paint()..color = color);
 
     Rect rRect = Rect.fromLTRB(
-        rect.left + 15, rect.top + 5, rect.right - 15, rect.bottom - 5);
+        rect.left + 15, rect.top, rect.right - 15, rect.bottom - 5);
     context.canvas.drawRect(rRect, Paint()..color = Colors.red);
 
     Rect arcRectLeft = Rect.fromLTWH(rect.left + 5, rect.top, 10, 10);
@@ -183,6 +183,17 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
       ..arcTo(arcRectLeft, 0, -pi / 2, true);
     context.canvas.drawPath(
         arcRectLeftPath,
+        Paint()
+          ..color = Colors.red
+          ..style = PaintingStyle.fill);
+    Rect arcRectRight = Rect.fromLTWH(rect.right - 15, rect.top, 10, 10);
+    Path arcRectLeftRight = Path()
+      ..moveTo(rect.right - 10, rect.top)
+      ..lineTo(rect.right - 15, rect.top)
+      ..lineTo(rect.right - 15, rect.top + 5)
+      ..arcTo(arcRectRight, pi, pi / 2, true);
+    context.canvas.drawPath(
+        arcRectLeftRight,
         Paint()
           ..color = Colors.red
           ..style = PaintingStyle.fill);

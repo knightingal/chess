@@ -145,14 +145,13 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
       ..moveTo(rect.left, rect.top)
       ..lineTo(rect.left + 40, rect.top)
       ..lineTo(rect.left + 40, rect.top + 40)
-      ..close();
-    context.canvas.drawPath(path, Paint()..color = color);
-
-    path = Path()
+      ..close()
       ..moveTo(rect.right - 40, rect.top)
       ..lineTo(rect.right, rect.top + 40)
       ..lineTo(rect.right - 40, rect.top + 40)
       ..close();
+    context.canvas.drawPath(path, Paint()..color = color);
+
     context.canvas.drawPath(path, Paint()..color = color);
 
     context.canvas.drawRect(

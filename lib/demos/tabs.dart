@@ -22,7 +22,7 @@ class TabsMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: TabsBox(
         children: [
           TabBox(color: Colors.green),
@@ -37,7 +37,7 @@ class TabsMain extends StatelessWidget {
 }
 
 class TabsBox extends MultiChildRenderObjectWidget {
-  TabsBox({Key? key, required List<Widget> children})
+  const TabsBox({Key? key, required List<Widget> children})
       : super(key: key, children: children);
 
   @override

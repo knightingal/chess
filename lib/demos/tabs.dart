@@ -27,8 +27,8 @@ class TabsMain extends StatelessWidget {
       body: TabsBox(
         children: [
           TabBox(color: Colors.green),
-          TabBox(color: Colors.green),
-          TabBox(color: Colors.green),
+          // TabBox(color: Colors.green),
+          // TabBox(color: Colors.green),
         ],
       ),
     );
@@ -140,19 +140,26 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
         Paint()
           ..color = Colors.yellow
           ..style = PaintingStyle.stroke);
-    Offset ofset1 = Offset(rect.left + 20 + 20, rect.top + 20);
+    Offset ofset1 = Offset(rect.left + 10, rect.top + 10);
+    Offset ofset2 = Offset(rect.left + 20, rect.top + 40);
 
     Path path = Path()
       ..moveTo(rect.left, rect.top)
-      ..lineTo(rect.left + 20, rect.top)
-      ..arcToPoint(ofset1, radius: const Radius.circular(20), clockwise: true)
-      ..lineTo(rect.left + 40, rect.top + 40)
+      ..arcToPoint(ofset1, radius: const Radius.circular(10), clockwise: true)
+      ..lineTo(rect.left + 10, rect.bottom - 10)
+      ..arcToPoint(ofset2, radius: const Radius.circular(10), clockwise: false)
+      ..lineTo(rect.right - 20, rect.bottom)
+      ..arcToPoint(Offset(rect.right - 10, rect.bottom - 10),
+          radius: const Radius.circular(10), clockwise: false)
+      ..lineTo(rect.right - 10, rect.top + 10)
+      ..arcToPoint(Offset(rect.right, rect.top),
+          radius: const Radius.circular(10), clockwise: true)
       ..close();
     context.canvas.drawPath(
         path,
         Paint()
           ..color = color
-          ..style = PaintingStyle.stroke);
+          ..style = PaintingStyle.fill);
   }
 
   @override

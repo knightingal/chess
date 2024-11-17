@@ -26,9 +26,11 @@ class TabsMain extends StatelessWidget {
     return const Scaffold(
       body: TabsBox(
         children: [
-          TabBox(color: Colors.green),
-          // TabBox(color: Colors.green),
-          // TabBox(color: Colors.green),
+          TabBox(color: Colors.green, main: true),
+          TabBox(color: Colors.green, main: false),
+          TabBox(color: Colors.green, main: false),
+          TabBox(color: Colors.green, main: true),
+          TabBox(color: Colors.green, main: false),
         ],
       ),
     );
@@ -36,7 +38,9 @@ class TabsMain extends StatelessWidget {
 }
 
 const double tabWidth = 160;
-const double tabIndent = 20;
+const double tabIndent = 15;
+
+const double edgeRadius = 10;
 
 class TabsBox extends MultiChildRenderObjectWidget {
   const TabsBox({Key? key, required List<Widget> children})
@@ -96,13 +100,15 @@ class RenderTabs extends RenderBox
 }
 
 class TabBox extends SingleChildRenderObjectWidget {
-  const TabBox({required this.color, super.child, super.key});
+  const TabBox(
+      {required this.color, required this.main, super.child, super.key});
 
   final Color color;
+  final bool main;
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    return _TabBox(color: color);
+    return _TabBox(color: color, main: main);
   }
 
   @override
@@ -113,12 +119,14 @@ class TabBox extends SingleChildRenderObjectWidget {
 }
 
 class _TabBox extends RenderProxyBoxWithHitTestBehavior {
-  _TabBox({required Color color})
+  _TabBox({required Color color, required bool main})
       : _color = color,
+        _main = main,
         super(behavior: HitTestBehavior.opaque);
 
   Color get color => _color;
   Color _color;
+  final bool _main;
   set color(Color value) {
     if (value == _color) {
       return;
@@ -129,37 +137,63 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
 
   @override
   void performLayout() {
-    size = const Size(tabWidth, 40);
+    size = const Size(tabWidth, 35);
   }
 
   @override
   void paint(PaintingContext context, Offset offset) {
     Rect rect = offset & size;
-    context.canvas.drawRect(
-        rect,
-        Paint()
-          ..color = Colors.yellow
-          ..style = PaintingStyle.stroke);
-    Offset ofset1 = Offset(rect.left + 10, rect.top + 10);
-    Offset ofset2 = Offset(rect.left + 20, rect.top + 40);
+    // context.canvas.drawRect(
+    //     rect,
+    //     Paint()
+    //       ..color = Colors.yellow
+    //       ..style = PaintingStyle.stroke);
+    Path path = switch (_main) {
+      true => mainPath(rect),
+      false => inactivePath(rect),
+    };
 
-    Path path = Path()
-      ..moveTo(rect.left, rect.top)
-      ..arcToPoint(ofset1, radius: const Radius.circular(10), clockwise: true)
-      ..lineTo(rect.left + 10, rect.bottom - 10)
-      ..arcToPoint(ofset2, radius: const Radius.circular(10), clockwise: false)
-      ..lineTo(rect.right - 20, rect.bottom)
-      ..arcToPoint(Offset(rect.right - 10, rect.bottom - 10),
-          radius: const Radius.circular(10), clockwise: false)
-      ..lineTo(rect.right - 10, rect.top + 10)
-      ..arcToPoint(Offset(rect.right, rect.top),
-          radius: const Radius.circular(10), clockwise: true)
-      ..close();
     context.canvas.drawPath(
         path,
         Paint()
           ..color = color
           ..style = PaintingStyle.fill);
+  }
+
+  Path inactivePath(Rect rect) {
+    Path path = Path()
+      ..moveTo(rect.left + edgeRadius * 2, rect.top + 5)
+      ..arcToPoint(Offset(rect.left + edgeRadius, rect.top + 5 + edgeRadius),
+          radius: const Radius.circular(edgeRadius), clockwise: false)
+      ..lineTo(rect.left + edgeRadius, rect.bottom - edgeRadius)
+      ..arcToPoint(Offset(rect.left + edgeRadius * 2, rect.bottom),
+          radius: const Radius.circular(edgeRadius), clockwise: false)
+      ..lineTo(rect.right - edgeRadius * 2, rect.bottom)
+      ..arcToPoint(Offset(rect.right - edgeRadius, rect.bottom - edgeRadius),
+          radius: const Radius.circular(edgeRadius), clockwise: false)
+      ..lineTo(rect.right - edgeRadius, rect.top + 5 + edgeRadius)
+      ..arcToPoint(Offset(rect.right - edgeRadius * 2, rect.top + 5),
+          radius: const Radius.circular(edgeRadius), clockwise: false)
+      ..close();
+    return path;
+  }
+
+  Path mainPath(Rect rect) {
+    Path path = Path()
+      ..moveTo(rect.left, rect.top)
+      ..arcToPoint(Offset(rect.left + edgeRadius, rect.top + edgeRadius),
+          radius: const Radius.circular(edgeRadius), clockwise: true)
+      ..lineTo(rect.left + edgeRadius, rect.bottom - edgeRadius)
+      ..arcToPoint(Offset(rect.left + edgeRadius * 2, rect.bottom),
+          radius: const Radius.circular(edgeRadius), clockwise: false)
+      ..lineTo(rect.right - edgeRadius * 2, rect.bottom)
+      ..arcToPoint(Offset(rect.right - edgeRadius, rect.bottom - edgeRadius),
+          radius: const Radius.circular(edgeRadius), clockwise: false)
+      ..lineTo(rect.right - edgeRadius, rect.top + edgeRadius)
+      ..arcToPoint(Offset(rect.right, rect.top),
+          radius: const Radius.circular(edgeRadius), clockwise: true)
+      ..close();
+    return path;
   }
 
   @override

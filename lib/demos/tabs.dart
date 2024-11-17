@@ -134,6 +134,29 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
 
   @override
   void paint(PaintingContext context, Offset offset) {
+    Rect rect = offset & size;
+    context.canvas.drawRect(
+        rect,
+        Paint()
+          ..color = Colors.yellow
+          ..style = PaintingStyle.stroke);
+    Offset ofset1 = Offset(rect.left + 20 + 20, rect.top + 20);
+
+    Path path = Path()
+      ..moveTo(rect.left, rect.top)
+      ..lineTo(rect.left + 20, rect.top)
+      ..arcToPoint(ofset1, radius: const Radius.circular(20), clockwise: true)
+      ..lineTo(rect.left + 40, rect.top + 40)
+      ..close();
+    context.canvas.drawPath(
+        path,
+        Paint()
+          ..color = color
+          ..style = PaintingStyle.stroke);
+  }
+
+  @override
+  void paint1(PaintingContext context, Offset offset) {
     developer.log("get offset ${offset.dx}");
 
     // context.canvas.drawRect(

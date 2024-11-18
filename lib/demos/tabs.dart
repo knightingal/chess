@@ -56,7 +56,8 @@ const double tabWidth = 240;
 const double tabIndent = 15;
 const double tabDividerWidth = 5;
 
-const double edgeRadius = 10;
+const double cornerRadius = 10;
+const double bottomCornerRadius = 12;
 
 class TabsBox extends MultiChildRenderObjectWidget {
   const TabsBox({Key? key, required List<Widget> children})
@@ -178,42 +179,44 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
 
   Path inactivePath(Rect rect) {
     Path path = Path()
-      ..moveTo(rect.left + edgeRadius * 2, rect.top)
-      ..arcToPoint(Offset(rect.left + edgeRadius, rect.top + edgeRadius),
-          radius: const Radius.circular(edgeRadius), clockwise: false)
-      ..lineTo(
-          rect.left + edgeRadius, rect.bottom - edgeRadius - tabDividerWidth)
+      ..moveTo(rect.left + cornerRadius * 2, rect.top)
+      ..arcToPoint(Offset(rect.left + cornerRadius, rect.top + cornerRadius),
+          radius: const Radius.circular(cornerRadius), clockwise: false)
+      ..lineTo(rect.left + cornerRadius,
+          rect.bottom - cornerRadius - tabDividerWidth)
       ..arcToPoint(
-          Offset(rect.left + edgeRadius * 2, rect.bottom - tabDividerWidth),
-          radius: const Radius.circular(edgeRadius),
+          Offset(rect.left + cornerRadius * 2, rect.bottom - tabDividerWidth),
+          radius: const Radius.circular(cornerRadius),
           clockwise: false)
-      ..lineTo(rect.right - edgeRadius * 2, rect.bottom - tabDividerWidth)
+      ..lineTo(rect.right - cornerRadius * 2, rect.bottom - tabDividerWidth)
       ..arcToPoint(
-          Offset(rect.right - edgeRadius,
-              rect.bottom - tabDividerWidth - edgeRadius),
-          radius: const Radius.circular(edgeRadius),
+          Offset(rect.right - cornerRadius,
+              rect.bottom - tabDividerWidth - cornerRadius),
+          radius: const Radius.circular(cornerRadius),
           clockwise: false)
-      ..lineTo(rect.right - edgeRadius, rect.top + edgeRadius)
-      ..arcToPoint(Offset(rect.right - edgeRadius * 2, rect.top),
-          radius: const Radius.circular(edgeRadius), clockwise: false)
+      ..lineTo(rect.right - cornerRadius, rect.top + cornerRadius)
+      ..arcToPoint(Offset(rect.right - cornerRadius * 2, rect.top),
+          radius: const Radius.circular(cornerRadius), clockwise: false)
       ..close();
     return path;
   }
 
   Path mainPath(Rect rect) {
     Path path = Path()
-      ..moveTo(rect.left, rect.bottom)
-      ..arcToPoint(Offset(rect.left + edgeRadius, rect.bottom - edgeRadius),
-          radius: const Radius.circular(edgeRadius), clockwise: false)
-      ..lineTo(rect.left + edgeRadius, rect.top + edgeRadius)
-      ..arcToPoint(Offset(rect.left + edgeRadius * 2, rect.top),
-          radius: const Radius.circular(edgeRadius), clockwise: true)
-      ..lineTo(rect.right - edgeRadius * 2, rect.top)
-      ..arcToPoint(Offset(rect.right - edgeRadius, rect.top + edgeRadius),
-          radius: const Radius.circular(edgeRadius), clockwise: true)
-      ..lineTo(rect.right - edgeRadius, rect.bottom - edgeRadius)
-      ..arcToPoint(Offset(rect.right, rect.bottom),
-          radius: const Radius.circular(edgeRadius), clockwise: false)
+      ..moveTo(rect.left - 2, rect.bottom)
+      ..arcToPoint(
+          Offset(rect.left + cornerRadius, rect.bottom - bottomCornerRadius),
+          radius: const Radius.circular(bottomCornerRadius),
+          clockwise: false)
+      ..lineTo(rect.left + cornerRadius, rect.top + cornerRadius)
+      ..arcToPoint(Offset(rect.left + cornerRadius * 2, rect.top),
+          radius: const Radius.circular(cornerRadius), clockwise: true)
+      ..lineTo(rect.right - cornerRadius * 2, rect.top)
+      ..arcToPoint(Offset(rect.right - cornerRadius, rect.top + cornerRadius),
+          radius: const Radius.circular(cornerRadius), clockwise: true)
+      ..lineTo(rect.right - cornerRadius, rect.bottom - bottomCornerRadius)
+      ..arcToPoint(Offset(rect.right + 2, rect.bottom),
+          radius: const Radius.circular(bottomCornerRadius), clockwise: false)
       ..close();
     return path;
   }

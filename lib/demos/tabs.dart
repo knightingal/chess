@@ -12,7 +12,23 @@ class TabsApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const TabsMain(),
+      home: Container(
+        padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+        child: Column(
+          children: [
+            const SizedBox(
+              width: double.infinity,
+              height: 35,
+              child: TabsMain(),
+            ),
+            Container(
+              color: Colors.blue,
+              width: double.infinity,
+              height: 35,
+            )
+          ],
+        ),
+      ),
     );
   }
 }
@@ -85,7 +101,7 @@ class RenderTabs extends RenderBox
       i++;
     }
 
-    size = Size(i * (tabWidth - tabIndent) + tabIndent, 40);
+    size = Size(i * (tabWidth - tabIndent) + tabIndent, 35);
   }
 
   @override

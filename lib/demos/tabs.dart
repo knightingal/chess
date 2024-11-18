@@ -36,8 +36,9 @@ class TabsMain extends StatelessWidget {
   }
 }
 
-const double tabWidth = 160;
+const double tabWidth = 240;
 const double tabIndent = 15;
+const double tabDividerWidth = 5;
 
 const double edgeRadius = 10;
 
@@ -161,18 +162,23 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
 
   Path inactivePath(Rect rect) {
     Path path = Path()
-      ..moveTo(rect.left + edgeRadius * 2, rect.top + 5)
-      ..arcToPoint(Offset(rect.left + edgeRadius, rect.top + 5 + edgeRadius),
-          radius: const Radius.circular(edgeRadius), clockwise: false)
+      ..moveTo(rect.left + edgeRadius * 2, rect.top + tabDividerWidth)
+      ..arcToPoint(
+          Offset(
+              rect.left + edgeRadius, rect.top + tabDividerWidth + edgeRadius),
+          radius: const Radius.circular(edgeRadius),
+          clockwise: false)
       ..lineTo(rect.left + edgeRadius, rect.bottom - edgeRadius)
       ..arcToPoint(Offset(rect.left + edgeRadius * 2, rect.bottom),
           radius: const Radius.circular(edgeRadius), clockwise: false)
       ..lineTo(rect.right - edgeRadius * 2, rect.bottom)
       ..arcToPoint(Offset(rect.right - edgeRadius, rect.bottom - edgeRadius),
           radius: const Radius.circular(edgeRadius), clockwise: false)
-      ..lineTo(rect.right - edgeRadius, rect.top + 5 + edgeRadius)
-      ..arcToPoint(Offset(rect.right - edgeRadius * 2, rect.top + 5),
-          radius: const Radius.circular(edgeRadius), clockwise: false)
+      ..lineTo(rect.right - edgeRadius, rect.top + tabDividerWidth + edgeRadius)
+      ..arcToPoint(
+          Offset(rect.right - edgeRadius * 2, rect.top + tabDividerWidth),
+          radius: const Radius.circular(edgeRadius),
+          clockwise: false)
       ..close();
     return path;
   }

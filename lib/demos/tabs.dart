@@ -1,5 +1,4 @@
 import 'dart:developer' as developer;
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -23,14 +22,14 @@ class TabsMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: TabsBox(
         children: [
-          TabBox(color: Colors.green, main: true),
-          TabBox(color: Colors.green, main: false),
-          TabBox(color: Colors.green, main: false),
-          TabBox(color: Colors.green, main: true),
-          TabBox(color: Colors.green, main: false),
+          const TabBox(color: Colors.blue, main: true),
+          TabBox(color: Colors.blue[100]!, main: false),
+          TabBox(color: Colors.blue[100]!, main: false),
+          TabBox(color: Colors.blue[100]!, main: false),
+          TabBox(color: Colors.blue[100]!, main: false),
         ],
       ),
     );

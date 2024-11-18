@@ -162,41 +162,42 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
 
   Path inactivePath(Rect rect) {
     Path path = Path()
-      ..moveTo(rect.left + edgeRadius * 2, rect.top + tabDividerWidth)
+      ..moveTo(rect.left + edgeRadius * 2, rect.top)
+      ..arcToPoint(Offset(rect.left + edgeRadius, rect.top + edgeRadius),
+          radius: const Radius.circular(edgeRadius), clockwise: false)
+      ..lineTo(
+          rect.left + edgeRadius, rect.bottom - edgeRadius - tabDividerWidth)
       ..arcToPoint(
-          Offset(
-              rect.left + edgeRadius, rect.top + tabDividerWidth + edgeRadius),
+          Offset(rect.left + edgeRadius * 2, rect.bottom - tabDividerWidth),
           radius: const Radius.circular(edgeRadius),
           clockwise: false)
-      ..lineTo(rect.left + edgeRadius, rect.bottom - edgeRadius)
-      ..arcToPoint(Offset(rect.left + edgeRadius * 2, rect.bottom),
-          radius: const Radius.circular(edgeRadius), clockwise: false)
-      ..lineTo(rect.right - edgeRadius * 2, rect.bottom)
-      ..arcToPoint(Offset(rect.right - edgeRadius, rect.bottom - edgeRadius),
-          radius: const Radius.circular(edgeRadius), clockwise: false)
-      ..lineTo(rect.right - edgeRadius, rect.top + tabDividerWidth + edgeRadius)
+      ..lineTo(rect.right - edgeRadius * 2, rect.bottom - tabDividerWidth)
       ..arcToPoint(
-          Offset(rect.right - edgeRadius * 2, rect.top + tabDividerWidth),
+          Offset(rect.right - edgeRadius,
+              rect.bottom - tabDividerWidth - edgeRadius),
           radius: const Radius.circular(edgeRadius),
           clockwise: false)
+      ..lineTo(rect.right - edgeRadius, rect.top + edgeRadius)
+      ..arcToPoint(Offset(rect.right - edgeRadius * 2, rect.top),
+          radius: const Radius.circular(edgeRadius), clockwise: false)
       ..close();
     return path;
   }
 
   Path mainPath(Rect rect) {
     Path path = Path()
-      ..moveTo(rect.left, rect.top)
-      ..arcToPoint(Offset(rect.left + edgeRadius, rect.top + edgeRadius),
-          radius: const Radius.circular(edgeRadius), clockwise: true)
-      ..lineTo(rect.left + edgeRadius, rect.bottom - edgeRadius)
-      ..arcToPoint(Offset(rect.left + edgeRadius * 2, rect.bottom),
+      ..moveTo(rect.left, rect.bottom)
+      ..arcToPoint(Offset(rect.left + edgeRadius, rect.bottom - edgeRadius),
           radius: const Radius.circular(edgeRadius), clockwise: false)
-      ..lineTo(rect.right - edgeRadius * 2, rect.bottom)
-      ..arcToPoint(Offset(rect.right - edgeRadius, rect.bottom - edgeRadius),
-          radius: const Radius.circular(edgeRadius), clockwise: false)
-      ..lineTo(rect.right - edgeRadius, rect.top + edgeRadius)
-      ..arcToPoint(Offset(rect.right, rect.top),
+      ..lineTo(rect.left + edgeRadius, rect.top + edgeRadius)
+      ..arcToPoint(Offset(rect.left + edgeRadius * 2, rect.top),
           radius: const Radius.circular(edgeRadius), clockwise: true)
+      ..lineTo(rect.right - edgeRadius * 2, rect.top)
+      ..arcToPoint(Offset(rect.right - edgeRadius, rect.top + edgeRadius),
+          radius: const Radius.circular(edgeRadius), clockwise: true)
+      ..lineTo(rect.right - edgeRadius, rect.bottom - edgeRadius)
+      ..arcToPoint(Offset(rect.right, rect.bottom),
+          radius: const Radius.circular(edgeRadius), clockwise: false)
       ..close();
     return path;
   }

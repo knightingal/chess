@@ -12,23 +12,7 @@ class TabsApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Container(
-        padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-        child: Column(
-          children: [
-            const SizedBox(
-              width: double.infinity,
-              height: 35,
-              child: TabsMain(),
-            ),
-            Container(
-              color: Colors.blue,
-              width: double.infinity,
-              height: 35,
-            )
-          ],
-        ),
-      ),
+      home: const TabsMain(),
     );
   }
 }
@@ -39,13 +23,24 @@ class TabsMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: TabsBox(
+      body: Column(
         children: [
-          const TabBox(color: Colors.blue, main: true),
-          TabBox(color: Colors.blue[100]!, main: false),
-          TabBox(color: Colors.blue[100]!, main: false),
-          TabBox(color: Colors.blue[100]!, main: false),
-          TabBox(color: Colors.blue[100]!, main: false),
+          Container(
+            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+            child: TabsBox(
+              children: [
+                const TabBox(color: Colors.blue, main: true),
+                TabBox(color: Colors.blue[100]!, main: false),
+                TabBox(color: Colors.blue[100]!, main: false),
+                TabBox(color: Colors.blue[100]!, main: false),
+                TabBox(color: Colors.blue[100]!, main: false),
+              ],
+            ),
+          ),
+          Container(
+            height: 150,
+            color: Colors.blue,
+          )
         ],
       ),
     );
@@ -102,7 +97,7 @@ class RenderTabs extends RenderBox
       i++;
     }
 
-    size = Size(i * (tabWidth - tabIndent) + tabIndent, 35);
+    size = Size(constraints.maxWidth, 35);
   }
 
   @override

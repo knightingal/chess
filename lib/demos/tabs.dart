@@ -27,13 +27,13 @@ class TabsMain extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-            child: TabsBox(
+            child: const TabsBox(
               children: [
-                const TabBox(color: Colors.blue, main: true),
-                TabBox(color: Colors.blue[100]!, main: false),
-                TabBox(color: Colors.blue[100]!, main: false),
-                TabBox(color: Colors.blue[100]!, main: false),
-                TabBox(color: Colors.blue[100]!, main: false),
+                TabBox(main: true),
+                TabBox(main: false),
+                TabBox(main: false),
+                TabBox(main: false),
+                TabBox(main: false),
               ],
             ),
           ),
@@ -112,21 +112,25 @@ class RenderTabs extends RenderBox
 }
 
 class TabBox extends SingleChildRenderObjectWidget {
-  const TabBox(
-      {required this.color, required this.main, super.child, super.key});
+  const TabBox({required this.main, super.child, super.key});
 
-  final Color color;
   final bool main;
+  Color getColor() {
+    return switch (main) {
+      true => Colors.blue,
+      false => Colors.blue[100]!,
+    };
+  }
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    return _TabBox(color: color, main: main);
+    return _TabBox(color: getColor(), main: main);
   }
 
   @override
   void updateRenderObject(
       BuildContext context, covariant RenderObject renderObject) {
-    (renderObject as _TabBox).color = color;
+    (renderObject as _TabBox).color = getColor();
   }
 }
 

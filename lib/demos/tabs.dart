@@ -78,6 +78,9 @@ class RenderTabs extends RenderBox
   }
 
   @override
+  bool get sizedByParent => true;
+
+  @override
   void performLayout() {
     final BoxConstraints constraints = this.constraints;
     RenderBox? firstChild;
@@ -90,13 +93,16 @@ class RenderTabs extends RenderBox
 
       firstChild.layout(
         constraints.copyWith(maxWidth: constraints.maxWidth),
-        parentUsesSize: true,
+        parentUsesSize: false,
       );
 
       firstChild = childParentData.nextSibling;
       i++;
     }
+  }
 
+  @override
+  void performResize() {
     size = Size(constraints.maxWidth, 35);
   }
 

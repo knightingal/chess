@@ -26,12 +26,12 @@ class TabsMain extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: const TabsBox(
               children: [
                 TabBox(main: false),
                 TabBox(main: false),
-                TabBox(main: false),
+                TabBox(main: true),
                 TabBox(main: false),
                 TabBox(main: false),
               ],
@@ -48,11 +48,11 @@ class TabsMain extends StatelessWidget {
 }
 
 const double tabWidth = 240;
-const double tabDividerWidth = 5;
+const double tabDividerWidth = 4;
 const double cornerRadius = 10;
 const double tabIndent = tabDividerWidth + cornerRadius;
 
-const double bottomCornerRadius = 12;
+const double bottomCornerRadius = tabDividerWidth + cornerRadius;
 
 class TabsBox extends MultiChildRenderObjectWidget {
   const TabsBox({Key? key, required List<Widget> children})
@@ -166,11 +166,11 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
   @override
   void paint(PaintingContext context, Offset offset) {
     Rect rect = offset & size;
-    context.canvas.drawRect(
-        rect,
-        Paint()
-          ..color = Colors.yellow
-          ..style = PaintingStyle.stroke);
+    // context.canvas.drawRect(
+    //     rect,
+    //     Paint()
+    //       ..color = Colors.yellow
+    //       ..style = PaintingStyle.stroke);
     Path path = switch (_main) {
       true => mainPath(rect),
       false => inactivePath(rect),
@@ -218,19 +218,27 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
 
   Path mainPath(Rect rect) {
     Path path = Path()
-      ..moveTo(rect.left - 2, rect.bottom)
+      ..moveTo(rect.left, rect.bottom)
       ..arcToPoint(
-          Offset(rect.left + cornerRadius, rect.bottom - bottomCornerRadius),
+          Offset(
+              rect.left + bottomCornerRadius, rect.bottom - bottomCornerRadius),
           radius: const Radius.circular(bottomCornerRadius),
           clockwise: false)
-      ..lineTo(rect.left + cornerRadius, rect.top + cornerRadius)
-      ..arcToPoint(Offset(rect.left + cornerRadius * 2, rect.top),
-          radius: const Radius.circular(cornerRadius), clockwise: true)
-      ..lineTo(rect.right - cornerRadius * 2, rect.top)
-      ..arcToPoint(Offset(rect.right - cornerRadius, rect.top + cornerRadius),
-          radius: const Radius.circular(cornerRadius), clockwise: true)
-      ..lineTo(rect.right - cornerRadius, rect.bottom - bottomCornerRadius)
-      ..arcToPoint(Offset(rect.right + 2, rect.bottom),
+      ..lineTo(rect.left + tabIndent, rect.top + cornerRadius + tabDividerWidth)
+      ..arcToPoint(
+          Offset(
+              rect.left + cornerRadius + tabIndent, rect.top + tabDividerWidth),
+          radius: const Radius.circular(cornerRadius),
+          clockwise: true)
+      ..lineTo(
+          rect.right - (cornerRadius + tabIndent), rect.top + tabDividerWidth)
+      ..arcToPoint(
+          Offset(rect.right - tabIndent,
+              rect.top + cornerRadius + tabDividerWidth),
+          radius: const Radius.circular(cornerRadius),
+          clockwise: true)
+      ..lineTo(rect.right - tabIndent, rect.bottom - bottomCornerRadius)
+      ..arcToPoint(Offset(rect.right, rect.bottom),
           radius: const Radius.circular(bottomCornerRadius), clockwise: false)
       ..close();
     return path;

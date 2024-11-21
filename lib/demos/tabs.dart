@@ -29,7 +29,7 @@ class TabsMain extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
             child: const TabsBox(
               children: [
-                TabBox(main: true),
+                TabBox(main: false),
                 TabBox(main: false),
                 TabBox(main: false),
                 TabBox(main: false),
@@ -48,10 +48,10 @@ class TabsMain extends StatelessWidget {
 }
 
 const double tabWidth = 240;
-const double tabIndent = 15;
 const double tabDividerWidth = 5;
-
 const double cornerRadius = 10;
+const double tabIndent = tabDividerWidth + cornerRadius;
+
 const double bottomCornerRadius = 12;
 
 class TabsBox extends MultiChildRenderObjectWidget {
@@ -89,7 +89,8 @@ class RenderTabs extends RenderBox
     while (firstChild != null) {
       developer.log("layout $i");
       TabsParentData childParentData = firstChild.parentData as TabsParentData;
-      childParentData.offset = Offset(i * (tabWidth - tabIndent), 0);
+      childParentData.offset =
+          Offset(i * (tabWidth - tabIndent * 2 + tabDividerWidth), 0);
 
       firstChild.layout(
         constraints.copyWith(maxWidth: constraints.maxWidth),
@@ -103,7 +104,7 @@ class RenderTabs extends RenderBox
 
   @override
   void performResize() {
-    size = Size(constraints.maxWidth, 35);
+    size = Size(constraints.maxWidth, 40);
   }
 
   @override
@@ -159,17 +160,17 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
 
   @override
   void performLayout() {
-    size = const Size(tabWidth, 35);
+    size = const Size(tabWidth, 40);
   }
 
   @override
   void paint(PaintingContext context, Offset offset) {
     Rect rect = offset & size;
-    // context.canvas.drawRect(
-    //     rect,
-    //     Paint()
-    //       ..color = Colors.yellow
-    //       ..style = PaintingStyle.stroke);
+    context.canvas.drawRect(
+        rect,
+        Paint()
+          ..color = Colors.yellow
+          ..style = PaintingStyle.stroke);
     Path path = switch (_main) {
       true => mainPath(rect),
       false => inactivePath(rect),
@@ -184,24 +185,33 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
 
   Path inactivePath(Rect rect) {
     Path path = Path()
-      ..moveTo(rect.left + cornerRadius * 2, rect.top)
-      ..arcToPoint(Offset(rect.left + cornerRadius, rect.top + cornerRadius),
-          radius: const Radius.circular(cornerRadius), clockwise: false)
-      ..lineTo(rect.left + cornerRadius,
-          rect.bottom - cornerRadius - tabDividerWidth)
+      ..moveTo(rect.left + tabIndent + cornerRadius, rect.top + tabDividerWidth)
       ..arcToPoint(
-          Offset(rect.left + cornerRadius * 2, rect.bottom - tabDividerWidth),
+          Offset(
+              rect.left + tabIndent, rect.top + cornerRadius + tabDividerWidth),
           radius: const Radius.circular(cornerRadius),
           clockwise: false)
-      ..lineTo(rect.right - cornerRadius * 2, rect.bottom - tabDividerWidth)
+      ..lineTo(
+          rect.left + tabIndent, rect.bottom - cornerRadius - tabDividerWidth)
       ..arcToPoint(
-          Offset(rect.right - cornerRadius,
+          Offset(rect.left + tabIndent + cornerRadius,
+              rect.bottom - tabDividerWidth),
+          radius: const Radius.circular(cornerRadius),
+          clockwise: false)
+      ..lineTo(rect.right - (tabIndent + cornerRadius),
+          rect.bottom - tabDividerWidth)
+      ..arcToPoint(
+          Offset(rect.right - tabIndent,
               rect.bottom - tabDividerWidth - cornerRadius),
           radius: const Radius.circular(cornerRadius),
           clockwise: false)
-      ..lineTo(rect.right - cornerRadius, rect.top + cornerRadius)
-      ..arcToPoint(Offset(rect.right - cornerRadius * 2, rect.top),
-          radius: const Radius.circular(cornerRadius), clockwise: false)
+      ..lineTo(
+          rect.right - tabIndent, rect.top + cornerRadius + tabDividerWidth)
+      ..arcToPoint(
+          Offset(rect.right - (tabIndent + cornerRadius),
+              rect.top + tabDividerWidth),
+          radius: const Radius.circular(cornerRadius),
+          clockwise: false)
       ..close();
     return path;
   }

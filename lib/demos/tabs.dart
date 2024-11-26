@@ -52,7 +52,7 @@ const double tabDividerWidth = 4;
 const double cornerRadius = 10;
 const double tabIndent = tabDividerWidth + cornerRadius;
 
-const double bottomCornerRadius = tabDividerWidth + cornerRadius;
+const double bottomCornerRadius = 2 + cornerRadius;
 
 class TabsBox extends MultiChildRenderObjectWidget {
   const TabsBox({Key? key, required List<Widget> children})
@@ -218,10 +218,9 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
 
   Path mainPath(Rect rect) {
     Path path = Path()
-      ..moveTo(rect.left, rect.bottom)
+      ..moveTo(rect.left + tabIndent - bottomCornerRadius, rect.bottom)
       ..arcToPoint(
-          Offset(
-              rect.left + bottomCornerRadius, rect.bottom - bottomCornerRadius),
+          Offset(rect.left + tabIndent, rect.bottom - bottomCornerRadius),
           radius: const Radius.circular(bottomCornerRadius),
           clockwise: false)
       ..lineTo(rect.left + tabIndent, rect.top + cornerRadius + tabDividerWidth)
@@ -238,8 +237,10 @@ class _TabBox extends RenderProxyBoxWithHitTestBehavior {
           radius: const Radius.circular(cornerRadius),
           clockwise: true)
       ..lineTo(rect.right - tabIndent, rect.bottom - bottomCornerRadius)
-      ..arcToPoint(Offset(rect.right, rect.bottom),
-          radius: const Radius.circular(bottomCornerRadius), clockwise: false)
+      ..arcToPoint(
+          Offset(rect.right - tabIndent + bottomCornerRadius, rect.bottom),
+          radius: const Radius.circular(bottomCornerRadius),
+          clockwise: false)
       ..close();
     return path;
   }

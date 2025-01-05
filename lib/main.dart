@@ -2,6 +2,7 @@
 
 import 'package:chess/demos/tabs.dart';
 
+import 'demos/scroll.dart';
 import 'discover_china/widget/dijkstra_test_page.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +11,13 @@ import 'discover_china/widget/china_playground.dart';
 
 void main() {
   var test = false;
-  var tabs = true;
+  var tabs = false;
+  var scroll = true;
   if (tabs) {
     runApp(const TabsApp());
+  } else if (scroll) {
+    runApp(CustomScrollViewExampleApp());
+
   } else {
     if (test) {
       runApp(const DijkstraTest());

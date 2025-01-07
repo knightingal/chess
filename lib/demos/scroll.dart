@@ -27,7 +27,7 @@ class CustomScrollViewExample extends StatefulWidget {
 
 class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
   List<int> top = <int>[];
-  List<int> bottom = <int>[0];
+  List<int> bottom = <int>[0, 1, 2];
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +78,6 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
           // ),
 
           SliverWaterFall(
-
-
             key: centerKey,
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
@@ -142,11 +140,42 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     }
     firstChild!.layout(childConstraints, parentUsesSize: true);
 
+    SliverMultiBoxAdaptorParentData childParentData = firstChild!.parentData! as SliverMultiBoxAdaptorParentData;
+    childParentData.layoutOffset = 0;
+    childParentData.index = 0;
+    
+
+    RenderBox? earliestUsefulChild = firstChild;
+    RenderBox? current;
+
+    current = childAfter(earliestUsefulChild!);
+    if (current == null) {
+      current = insertAndLayoutChild(childConstraints, after: earliestUsefulChild, parentUsesSize: true);
+    } else {
+      current.layout(childConstraints, parentUsesSize: true);
+    }
+    childParentData = current!.parentData! as SliverMultiBoxAdaptorParentData;
+    childParentData.layoutOffset = 100;
+    childParentData.index = 1;
+    earliestUsefulChild = current;
+
+    current = childAfter(earliestUsefulChild);
+    if (current == null) {
+      current = insertAndLayoutChild(childConstraints, after: earliestUsefulChild, parentUsesSize: true);
+    } else {
+      current.layout(childConstraints, parentUsesSize: true);
+    }
+    childParentData = current!.parentData! as SliverMultiBoxAdaptorParentData;
+    childParentData.layoutOffset = 200;
+    childParentData.index = 2;
+    earliestUsefulChild = current;
+
+    double totalHeight = 300;
     geometry = SliverGeometry(
-      scrollExtent: 100,
-      paintExtent: 100,
-      cacheExtent: 100,
-      maxPaintExtent: 100,
+      scrollExtent: totalHeight,
+      paintExtent: totalHeight,
+      cacheExtent: totalHeight,
+      maxPaintExtent: totalHeight,
       // Conservative to avoid flickering away the clip during scroll.
       hasVisualOverflow: false,
     );

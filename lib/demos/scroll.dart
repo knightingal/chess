@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/src/rendering/sliver_multi_box_adaptor.dart';
@@ -117,6 +119,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
   void performLayout() {
     // TODO: implement performLayout
     final SliverConstraints constraints = this.constraints;
+    log("constraints.scrollOffset:${constraints.toString()}");
     childManager.didStartLayout();
     childManager.setDidUnderflow(false);
 
@@ -171,13 +174,19 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     earliestUsefulChild = current;
 
     double totalHeight = 300;
+    final double paintExtent = calculatePaintOffset(
+      constraints,
+      from: childScrollOffset(firstChild!)!,
+      to: totalHeight,
+    );
+
     geometry = SliverGeometry(
       scrollExtent: totalHeight,
-      paintExtent: totalHeight,
+      paintExtent: paintExtent,
       cacheExtent: totalHeight,
       maxPaintExtent: totalHeight,
       // Conservative to avoid flickering away the clip during scroll.
-      hasVisualOverflow: false,
+      hasVisualOverflow: constraints.remainingPaintExtent < totalHeight,
     );
   }
   

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/src/rendering/sliver_multi_box_adaptor.dart';
 
 /// Flutter code sample for [CustomScrollView].
@@ -60,20 +61,40 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
           //     childCount: top.length,
           //   ),
           // ),
-          SliverList(
+
+          // SliverList(
+          //   key: centerKey,
+          //   delegate: SliverChildBuilderDelegate(
+          //     (BuildContext context, int index) {
+          //       return Container(
+          //         alignment: Alignment.center,
+          //         color: Colors.blue[200 + bottom[index] % 4 * 100],
+          //         height: 100 + bottom[index] % 4 * 20.0,
+          //         child: Text('Item: ${bottom[index]}'),
+          //       );
+          //     },
+          //     childCount: bottom.length,
+          //   ),
+          // ),
+
+          SliverWaterFall(
+
+
             key: centerKey,
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 return Container(
                   alignment: Alignment.center,
                   color: Colors.blue[200 + bottom[index] % 4 * 100],
-                  height: 100 + bottom[index] % 4 * 20.0,
+                  height: 100 ,
                   child: Text('Item: ${bottom[index]}'),
                 );
               },
               childCount: bottom.length,
             ),
-          ),
+          )
+
+
         ],
       ),
     );
@@ -97,6 +118,38 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
   @override
   void performLayout() {
     // TODO: implement performLayout
+    final SliverConstraints constraints = this.constraints;
+    childManager.didStartLayout();
+    childManager.setDidUnderflow(false);
+
+    final double scrollOffset = constraints.scrollOffset + constraints.cacheOrigin;
+    assert(scrollOffset >= 0.0);
+    final double remainingExtent = constraints.remainingCacheExtent;
+    assert(remainingExtent >= 0.0);
+    final double targetEndScrollOffset = scrollOffset + remainingExtent;
+    final BoxConstraints childConstraints = constraints.asBoxConstraints();
+    int leadingGarbage = 0;
+    int trailingGarbage = 0;
+    bool reachedEnd = false;
+
+    if (firstChild == null) {
+      if (!addInitialChild()) {
+        // There are no children.
+        geometry = SliverGeometry.zero;
+        childManager.didFinishLayout();
+        return;
+      }
+    }
+    firstChild!.layout(childConstraints, parentUsesSize: true);
+
+    geometry = SliverGeometry(
+      scrollExtent: 100,
+      paintExtent: 100,
+      cacheExtent: 100,
+      maxPaintExtent: 100,
+      // Conservative to avoid flickering away the clip during scroll.
+      hasVisualOverflow: false,
+    );
   }
   
 }

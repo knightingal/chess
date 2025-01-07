@@ -29,7 +29,7 @@ class CustomScrollViewExample extends StatefulWidget {
 
 class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
   List<int> top = <int>[];
-  List<int> bottom = <int>[0, 1, 2];
+  List<int> bottom = <int>[0, 1, 2, 3];
 
   @override
   Widget build(BuildContext context) {
@@ -129,9 +129,6 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     assert(remainingExtent >= 0.0);
     final double targetEndScrollOffset = scrollOffset + remainingExtent;
     final BoxConstraints childConstraints = constraints.asBoxConstraints();
-    int leadingGarbage = 0;
-    int trailingGarbage = 0;
-    bool reachedEnd = false;
 
     if (firstChild == null) {
       if (!addInitialChild()) {
@@ -150,30 +147,29 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
 
     RenderBox? earliestUsefulChild = firstChild;
     RenderBox? current;
+    double layoutOffset = 100;
+    int index = 1;
 
-    current = childAfter(earliestUsefulChild!);
-    if (current == null) {
-      current = insertAndLayoutChild(childConstraints, after: earliestUsefulChild, parentUsesSize: true);
-    } else {
-      current.layout(childConstraints, parentUsesSize: true);
+    while (true) {
+
+      current = childAfter(earliestUsefulChild!);
+      if (current == null) {
+        current = insertAndLayoutChild(childConstraints, after: earliestUsefulChild, parentUsesSize: true);
+        if (current == null) {
+          break;
+        }
+      } else {
+        current.layout(childConstraints, parentUsesSize: true);
+      }
+      childParentData = current.parentData! as SliverMultiBoxAdaptorParentData;
+      childParentData.layoutOffset = layoutOffset;
+      childParentData.index = index;
+      earliestUsefulChild = current;
+      layoutOffset += 100;
+      index += 1;
     }
-    childParentData = current!.parentData! as SliverMultiBoxAdaptorParentData;
-    childParentData.layoutOffset = 100;
-    childParentData.index = 1;
-    earliestUsefulChild = current;
 
-    current = childAfter(earliestUsefulChild);
-    if (current == null) {
-      current = insertAndLayoutChild(childConstraints, after: earliestUsefulChild, parentUsesSize: true);
-    } else {
-      current.layout(childConstraints, parentUsesSize: true);
-    }
-    childParentData = current!.parentData! as SliverMultiBoxAdaptorParentData;
-    childParentData.layoutOffset = 200;
-    childParentData.index = 2;
-    earliestUsefulChild = current;
-
-    double totalHeight = 300;
+    double totalHeight = layoutOffset;
     final double paintExtent = calculatePaintOffset(
       constraints,
       from: childScrollOffset(firstChild!)!,

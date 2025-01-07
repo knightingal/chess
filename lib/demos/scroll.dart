@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/rendering/sliver_multi_box_adaptor.dart';
 
 /// Flutter code sample for [CustomScrollView].
 
@@ -77,4 +78,25 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
       ),
     );
   }
+}
+
+class SliverWaterFall extends SliverMultiBoxAdaptorWidget {
+  const SliverWaterFall({super.key, required super.delegate});
+
+  @override
+  RenderSliverMultiBoxAdaptor createRenderObject(BuildContext context) {
+    final SliverMultiBoxAdaptorElement element = context as SliverMultiBoxAdaptorElement;
+    return RenderSliverWaterFall(childManager: element);
+  }
+
+}
+
+class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
+  RenderSliverWaterFall({required super.childManager});
+  
+  @override
+  void performLayout() {
+    // TODO: implement performLayout
+  }
+  
 }

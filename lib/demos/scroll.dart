@@ -29,7 +29,7 @@ class CustomScrollViewExample extends StatefulWidget {
 
 class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
   List<int> top = <int>[];
-  List<int> bottom = <int>[0, 1, 2, 3];
+  List<int> bottom = <int>[0, 1, 2, 3, 4, 5, 6];
 
   @override
   Widget build(BuildContext context) {
@@ -64,35 +64,35 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
           //   ),
           // ),
 
-          // SliverList(
-          //   key: centerKey,
-          //   delegate: SliverChildBuilderDelegate(
-          //     (BuildContext context, int index) {
-          //       return Container(
-          //         alignment: Alignment.center,
-          //         color: Colors.blue[200 + bottom[index] % 4 * 100],
-          //         height: 100 + bottom[index] % 4 * 20.0,
-          //         child: Text('Item: ${bottom[index]}'),
-          //       );
-          //     },
-          //     childCount: bottom.length,
-          //   ),
-          // ),
-
-          SliverWaterFall(
+          SliverList(
             key: centerKey,
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 return Container(
                   alignment: Alignment.center,
                   color: Colors.blue[200 + bottom[index] % 4 * 100],
-                  height: 100 ,
+                  height: 100 + bottom[index] % 4 * 20.0,
                   child: Text('Item: ${bottom[index]}'),
                 );
               },
               childCount: bottom.length,
             ),
-          )
+          ),
+
+          // SliverWaterFall(
+          //   key: centerKey,
+          //   delegate: SliverChildBuilderDelegate(
+          //     (BuildContext context, int index) {
+          //       return Container(
+          //         alignment: Alignment.center,
+          //         color: Colors.blue[200 + bottom[index] % 4 * 100],
+          //         height: 100 ,
+          //         child: Text('Item: ${bottom[index]}'),
+          //       );
+          //     },
+          //     childCount: bottom.length,
+          //   ),
+          // )
 
 
         ],
@@ -168,6 +168,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
       layoutOffset += 100;
       index += 1;
     }
+    log("message");
 
     double totalHeight = layoutOffset;
     final double paintExtent = calculatePaintOffset(

@@ -127,12 +127,10 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     assert(scrollOffset >= 0.0);
     final double remainingExtent = constraints.remainingCacheExtent;
     assert(remainingExtent >= 0.0);
-    final double targetEndScrollOffset = scrollOffset + remainingExtent;
     final BoxConstraints childConstraints = constraints.asBoxConstraints();
 
     if (firstChild == null) {
       if (!addInitialChild()) {
-        // There are no children.
         geometry = SliverGeometry.zero;
         childManager.didFinishLayout();
         return;

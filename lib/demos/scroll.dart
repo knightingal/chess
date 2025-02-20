@@ -113,12 +113,23 @@ class SliverWaterFall extends SliverMultiBoxAdaptorWidget {
 
 }
 
+class _RenderSliverWaterFallParentData extends SliverMultiBoxAdaptorParentData {
+  double? crossOffSet;
+}
+
+
 class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
   RenderSliverWaterFall({required super.childManager});
+
+  @override
+  void setupParentData(covariant RenderObject child) {
+    if (child.parentData is! _RenderSliverWaterFallParentData) {
+      child.parentData = _RenderSliverWaterFallParentData();
+    }
+  }
   
   @override
   void performLayout() {
-    // TODO: implement performLayout
     final SliverConstraints constraints = this.constraints;
     log("constraints.scrollOffset:${constraints.toString()}");
     childManager.didStartLayout();
@@ -145,9 +156,10 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     }
     firstChild!.layout(childConstraints, parentUsesSize: true);
 
-    SliverMultiBoxAdaptorParentData childParentData = firstChild!.parentData! as SliverMultiBoxAdaptorParentData;
+    _RenderSliverWaterFallParentData childParentData = firstChild!.parentData! as _RenderSliverWaterFallParentData;
     childParentData.layoutOffset = 0;
     childParentData.index = 0;
+    childParentData.crossOffSet = 0;
     
 
     RenderBox? earliestUsefulChild = firstChild;
@@ -166,9 +178,10 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
       } else {
         current.layout(childConstraints, parentUsesSize: true);
       }
-      childParentData = current.parentData! as SliverMultiBoxAdaptorParentData;
+      childParentData = current.parentData! as _RenderSliverWaterFallParentData;
       childParentData.layoutOffset = layoutOffset;
       childParentData.index = index;
+      childParentData.crossOffSet = index * 50;
       earliestUsefulChild = current;
       layoutOffset += 100;
       index += 1;

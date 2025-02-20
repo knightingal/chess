@@ -85,7 +85,7 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
               (BuildContext context, int index) {
                 return Container(
                   alignment: Alignment.center,
-                  color: Colors.blue[200 + bottom[index] % 4 * 100],
+                  color: Colors.grey[200 + bottom[index] % 4 * 100],
                   height: 100 ,
                   width: 100,
                   child: Text('Item: ${bottom[index]}'),

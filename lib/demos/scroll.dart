@@ -71,7 +71,7 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
           //       return Container(
           //         alignment: Alignment.center,
           //         color: Colors.blue[200 + bottom[index] % 4 * 100],
-          //         height: 100 ,
+          //         height: 100 + bottom[index] % 4 * 20.0,
           //         child: Text('Item: ${bottom[index]}'),
           //       );
           //     },
@@ -87,6 +87,7 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
                   alignment: Alignment.center,
                   color: Colors.blue[200 + bottom[index] % 4 * 100],
                   height: 100 ,
+                  width: 100,
                   child: Text('Item: ${bottom[index]}'),
                 );
               },
@@ -127,7 +128,13 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     assert(scrollOffset >= 0.0);
     final double remainingExtent = constraints.remainingCacheExtent;
     assert(remainingExtent >= 0.0);
-    final BoxConstraints childConstraints = constraints.asBoxConstraints();
+    final BoxConstraints tmpConstraints = constraints.asBoxConstraints();
+    final BoxConstraints childConstraints = BoxConstraints(
+      minWidth: 0,
+      minHeight: tmpConstraints.minHeight,
+      maxWidth: tmpConstraints.maxWidth,
+      maxHeight: tmpConstraints.maxHeight,
+    );
 
     if (firstChild == null) {
       if (!addInitialChild()) {

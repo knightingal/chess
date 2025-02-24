@@ -87,7 +87,7 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
                   alignment: Alignment.center,
                   color: Colors.grey[200 + bottom[index] % 4 * 100],
                   height: 100 ,
-                  width: 100,
+                  width: 200,
                   child: Text('Item: ${bottom[index]}'),
                 );
               },
@@ -126,6 +126,11 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     if (child.parentData is! _RenderSliverWaterFallParentData) {
       child.parentData = _RenderSliverWaterFallParentData();
     }
+  }
+
+  @override 
+  double childCrossAxisPosition(covariant RenderObject child) {
+    return (child.parentData as _RenderSliverWaterFallParentData).crossOffSet!;
   }
   
   @override

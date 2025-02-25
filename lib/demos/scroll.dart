@@ -123,17 +123,18 @@ class _RenderSliverWaterFallParentData extends SliverMultiBoxAdaptorParentData {
 class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
   RenderSliverWaterFall({required super.childManager});
 
-  // @override
-  // void setupParentData(covariant RenderObject child) {
-  //   if (child.parentData is! _RenderSliverWaterFallParentData) {
-  //     child.parentData = _RenderSliverWaterFallParentData();
-  //   }
-  // }
+  @override
+  void setupParentData(covariant RenderObject child) {
+    if (child.parentData is! _RenderSliverWaterFallParentData) {
+      child.parentData = _RenderSliverWaterFallParentData();
+      (child.parentData as _RenderSliverWaterFallParentData).crossOffSet = 0;
+    }
+  }
 
-  // @override 
-  // double childCrossAxisPosition(covariant RenderObject child) {
-  //   return (child.parentData as _RenderSliverWaterFallParentData).crossOffSet!;
-  // }
+  @override 
+  double childCrossAxisPosition(covariant RenderObject child) {
+    return (child.parentData as _RenderSliverWaterFallParentData).crossOffSet!;
+  }
   
   @override
   void performLayout() {

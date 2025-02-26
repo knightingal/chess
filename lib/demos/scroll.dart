@@ -359,6 +359,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
           }
         } else {
           // Lay out the child.
+          log("child!.layout");
           child!.layout(childConstraints, parentUsesSize: true);
         }
         trailingChildWithLayout = child;
@@ -378,6 +379,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
         assert(leadingGarbage == childCount);
         assert(child == null);
         // we want to make sure we keep the last child around so we know the end scroll offset
+        log("collectGarbage, leadingGarbage:$leadingGarbage");
         collectGarbage(leadingGarbage - 1, 0);
         assert(firstChild == lastChild);
         final double extent = childScrollOffset(lastChild!)! + paintExtentOf(lastChild!);
@@ -389,6 +391,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
       }
     }
 
+    log("paint for targetEndScrollOffset");
     // Now find the first child that ends after our end.
     while (endScrollOffset < targetEndScrollOffset) {
       if (!advance()) {

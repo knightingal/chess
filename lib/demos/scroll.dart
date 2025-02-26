@@ -137,7 +137,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
   }
 
   int minSlot(List<double> slot) {
-    double min = 1000;
+    double min = 1000000;
     int index = 5;
     for (int i = 0; i < 4; i++) {
       if (slot[i] < min) {
@@ -160,10 +160,11 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     return index;
   }
 
+
   @override
   void performLayout() {
-    log("enter performLayout()");
     List<double> slot = [0, 0, 0, 0];
+    log("enter performLayout()");
     final SliverConstraints constraints = this.constraints;
     childManager.didStartLayout();
     childManager.setDidUnderflow(false);
@@ -347,6 +348,15 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
       log("earliestUsefulChild.layout()");
       log("index of earliestUsefulChild:${indexOf(earliestUsefulChild!)}");
       earliestUsefulChild!.layout(childConstraints, parentUsesSize: true);
+
+      int minSlotIndex = minSlot(slot);
+
+
+      final _RenderSliverWaterFallParentData childParentData = earliestUsefulChild.parentData! as _RenderSliverWaterFallParentData;
+      childParentData.layoutOffset = slot[minSlotIndex];
+      childParentData.crossOffSet = minSlotIndex * tmpConstraints.minWidth / 4;
+      slot[minSlotIndex] = childScrollOffset(earliestUsefulChild)! + paintExtentOf(earliestUsefulChild); 
+
       leadingChildWithLayout = earliestUsefulChild;
       trailingChildWithLayout = earliestUsefulChild;
     }

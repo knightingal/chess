@@ -135,10 +135,35 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
   double childCrossAxisPosition(covariant RenderObject child) {
     return (child.parentData as _RenderSliverWaterFallParentData).crossOffSet!;
   }
-  
+
+  int minSlot(List<double> slot) {
+    double min = 1000;
+    int index = 5;
+    for (int i = 0; i < 4; i++) {
+      if (slot[i] < min) {
+        min = slot[i];
+        index = i;
+      } 
+    }
+    return index;
+  }
+
+  int maxSlot(List<double> slot) {
+    double max = 0;
+    int index = 5;
+    for (int i = 0; i < 4; i++) {
+      if (slot[i] > max) {
+        max = slot[i];
+        index = i;
+      } 
+    }
+    return index;
+  }
+
   @override
   void performLayout() {
     log("enter performLayout()");
+    List<double> slot = [0, 0, 0, 0];
     final SliverConstraints constraints = this.constraints;
     childManager.didStartLayout();
     childManager.setDidUnderflow(false);
@@ -365,10 +390,15 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
         trailingChildWithLayout = child;
       }
       assert(child != null);
-      final SliverMultiBoxAdaptorParentData childParentData = child!.parentData! as SliverMultiBoxAdaptorParentData;
-      childParentData.layoutOffset = endScrollOffset;
+      int minSlotIndex = minSlot(slot);
+      final _RenderSliverWaterFallParentData childParentData = child!.parentData! as _RenderSliverWaterFallParentData;
+      childParentData.layoutOffset = slot[minSlotIndex];
       assert(childParentData.index == index);
-      endScrollOffset = childScrollOffset(child!)! + paintExtentOf(child!);
+      childParentData.crossOffSet = minSlotIndex * tmpConstraints.minWidth / 4;
+
+      slot[minSlotIndex] = childScrollOffset(child!)! + paintExtentOf(child!); 
+
+      endScrollOffset = slot[maxSlot(slot)];
       return true;
     }
 

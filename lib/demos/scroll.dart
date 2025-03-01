@@ -438,7 +438,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
           }
         } else {
           // Lay out the child.
-          log("child!.layout");
+          // log("child!.layout");
           child!.layout(childConstraints, parentUsesSize: true);
         }
         trailingChildWithLayout = child;
@@ -501,8 +501,8 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
 
     // At this point everything should be good to go, we just have to clean up
     // the garbage and report the geometry.
-
-    collectGarbage(leadingGarbage, trailingGarbage);
+    // log("collectGarbage, leadingGarbage:$leadingGarbage, trailingGarbage:$trailingGarbage");
+    // collectGarbage(leadingGarbage, trailingGarbage);
 
     assert(debugAssertChildListIsNonEmptyAndContiguous());
     final double estimatedMaxScrollOffset = slot[maxSlot(slot)].totalHeight;

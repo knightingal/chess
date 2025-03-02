@@ -127,9 +127,10 @@ class _RenderSliverWaterFallParentData extends SliverMultiBoxAdaptorParentData {
 class SlotItem {
   final int index;
   final double scrollOffset;
+  final double itemHeight;
   final int slotIndex;
 
-  SlotItem(this.index, this.scrollOffset, this.slotIndex);
+  SlotItem(this.index, this.scrollOffset, this.itemHeight, this.slotIndex);
 }
 
 class Slot {
@@ -173,6 +174,21 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
       } 
     }
     return index;
+  }
+
+  int maxSlotByRenderIndex(List<Slot> slot, int renderIndex) {
+    double maxHeight = 0;
+    int maxIndex = 0;
+    for (int i = 0; i <= renderIndex; i++) {
+      SlotItem item = findSlotByIndex(slot, i)!;
+      if (item.scrollOffset + item.itemHeight > maxHeight) {
+        maxHeight = item.scrollOffset + item.itemHeight;
+        maxIndex = i;
+      }
+    }
+    return maxIndex;
+
+
   }
 
   int maxSlot(List<Slot> slot) {
@@ -393,12 +409,14 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
       if (slotItem != null) {
         childParentData.layoutOffset = slotItem.scrollOffset;
         childParentData.crossOffSet = slotItem.slotIndex * tmpConstraints.minWidth / 4;
+        // childParentData.keepAlive = true;
       } else {
         int minSlotIndex = minSlot(slot);
         childParentData.layoutOffset = slot[minSlotIndex].totalHeight;
         childParentData.crossOffSet = minSlotIndex * tmpConstraints.minWidth / 4;
+        // childParentData.keepAlive = true;
         slot[minSlotIndex].totalHeight = childScrollOffset(earliestUsefulChild)! + paintExtentOf(earliestUsefulChild); 
-        slot[minSlotIndex].slotItemList.add(SlotItem(childParentData.index!, childParentData.layoutOffset!, minSlotIndex));
+        slot[minSlotIndex].slotItemList.add(SlotItem(childParentData.index!, childParentData.layoutOffset!, paintExtentOf(earliestUsefulChild), minSlotIndex));
       }
 
       leadingChildWithLayout = earliestUsefulChild;
@@ -450,15 +468,19 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
       if (slotItem != null) {
         childParentData.layoutOffset = slotItem.scrollOffset;
         childParentData.crossOffSet = slotItem.slotIndex * tmpConstraints.minWidth / 4;
+        // childParentData.keepAlive = true;
       } else {
         int minSlotIndex = minSlot(slot);
         childParentData.layoutOffset = slot[minSlotIndex].totalHeight;
         childParentData.crossOffSet = minSlotIndex * tmpConstraints.minWidth / 4;
+        // childParentData.keepAlive = true;
         slot[minSlotIndex].totalHeight = childScrollOffset(child!)! + paintExtentOf(child!); 
-        slot[minSlotIndex].slotItemList.add(SlotItem(childParentData.index!, childParentData.layoutOffset!, minSlotIndex));
+        slot[minSlotIndex].slotItemList.add(SlotItem(childParentData.index!, childParentData.layoutOffset!, paintExtentOf(child!), minSlotIndex));
       }
+      int maxIndexe = maxSlotByRenderIndex(slot, childParentData.index!);
+      SlotItem maxItem = findSlotByIndex(slot, maxIndexe)!;
 
-      endScrollOffset = slot[maxSlot(slot)].totalHeight;
+      endScrollOffset = maxItem.itemHeight + maxItem.scrollOffset;
       return true;
     }
 
@@ -486,8 +508,10 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     while (endScrollOffset < targetEndScrollOffset) {
       if (!advance()) {
         reachedEnd = true;
+        log("reachEnd, breank");
         break;
       }
+      log("endScrollOffset:$endScrollOffset < targetEndScrollOffset:$targetEndScrollOffset");
     }
 
     // Finally count up all the remaining children and label them as garbage.
@@ -501,8 +525,8 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
 
     // At this point everything should be good to go, we just have to clean up
     // the garbage and report the geometry.
-    // log("collectGarbage, leadingGarbage:$leadingGarbage, trailingGarbage:$trailingGarbage");
-    // collectGarbage(leadingGarbage, trailingGarbage);
+    log("collectGarbage, leadingGarbage:$leadingGarbage, trailingGarbage:$trailingGarbage");
+    collectGarbage(leadingGarbage, trailingGarbage);
 
     assert(debugAssertChildListIsNonEmptyAndContiguous());
     final double estimatedMaxScrollOffset = slot[maxSlot(slot)].totalHeight;

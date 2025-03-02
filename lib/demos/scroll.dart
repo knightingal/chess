@@ -503,7 +503,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
       }
     }
 
-    log("paint for targetEndScrollOffset");
+    // log("paint for targetEndScrollOffset");
     // Now find the first child that ends after our end.
     while (endScrollOffset < targetEndScrollOffset) {
       if (!advance()) {
@@ -511,7 +511,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
         log("reachEnd, breank");
         break;
       }
-      log("endScrollOffset:$endScrollOffset < targetEndScrollOffset:$targetEndScrollOffset");
+      // log("endScrollOffset:$endScrollOffset < targetEndScrollOffset:$targetEndScrollOffset");
     }
 
     // Finally count up all the remaining children and label them as garbage.
@@ -529,7 +529,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     collectGarbage(leadingGarbage, trailingGarbage);
 
     assert(debugAssertChildListIsNonEmptyAndContiguous());
-    final double estimatedMaxScrollOffset = slot[maxSlot(slot)].totalHeight;
+    const double estimatedMaxScrollOffset = 1240;
     // if (reachedEnd) {
     //   estimatedMaxScrollOffset = endScrollOffset;
     // } else {
@@ -553,6 +553,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
       to: endScrollOffset,
     );
     final double targetEndScrollOffsetForPaint = constraints.scrollOffset + constraints.remainingPaintExtent;
+    log("estimatedMaxScrollOffset:$estimatedMaxScrollOffset");
     geometry = SliverGeometry(
       scrollExtent: estimatedMaxScrollOffset,
       paintExtent: paintExtent,

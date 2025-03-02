@@ -223,6 +223,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     childManager.setDidUnderflow(false);
 
     final double scrollOffset = constraints.scrollOffset + constraints.cacheOrigin;
+    log("scrollOffset:$scrollOffset, constraints.scrollOffset:${constraints.scrollOffset}, constraints.cacheOrigin:${constraints.cacheOrigin}");
     assert(scrollOffset >= 0.0);
     final double remainingExtent = constraints.remainingCacheExtent;
     assert(remainingExtent >= 0.0);
@@ -305,7 +306,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     }
 
     // Find the last child that is at or before the scrollOffset.
-    log("scrollOffset:$scrollOffset");
+    // log("scrollOffset:$scrollOffset");
     earliestUsefulChild = firstChild;
     for (double earliestScrollOffset = childScrollOffset(earliestUsefulChild!)!;
         earliestScrollOffset > scrollOffset;

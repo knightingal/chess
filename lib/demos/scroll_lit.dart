@@ -223,6 +223,20 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     }
 
     firstChild!.layout(childConstraints, parentUsesSize: true);
+
+    RenderBox? child;
+    _RenderSliverWaterFallParentData childParentData;
+
+    child = childAfter(firstChild!);
+    if (child == null) {
+      child = insertAndLayoutChild(childConstraints, after: firstChild, parentUsesSize: true);
+    } else {
+      child.layout(childConstraints, parentUsesSize: true);
+    }
+    childParentData = child!.parentData! as _RenderSliverWaterFallParentData;
+    SlotItem? slotItem = findSlotByIndex(slot, childParentData.index!);
+    childParentData.layoutOffset = slotItem!.scrollOffset;
+    childParentData.crossOffSet = slotItem.slotIndex * tmpConstraints.minWidth / 4;
     
 
     // This algorithm in principle is straight-forward: find the first child

@@ -30,15 +30,23 @@ class CustomScrollViewExample extends StatefulWidget {
 class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
   List<int> top = <int>[];
   List<int> bottom = <int>[
-    // 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-    // 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-    // 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-    // 30, 31, 32, 33, 34, 35, 36, 37,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+    10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+    30, 31, 32, 33, 34, 35, 36, 37,
   ];
 
   @override
   Widget build(BuildContext context) {
     const Key centerKey = ValueKey<String>('bottom-sliver-list');
+    for (int i = 0; i < bottom.length; i++) {
+      int slotIndex = minSlot(slot);
+      Slot slotOne = slot[slotIndex];
+      slotOne.slotItemList.add(SlotItem(i, slotOne.totalHeight, 100 + i % 4 * 20.0, slotIndex));
+      slotOne.totalHeight = slotOne.totalHeight + 100 + i % 4 * 20.0;
+    }
+
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Press on the plus to add items above and below'),
@@ -55,34 +63,6 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
       body: CustomScrollView(
         center: centerKey,
         slivers: <Widget>[
-          // SliverList(
-          //   delegate: SliverChildBuilderDelegate(
-          //     (BuildContext context, int index) {
-          //       return Container(
-          //         alignment: Alignment.center,
-          //         color: Colors.blue[200 + top[index] % 4 * 100],
-          //         height: 100 + top[index] % 4 * 20.0,
-          //         child: Text('Item: ${top[index]}'),
-          //       );
-          //     },
-          //     childCount: top.length,
-          //   ),
-          // ),
-
-          // SliverList(
-          //   key: centerKey,
-          //   delegate: SliverChildBuilderDelegate(
-          //     (BuildContext context, int index) {
-          //       return Container(
-          //         alignment: Alignment.center,
-          //         color: Colors.blue[200 + bottom[index] % 4 * 100],
-          //         height: 100 + bottom[index] % 4 * 20.0,
-          //         child: Text('Item: ${bottom[index]}'),
-          //       );
-          //     },
-          //     childCount: bottom.length,
-          //   ),
-          // ),
 
           SliverWaterFall(
             key: centerKey,

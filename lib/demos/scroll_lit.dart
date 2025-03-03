@@ -218,6 +218,13 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     int leadingGarbage = 0;
     int trailingGarbage = 0;
 
+    if (firstChild == null) {
+      addInitialChild();
+    }
+
+    firstChild!.layout(childConstraints, parentUsesSize: true);
+    
+
     // This algorithm in principle is straight-forward: find the first child
     // that overlaps the given scrollOffset, creating more children at the top
     // of the list if necessary, then walk down the list updating and laying out

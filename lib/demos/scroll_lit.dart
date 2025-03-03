@@ -147,6 +147,57 @@ class Slot {
   }
 }
 
+int minSlot(List<Slot> slot) {
+  double min = 1000000;
+  int index = 5;
+  for (int i = 0; i < 4; i++) {
+    if (slot[i].totalHeight < min) {
+      min = slot[i].totalHeight;
+      index = i;
+    } 
+  }
+  return index;
+}
+
+int maxSlotByRenderIndex(List<Slot> slot, int renderIndex) {
+  double maxHeight = 0;
+  int maxIndex = 0;
+  for (int i = 0; i <= renderIndex; i++) {
+    SlotItem item = findSlotByIndex(slot, i)!;
+    if (item.scrollOffset + item.itemHeight > maxHeight) {
+      maxHeight = item.scrollOffset + item.itemHeight;
+      maxIndex = i;
+    }
+  }
+  return maxIndex;
+
+
+}
+
+int maxSlot(List<Slot> slot) {
+  double max = 0;
+  int index = 5;
+  for (int i = 0; i < 4; i++) {
+    if (slot[i].totalHeight > max) {
+      max = slot[i].totalHeight;
+      index = i;
+    } 
+  }
+  return index;
+}
+
+SlotItem? findSlotByIndex(List<Slot> slot, int index) {
+  for (int i = 0; i < 4; i++) {
+    if (slot[i].existByIndex(index)) {
+      return slot[i].itemByIndex(index);
+    }
+  }
+  return null;
+}
+
+
+List<Slot> slot = [Slot(), Slot(), Slot(), Slot()];
+
 class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
   RenderSliverWaterFall({required super.childManager});
 
@@ -163,56 +214,6 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     return (child.parentData as _RenderSliverWaterFallParentData).crossOffSet!;
   }
 
-  int minSlot(List<Slot> slot) {
-    double min = 1000000;
-    int index = 5;
-    for (int i = 0; i < 4; i++) {
-      if (slot[i].totalHeight < min) {
-        min = slot[i].totalHeight;
-        index = i;
-      } 
-    }
-    return index;
-  }
-
-  int maxSlotByRenderIndex(List<Slot> slot, int renderIndex) {
-    double maxHeight = 0;
-    int maxIndex = 0;
-    for (int i = 0; i <= renderIndex; i++) {
-      SlotItem item = findSlotByIndex(slot, i)!;
-      if (item.scrollOffset + item.itemHeight > maxHeight) {
-        maxHeight = item.scrollOffset + item.itemHeight;
-        maxIndex = i;
-      }
-    }
-    return maxIndex;
-
-
-  }
-
-  int maxSlot(List<Slot> slot) {
-    double max = 0;
-    int index = 5;
-    for (int i = 0; i < 4; i++) {
-      if (slot[i].totalHeight > max) {
-        max = slot[i].totalHeight;
-        index = i;
-      } 
-    }
-    return index;
-  }
-
-  SlotItem? findSlotByIndex(List<Slot> slot, int index) {
-    for (int i = 0; i < 4; i++) {
-      if (slot[i].existByIndex(index)) {
-        return slot[i].itemByIndex(index);
-      }
-    }
-    return null;
-  }
-
-
-  List<Slot> slot = [Slot(), Slot(), Slot(), Slot()];
 
   @override
   void performLayout() {

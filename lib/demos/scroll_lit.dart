@@ -212,10 +212,12 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     childManager.didStartLayout();
     childManager.setDidUnderflow(false);
 
-    final double scrollOffset = constraints.scrollOffset + constraints.cacheOrigin;
+    // final double scrollOffset = constraints.scrollOffset + constraints.cacheOrigin;
+    final double scrollOffset = constraints.scrollOffset ;
     log("scrollOffset:$scrollOffset, constraints.scrollOffset:${constraints.scrollOffset}, constraints.cacheOrigin:${constraints.cacheOrigin}");
     assert(scrollOffset >= 0.0);
-    final double remainingExtent = constraints.remainingCacheExtent;
+    // final double remainingExtent = constraints.remainingCacheExtent;
+    final double remainingExtent = constraints.remainingPaintExtent;
     assert(remainingExtent >= 0.0);
     final double targetEndScrollOffset = scrollOffset + remainingExtent;
     final BoxConstraints tmpConstraints = constraints.asBoxConstraints();
@@ -225,8 +227,8 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
       maxWidth: tmpConstraints.maxWidth,
       minWidth: tmpConstraints.minWidth / 4,
     );
-    int leadingGarbage = 0;
-    int trailingGarbage = 0;
+    // int leadingGarbage = 0;
+    // int trailingGarbage = 0;
 
     if (firstChild == null) {
       addInitialChild();
@@ -248,12 +250,15 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
       } else {
         child.layout(childConstraints, parentUsesSize: true);
       }
-      childParentData = child!.parentData! as _RenderSliverWaterFallParentData;
+      childParentData = child.parentData! as _RenderSliverWaterFallParentData;
       SlotItem? slotItem = findSlotByIndex(slot, childParentData.index!);
       childParentData.layoutOffset = slotItem!.scrollOffset;
       childParentData.crossOffSet = slotItem.slotIndex * tmpConstraints.minWidth / 4;
       slotHeight[slotItem.index] = slotItem.scrollOffset + slotItem.itemHeight;
       lastChild = child;
+      if (minSlotHeight() > targetEndScrollOffset) {
+        break;
+      }
     }
     
 
@@ -288,7 +293,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     //   assert(estimatedMaxScrollOffset >= endScrollOffset - childScrollOffset(firstChild!)!);
     // }
     final double paintExtent = constraints.remainingPaintExtent;
-    final double targetEndScrollOffsetForPaint = constraints.scrollOffset + constraints.remainingPaintExtent;
+    // final double targetEndScrollOffsetForPaint = constraints.scrollOffset + constraints.remainingPaintExtent;
     log("estimatedMaxScrollOffset:$estimatedMaxScrollOffset");
     geometry = SliverGeometry(
       scrollExtent: estimatedMaxScrollOffset,

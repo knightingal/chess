@@ -198,6 +198,16 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
   @override
   void performLayout() {
     log("enter performLayout()");
+    List<double> slotHeight = [0, 0, 0, 0];
+    double minSlotHeight() {
+      double min = 10000000;
+      for (int i = 0; i < slotHeight.length; i++) {
+        if (slotHeight[i] < min) {
+          min = slotHeight[i];
+        }
+      }
+      return min;
+    }
     final SliverConstraints constraints = this.constraints;
     childManager.didStartLayout();
     childManager.setDidUnderflow(false);
@@ -242,6 +252,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
       SlotItem? slotItem = findSlotByIndex(slot, childParentData.index!);
       childParentData.layoutOffset = slotItem!.scrollOffset;
       childParentData.crossOffSet = slotItem.slotIndex * tmpConstraints.minWidth / 4;
+      slotHeight[slotItem.index] = slotItem.scrollOffset + slotItem.itemHeight;
       lastChild = child;
     }
     

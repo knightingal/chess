@@ -227,7 +227,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
       maxWidth: tmpConstraints.maxWidth,
       minWidth: tmpConstraints.minWidth / 4,
     );
-    // int leadingGarbage = 0;
+    int leadingGarbage = 0;
     // int trailingGarbage = 0;
 
     if (firstChild == null) {
@@ -254,13 +254,16 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
       SlotItem? slotItem = findSlotByIndex(slot, childParentData.index!);
       childParentData.layoutOffset = slotItem!.scrollOffset;
       childParentData.crossOffSet = slotItem.slotIndex * tmpConstraints.minWidth / 4;
-      slotHeight[slotItem.index] = slotItem.scrollOffset + slotItem.itemHeight;
+      slotHeight[slotItem.slotIndex] = slotItem.scrollOffset + slotItem.itemHeight;
       lastChild = child;
       if (minSlotHeight() > targetEndScrollOffset) {
         break;
       }
     }
-    
+    int trailingGarbage = calculateTrailingGarbage(
+      lastIndex: (lastChild.parentData as _RenderSliverWaterFallParentData).index!
+    );
+    collectGarbage(leadingGarbage, trailingGarbage);
 
     // This algorithm in principle is straight-forward: find the first child
     // that overlaps the given scrollOffset, creating more children at the top

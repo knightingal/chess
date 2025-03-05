@@ -200,7 +200,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     log("enter performLayout()");
     List<double> slotHeight = [0, 0, 0, 0];
     double minSlotHeight() {
-      double min = 10000000;
+      double min = slotHeight[0];
       for (int i = 0; i < slotHeight.length; i++) {
         if (slotHeight[i] < min) {
           min = slotHeight[i];
@@ -227,18 +227,46 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
       maxWidth: tmpConstraints.maxWidth,
       minWidth: tmpConstraints.minWidth / 4,
     );
-    int leadingGarbage = 0;
+    // int leadingGarbage = 0;
     // int trailingGarbage = 0;
+    int findFirstIndex() {
+      int totalLength = slot[0].slotItemList.length + slot[1].slotItemList.length + slot[2].slotItemList.length + slot[3].slotItemList.length;
+      for (int i = 0; i < totalLength; i++) {
+        SlotItem slotItem = findSlotByIndex(slot, i)!;
+        if (slotItem.itemHeight + slotItem.scrollOffset > scrollOffset) {
+          return i;
+        }
+      }
+      return totalLength - 1;
+    }
+
+    int firstIndex = findFirstIndex();
+    _RenderSliverWaterFallParentData childParentData;
 
     if (firstChild == null) {
       addInitialChild();
+      firstChild!.layout(childConstraints, parentUsesSize: true);
+      childParentData = firstChild!.parentData! as _RenderSliverWaterFallParentData;
+      SlotItem? slotItem = findSlotByIndex(slot, childParentData.index!);
+      childParentData.layoutOffset = slotItem!.scrollOffset;
+      childParentData.crossOffSet = slotItem.slotIndex * tmpConstraints.minWidth / 4;
+
+    } else if (firstIndex < (firstChild!.parentData! as _RenderSliverWaterFallParentData).index!){
+      while (true) {
+        RenderBox? child = insertAndLayoutLeadingChild(childConstraints, parentUsesSize: true);
+        childParentData = child!.parentData! as _RenderSliverWaterFallParentData;
+        SlotItem? slotItem = findSlotByIndex(slot, childParentData.index!);
+        childParentData.layoutOffset = slotItem!.scrollOffset;
+        childParentData.crossOffSet = slotItem.slotIndex * tmpConstraints.minWidth / 4;
+        if (childParentData.index == firstIndex) {
+          break;
+        }
+      }
     }
 
-    firstChild!.layout(childConstraints, parentUsesSize: true);
 
     RenderBox? child;
     RenderBox? lastChild = firstChild;
-    _RenderSliverWaterFallParentData childParentData;
 
     while (true) {
       child = childAfter(lastChild!);
@@ -263,6 +291,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     int trailingGarbage = calculateTrailingGarbage(
       lastIndex: (lastChild.parentData as _RenderSliverWaterFallParentData).index!
     );
+    int leadingGarbage = calculateLeadingGarbage(firstIndex: firstIndex);
     collectGarbage(leadingGarbage, trailingGarbage);
 
     // This algorithm in principle is straight-forward: find the first child

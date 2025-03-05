@@ -63,10 +63,10 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
           },
         ),
       ),
-      body: CustomScrollView(
+      body: Stack(children: [
+      CustomScrollView(
         center: centerKey,
         slivers: <Widget>[
-
           SliverWaterFall(
             key: centerKey,
             delegate: SliverChildBuilderDelegate(
@@ -86,7 +86,7 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
 
 
         ],
-      ),
+      )],),
     );
   }
 }

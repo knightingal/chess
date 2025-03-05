@@ -86,7 +86,8 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
 
 
         ],
-      )],),
+      ), const Cover()],
+      ),
     );
   }
 }
@@ -347,4 +348,35 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     childManager.didFinishLayout();
   }
   
+}
+
+class Cover extends SingleChildRenderObjectWidget {
+
+  const Cover({super.child, super.key});
+
+  @override
+  RenderObject createRenderObject(BuildContext context) {
+    return CoverBox();
+  }
+  
+}
+
+class CoverBox extends RenderProxyBoxWithHitTestBehavior {
+  CoverBox(): super(behavior: HitTestBehavior.opaque);
+
+  @override
+  void performLayout() {
+    size = Size(constraints.maxWidth - 100, constraints.maxHeight);
+  }
+
+  @override
+  void paint(PaintingContext context, Offset offset) {
+    Offset p1 = Offset(offset.dx, offset.dy + 200);
+    Offset p2 = Offset(offset.dx + size.width, offset.dy + 200);
+    context.canvas.drawLine(p1, p2, Paint()..color = Colors.red);
+
+    Offset p3 = Offset(offset.dx, offset.dy + size.height - 200);
+    Offset p4 = Offset(offset.dx + size.width, offset.dy + size.height - 200);
+    context.canvas.drawLine(p3, p4, Paint()..color = Colors.red);
+  }
 }

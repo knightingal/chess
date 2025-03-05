@@ -128,8 +128,8 @@ class Slot {
 }
 
 int minSlot(List<Slot> slot) {
-  double min = 1000000;
-  int index = 5;
+  double min = slot[0].totalHeight;
+  int index = 0;
   for (int i = 0; i < 4; i++) {
     if (slot[i].totalHeight < min) {
       min = slot[i].totalHeight;

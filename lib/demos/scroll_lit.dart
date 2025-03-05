@@ -311,7 +311,7 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     // already been laid out.
 
     // Make sure we have at least one child to start from.
-    const double estimatedMaxScrollOffset = 1240;
+    double estimatedMaxScrollOffset = slot[maxSlot(slot)].totalHeight;
     // if (reachedEnd) {
     //   estimatedMaxScrollOffset = endScrollOffset;
     // } else {

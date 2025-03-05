@@ -213,13 +213,13 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     childManager.setDidUnderflow(false);
 
     // final double scrollOffset = constraints.scrollOffset + constraints.cacheOrigin;
-    final double scrollOffset = constraints.scrollOffset ;
+    final double scrollOffset = constraints.scrollOffset + 200;
     log("scrollOffset:$scrollOffset, constraints.scrollOffset:${constraints.scrollOffset}, constraints.cacheOrigin:${constraints.cacheOrigin}");
     assert(scrollOffset >= 0.0);
     // final double remainingExtent = constraints.remainingCacheExtent;
     final double remainingExtent = constraints.remainingPaintExtent;
     assert(remainingExtent >= 0.0);
-    final double targetEndScrollOffset = scrollOffset + remainingExtent;
+    final double targetEndScrollOffset = constraints.scrollOffset + remainingExtent - 200;
     final BoxConstraints tmpConstraints = constraints.asBoxConstraints();
     final BoxConstraints childConstraints = BoxConstraints(
       maxHeight: tmpConstraints.maxHeight,

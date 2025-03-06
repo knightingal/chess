@@ -198,6 +198,8 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     return (child.parentData as _RenderSliverWaterFallParentData).crossOffSet!;
   }
 
+  final double padding = 200;
+
   @override
   void performLayout() {
     log("enter performLayout()");
@@ -217,14 +219,14 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     childManager.setDidUnderflow(false);
 
     // final double scrollOffset = constraints.scrollOffset + constraints.cacheOrigin;
-    final double scrollOffset = constraints.scrollOffset + 200;
+    final double scrollOffset = constraints.scrollOffset + padding;
     log("scrollOffset:$scrollOffset, constraints.scrollOffset:${constraints.scrollOffset}, constraints.cacheOrigin:${constraints.cacheOrigin}");
     assert(scrollOffset >= 0.0);
     // final double remainingExtent = constraints.remainingCacheExtent;
     final double remainingExtent = constraints.remainingPaintExtent;
     assert(remainingExtent >= 0.0);
     final double targetEndScrollOffset =
-        constraints.scrollOffset + remainingExtent - 200;
+        constraints.scrollOffset + remainingExtent - padding;
     final BoxConstraints tmpConstraints = constraints.asBoxConstraints();
     final BoxConstraints childConstraints = BoxConstraints(
       maxHeight: tmpConstraints.maxHeight,
@@ -362,9 +364,9 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
   @override
   void paint(PaintingContext context, Offset offset) {
     super.paint(context, offset);
-    Offset p1 = Offset(offset.dx, offset.dy + 200);
+    Offset p1 = Offset(offset.dx, offset.dy + padding);
     Offset p2 =
-        Offset(offset.dx + constraints.crossAxisExtent, offset.dy + 200);
+        Offset(offset.dx + constraints.crossAxisExtent, offset.dy + padding);
     context.canvas.drawLine(
         p1,
         p2,
@@ -373,9 +375,9 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
           ..strokeWidth = 2);
 
     Offset p3 =
-        Offset(offset.dx, offset.dy + constraints.remainingPaintExtent - 200);
+        Offset(offset.dx, offset.dy + constraints.remainingPaintExtent - padding);
     Offset p4 = Offset(offset.dx + constraints.crossAxisExtent,
-        offset.dy + constraints.remainingPaintExtent - 200);
+        offset.dy + constraints.remainingPaintExtent - padding);
     context.canvas.drawLine(
         p3,
         p4,

@@ -28,6 +28,7 @@ class CustomScrollViewExample extends StatefulWidget {
 }
 
 class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
+  final List<Color> colorPiker = [Colors.red, Colors.green, Colors.blue, Colors.yellow];
   List<int> top = <int>[];
   // List<int> bottom = <int>[
   //   // dart format off
@@ -78,7 +79,7 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
               (BuildContext context, int index) {
                 return Container(
                   alignment: Alignment.center,
-                  color: Colors.grey[200 + bottom[index] % 4 * 100],
+                  color: colorPiker[index % 4],
                   height: 100 + index % 4 * 20.0,
                   // height: 100 ,
                   width: 0,

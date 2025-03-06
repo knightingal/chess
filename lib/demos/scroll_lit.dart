@@ -30,6 +30,7 @@ class CustomScrollViewExample extends StatefulWidget {
 class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
   List<int> top = <int>[];
   List<int> bottom = <int>[
+    // dart format off
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
     10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
     20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
@@ -37,6 +38,7 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
     40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
     50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
     60, 61, 62, 63, 64, 65, 66, 67, 68, 69,
+    // dart format on
   ];
 
   @override
@@ -63,30 +65,25 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
           },
         ),
       ),
-      body: Stack(
-        children: [
-          CustomScrollView(
-            center: centerKey,
-            slivers: <Widget>[
-              SliverWaterFall(
-                key: centerKey,
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return Container(
-                      alignment: Alignment.center,
-                      color: Colors.grey[200 + bottom[index] % 4 * 100],
-                      height: 100 + bottom[index] % 4 * 20.0,
-                      // height: 100 ,
-                      width: 0,
-                      child: Text('Item: ${bottom[index]}'),
-                    );
-                  },
-                  childCount: bottom.length,
-                ),
-              )
-            ],
-          ),
-          const Cover()
+      body: CustomScrollView(
+        center: centerKey,
+        slivers: <Widget>[
+          SliverWaterFall(
+            key: centerKey,
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return Container(
+                  alignment: Alignment.center,
+                  color: Colors.grey[200 + bottom[index] % 4 * 100],
+                  height: 100 + bottom[index] % 4 * 20.0,
+                  // height: 100 ,
+                  width: 0,
+                  child: Text('Item: ${bottom[index]}'),
+                );
+              },
+              childCount: bottom.length,
+            ),
+          )
         ],
       ),
     );
@@ -356,33 +353,29 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
     // }
     childManager.didFinishLayout();
   }
-}
-
-class Cover extends SingleChildRenderObjectWidget {
-  const Cover({super.child, super.key});
-
-  @override
-  RenderObject createRenderObject(BuildContext context) {
-    return CoverBox();
-  }
-}
-
-class CoverBox extends RenderProxyBoxWithHitTestBehavior {
-  CoverBox() : super(behavior: HitTestBehavior.opaque);
-
-  @override
-  void performLayout() {
-    size = Size(constraints.maxWidth - 100, constraints.maxHeight);
-  }
 
   @override
   void paint(PaintingContext context, Offset offset) {
+    super.paint(context, offset);
     Offset p1 = Offset(offset.dx, offset.dy + 200);
-    Offset p2 = Offset(offset.dx + size.width, offset.dy + 200);
-    context.canvas.drawLine(p1, p2, Paint()..color = Colors.red);
+    Offset p2 =
+        Offset(offset.dx + constraints.crossAxisExtent, offset.dy + 200);
+    context.canvas.drawLine(
+        p1,
+        p2,
+        Paint()
+          ..color = Colors.red
+          ..strokeWidth = 2);
 
-    Offset p3 = Offset(offset.dx, offset.dy + size.height - 200);
-    Offset p4 = Offset(offset.dx + size.width, offset.dy + size.height - 200);
-    context.canvas.drawLine(p3, p4, Paint()..color = Colors.red);
+    Offset p3 =
+        Offset(offset.dx, offset.dy + constraints.remainingPaintExtent - 200);
+    Offset p4 = Offset(offset.dx + constraints.crossAxisExtent,
+        offset.dy + constraints.remainingPaintExtent - 200);
+    context.canvas.drawLine(
+        p3,
+        p4,
+        Paint()
+          ..color = Colors.red
+          ..strokeWidth = 2);
   }
 }

@@ -29,22 +29,25 @@ class CustomScrollViewExample extends StatefulWidget {
 
 class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
   List<int> top = <int>[];
-  List<int> bottom = <int>[
-    // dart format off
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-    10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-    20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-    30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
-    40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
-    50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
-    60, 61, 62, 63, 64, 65, 66, 67, 68, 69,
-    // dart format on
-  ];
+  // List<int> bottom = <int>[
+  //   // dart format off
+  //   0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+  //   10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+  //   20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+  //   30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
+  //   40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
+  //   50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
+  //   60, 61, 62, 63, 64, 65, 66, 67, 68, 69,
+  //   // dart format on
+  // ];
+
+  int totalLength = 1000;
+
 
   @override
   Widget build(BuildContext context) {
     const Key centerKey = ValueKey<String>('bottom-sliver-list');
-    for (int i = 0; i < bottom.length; i++) {
+    for (int i = 0; i < totalLength; i++) {
       int slotIndex = minSlot(slot);
       Slot slotOne = slot[slotIndex];
       slotOne.slotItemList
@@ -60,7 +63,8 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
           onPressed: () {
             setState(() {
               top.add(-top.length - 1);
-              bottom.add(bottom.length);
+              totalLength++;
+              // bottom.add(bottom.length);
             });
           },
         ),
@@ -75,13 +79,13 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
                 return Container(
                   alignment: Alignment.center,
                   color: Colors.grey[200 + bottom[index] % 4 * 100],
-                  height: 100 + bottom[index] % 4 * 20.0,
+                  height: 100 + index % 4 * 20.0,
                   // height: 100 ,
                   width: 0,
-                  child: Text('Item: ${bottom[index]}'),
+                  child: Text('Item: $index'),
                 );
               },
-              childCount: bottom.length,
+              childCount: totalLength,
             ),
           )
         ],

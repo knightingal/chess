@@ -2,7 +2,7 @@
 
 import 'package:chess/demos/tabs.dart';
 
-import 'demos/scroll_lit.dart';
+import 'demos/scroll.dart';
 import 'discover_china/widget/dijkstra_test_page.dart';
 import 'package:flutter/material.dart';
 

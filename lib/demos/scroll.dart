@@ -59,7 +59,17 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
           },
         ),
       ),
-      body: CustomScrollView(
+      body: NotificationListener<ScrollNotification> (
+        onNotification: (notification) {
+          if (notification is ScrollStartNotification) {
+            log("start scroll");
+          } else if (notification is ScrollEndNotification) {
+            log("end scroll");
+          }
+          return true;
+        },
+        
+        child: CustomScrollView(
         center: centerKey,
         slivers: <Widget>[
           SliverWaterFall(
@@ -79,7 +89,10 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
             ),
           )
         ],
-      ),
+      )
+      ,)
+      
+      ,
     );
   }
 }

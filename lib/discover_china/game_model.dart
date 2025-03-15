@@ -214,3 +214,19 @@ class PlayerData {
 }
 
 GameModel gameModel = GameModel(2);
+
+class ScrollModel extends ChangeNotifier {
+  bool scrolling = false;
+
+  void startScrolling() {
+    scrolling = true;
+    notifyListeners();
+  }
+
+  void stopScrolling() {
+    scrolling = false;
+    notifyListeners();
+  }
+}
+
+ScrollModel scrollModel = ScrollModel();

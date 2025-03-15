@@ -1,8 +1,9 @@
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
+import 'package:chess/discover_china/game_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 
 /// Flutter code sample for [CustomScrollView].
 
@@ -28,11 +29,9 @@ class CustomScrollViewExample extends StatefulWidget {
 }
 
 class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
-  final List<Color> colorPiker = [Colors.red, Colors.green, Colors.blue, Colors.yellow];
   List<int> top = <int>[];
 
   int totalLength = 10000;
-
 
   @override
   Widget build(BuildContext context) {
@@ -59,41 +58,61 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
           },
         ),
       ),
-      body: NotificationListener<ScrollNotification> (
+      body: NotificationListener<ScrollNotification>(
         onNotification: (notification) {
           if (notification is ScrollStartNotification) {
             log("start scroll");
+            Provider.of<ScrollModel>(context, listen: false).startScrolling();
           } else if (notification is ScrollEndNotification) {
             log("end scroll");
+            Provider.of<ScrollModel>(context, listen: false).stopScrolling();
           }
           return true;
         },
-        
         child: CustomScrollView(
-        center: centerKey,
-        slivers: <Widget>[
-          SliverWaterFall(
-            key: centerKey,
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: colorPiker[index % 4],
-                  height: 100 + index % 4 * 20.0,
-                  // height: 100 ,
-                  width: 0,
-                  child: Text('Item: $index'),
-                );
-              },
-              childCount: totalLength,
-            ),
-          )
-        ],
-      )
-      ,)
-      
-      ,
+          center: centerKey,
+          slivers: <Widget>[
+            SliverWaterFall(
+              key: centerKey,
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return ScrollItem(index: index);
+                },
+                childCount: totalLength,
+              ),
+            )
+          ],
+        ),
+      ),
     );
+  }
+}
+
+final List<Color> colorPiker = [
+  Colors.red,
+  Colors.green,
+  Colors.blue,
+  Colors.yellow
+];
+
+class ScrollItem extends StatelessWidget {
+  final int index;
+
+  const ScrollItem({super.key, required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ScrollModel>(builder: (context, scrollModel, child) {
+      return Container(
+        alignment: Alignment.center,
+        // color: colorPiker[index % 4],
+        color: scrollModel.scrolling ? Colors.grey : colorPiker[index % 4],
+        height: 100 + index % 4 * 20.0,
+        // height: 100 ,
+        width: 0,
+        child: Text('Item: $index'),
+      );
+    });
   }
 }
 
@@ -376,8 +395,8 @@ class RenderSliverWaterFall extends RenderSliverMultiBoxAdaptor {
           ..color = Colors.red
           ..strokeWidth = 2);
 
-    Offset p3 =
-        Offset(offset.dx, offset.dy + constraints.remainingPaintExtent - padding);
+    Offset p3 = Offset(
+        offset.dx, offset.dy + constraints.remainingPaintExtent - padding);
     Offset p4 = Offset(offset.dx + constraints.crossAxisExtent,
         offset.dy + constraints.remainingPaintExtent - padding);
     context.canvas.drawLine(

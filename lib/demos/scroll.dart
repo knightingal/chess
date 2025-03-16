@@ -1,9 +1,11 @@
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:chess/discover_china/game_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 /// Flutter code sample for [CustomScrollView].
 
@@ -35,6 +37,7 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     const Key centerKey = ValueKey<String>('bottom-sliver-list');
     for (int i = 0; i < totalLength; i++) {
       int slotIndex = minSlot(slot);
@@ -76,7 +79,7 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
               key: centerKey,
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return ScrollItem(index: index);
+                  return ScrollItem(index: index, width: width,);
                 },
                 childCount: totalLength,
               ),
@@ -98,22 +101,93 @@ final List<Color> colorPiker = [
 class ScrollItem extends StatelessWidget {
   final int index;
 
-  const ScrollItem({super.key, required this.index});
+  final double width;
+
+  const ScrollItem({super.key, required this.index, required this.width});
 
   @override
   Widget build(BuildContext context) {
     return Consumer<ScrollModel>(builder: (context, scrollModel, child) {
-      return Container(
-        alignment: Alignment.center,
-        // color: colorPiker[index % 4],
-        color: scrollModel.scrolling ? Colors.grey : colorPiker[index % 4],
-        height: 100 + index % 4 * 20.0,
-        // height: 100 ,
-        width: 0,
-        child: Text('Item: $index'),
-      );
+      if (scrollModel.scrolling) {
+        return Container(
+          alignment: Alignment.center,
+          // color: colorPiker[index % 4],
+          color: scrollModel.scrolling ? Colors.grey : colorPiker[index % 4],
+          height: 100 + index % 4 * 20.0,
+          // height: 100 ,
+          width: 0,
+          child: Text('Item: $index'),
+        );
+      } else {
+        return  AsyncImage(heigth: 100 + index % 4 * 20.0, width: width/4,);
+      }
     });
   }
+}
+
+class AsyncImage extends StatefulWidget {
+
+  final double heigth;
+
+  final double width;
+
+  const AsyncImage({super.key, required this.heigth, required this.width});
+
+  @override
+  State<StatefulWidget> createState() {
+    return AsyncImageState();
+  }
+  
+}
+
+class AsyncImageState extends State<AsyncImage> {
+  void fetchImage() {
+
+    String src = "http://192.168.2.12:8000/dev/image";
+    
+    final reps2Future =
+        http.get(Uri.parse(src));
+    reps2Future.then((resp2) {
+      if (resp2.statusCode == 200) {
+        Uint8List bytes = resp2.bodyBytes;
+        setState(() {
+          uint8list = bytes;
+        });
+      } else {
+      }
+    });
+  }
+  late Future<Uint8List> decriptedContentFuture;
+
+  Uint8List uint8list = Uint8List(0);
+
+  @override
+  void initState() {
+    super.initState();
+    fetchImage();
+  }
+
+  @override
+  Widget build(Object context) {
+    if (uint8list.isEmpty) {
+      return SizedBox(width: widget.width, height: widget.heigth,);
+    } else {
+      return Image.memory(uint8list, width: widget.width, height: widget.heigth,);
+    }
+    // return 
+        // FutureBuilder<Uint8List>(
+        //   future: decriptedContentFuture,
+        //   builder: (context, snapshot) {
+        //     if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+        //       return Image.memory(snapshot.data!, width: widget.width, height: widget.heigth,);
+        //     } else {
+        //       return const Text("");
+        //     }
+        //   }
+        // );
+  }
+
+
 }
 
 class SliverWaterFall extends SliverMultiBoxAdaptorWidget {
